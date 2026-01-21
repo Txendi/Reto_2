@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 //import HelloWorld from './components/HelloWorld.vue'
 function prueba(){
-  fetch('http://localhost/Iker/Clase/php/bbdd.php')
+  fetch('http://localhost/bbdd.php')
     .then(response => response.json()) // parsea JSON
     .then(data => {
       console.log('Datos JSON:', data); // data es un objeto JS
@@ -22,8 +22,8 @@ function prueba(){
       <HelloWorld class="text-red-200" msg="You did it!" />
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/juegos">Home</RouterLink>
+        <RouterLink to="/eventos">About</RouterLink>
       </nav>
     </div>
   </header>
