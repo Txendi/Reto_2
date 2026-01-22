@@ -5,7 +5,7 @@
 <template>
 
 
-    <div class="h-screen w-screen bg-gray-200 ">
+    <div class="h-screen w-full bg-gray-200 ">
         <h1 class="text-xl bg-blue-300 w-full text-center">Eventos</h1>
         <div class="flex">
             <div class="flex justify-center">

@@ -1,37 +1,73 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+
+const juegos = ref([])
+const cargando = ref(true)
+const error = ref('')
+
+const api = 'http://localhost/bbdd.php'
+
+onMounted(async () => {
+  try {
+    const response = await fetch(api)
+    if (!response.ok) {
+      throw new Error('Error de HTTP: ' + response.status)
+    }
+    const data = await response.json()
+    juegos.value = data
+  } catch (e) {
+    error.value = 'No se ha podido cargar la pagina con los juegos'
+  } finally {
+    cargando.value = false
+  }
+})
 </script>
 
-
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <h1 class="text-2xl font-semibold bg-purple-500 text-white py-4 text-center">Juegos</h1>
-    <input type="text" placeholder="Escribe aqui el juego que busques..." />
+  <section class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Juegos</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-8 max-w-7xl mx-auto">
-      <div
-        v-for="(juego, index) in juegos"
-        :key="index"
-        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    <p v-if="cargando" class="text-gray-500">Cargando...</p>
+    <p v-else-if="error" class="text-red-600">{{ error }}</p>
+
+    <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+      <article
+        v-for="juego in juegos"
+        :key="juego.id"
+        class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col"
       >
-        <div
-          class="h-48 bg-gradient-to-br from-purple-300 to-purple-500 flex items-center justify-center text-white text-2xl font-bold"
-        >
-          {{ juego.nombre }}
-        </div>
+        <img
+          :src="`/img/games/${juego.imagen}`"
+          :alt="juego.titulo"
+          class="w-full h-56 object-cover"
+        />
 
-        <div class="p-5 text-center">
-          <h2 class="text-lg font-bold text-gray-800 mb-1">
-            {{ juego.nombre }}
-          </h2>
-          <p class="text-sm text-gray-600 mb-4">Género: {{ juego.genero }}</p>
-          <button
-            class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-          >
-            {{ juego.boton }}
+        <div class="p-4 flex flex-col gap-2 flex-grow">
+          <h3 class="text-lg font-semibold">
+            {{ juego.titulo }}
+          </h3>
+
+          <p class="text-sm text-gray-600">
+            {{ juego.genero }} ·
+            {{
+              Array.isArray(juego.plataformas) ? juego.plataformas.join(', ') : juego.plataformas
+            }}
+          </p>
+
+          <p class="text-sm text-gray-700 flex-grow">
+            {{ juego.descripcion }}
+          </p>
+
+          <button class="mt-3 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+            Ver más
           </button>
         </div>
-      </div>
+      </article>
     </div>
-  </div>
+  </section>
 </template>
 
+
+
+<style scoped>
+</style>
