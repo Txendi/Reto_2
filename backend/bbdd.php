@@ -68,18 +68,10 @@
         $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
         print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
         $resultado->free();
-
-        //filter_eventos();
-    }else if($action === "numeroPaginas"){
-        $query = "SELECT COUNT(*) FROM events";
-        $resultado = $conexion->query($query);
-        print $resultado->fetch_all(MYSQLI_ASSOC )/9;
-        $resultado->free();
-
     }else if($action === "registrarse"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contraseña']}, USER, now())";
     }else if($action === "logearse"){
-
+      
     }
     
     // $query = "SELECT * FROM games";
