@@ -5,7 +5,7 @@ const juegos = ref([])
 const cargando = ref(true)
 const error = ref('')
 
-const api = 'http://localhost/bbdd.php'
+const api = 'http://localhost/bbdd.php?action=listaJuegos'
 
 onMounted(async () => {
   try {

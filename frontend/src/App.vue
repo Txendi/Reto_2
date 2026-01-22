@@ -17,7 +17,6 @@ function prueba(){
 </script>
 
 <template>
-<<<<<<< HEAD
 <div>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -35,11 +34,6 @@ function prueba(){
     Hola
   </button>
 
-=======
-<div class="contenedorPadre">
-  <headerHecho />
- <footerHecho />
->>>>>>> develop
   <RouterView/>
 </div>
 </template>

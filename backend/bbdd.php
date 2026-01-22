@@ -42,8 +42,8 @@
         $canciones = $resultado->fetch_all(MYSQLI_ASSOC );
         print  json_encode(filter_juegos($canciones, $_GET["q"] ?? ""));
     }else if ($action === "listaEventos"){
-        filter_eventos();
-    }
+/*         filter_eventos();
+ */    }
     
     // $query = "SELECT * FROM games";
     // $resultado = $conexion->query($query);
