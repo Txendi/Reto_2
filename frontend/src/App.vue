@@ -19,6 +19,7 @@ function prueba(){
 <template>
 <div class="contenedorPadre">
   <headerHecho />
+  
  <footerHecho />
   <RouterView/>
 </div>
