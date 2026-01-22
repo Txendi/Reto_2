@@ -25,7 +25,9 @@ onMounted(async () => {
 
 <template>
   <section class="max-w-7xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Juegos</h1>
+    <h1 class="text-3xl font-bold mb-5">Juegos</h1>
+
+    <input type="text" placeholder="Buscar juegos..." class="mb-5 p-2 border-3 border-[rgba(222,26,88,1)] rounded-xl w-full" />
 
     <p v-if="cargando" class="text-gray-500">Cargando...</p>
     <p v-else-if="error" class="text-red-600">{{ error }}</p>
@@ -34,7 +36,7 @@ onMounted(async () => {
       <article
         v-for="juego in juegos"
         :key="juego.id"
-        class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col"
+        class="bg-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col"
       >
         <img
           :src="`/img/games/${juego.imagen}`"
@@ -48,7 +50,11 @@ onMounted(async () => {
           </h3>
 
           <p class="text-sm text-gray-600">
-            {{ juego.genero }} ·
+            {{ juego.genero }}
+          </p>
+
+          <p class="text-sm text-gray-600">
+            <span class="font-bold">Plataformas: </span>
             {{
               Array.isArray(juego.plataformas) ? juego.plataformas.join(', ') : juego.plataformas
             }}
