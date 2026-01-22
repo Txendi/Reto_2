@@ -5,7 +5,7 @@ const juegos = ref([])
 const cargando = ref(true)
 const error = ref('')
 
-const api = 'http://localhost/bbdd.php?action=listaJuegos'
+const api = 'http://localhost/bbdd.php'
 
 onMounted(async () => {
   try {
@@ -57,10 +57,6 @@ onMounted(async () => {
           <p class="text-sm text-gray-700 flex-grow">
             {{ juego.descripcion }}
           </p>
-
-          <button class="mt-3 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-            Ver más
-          </button>
         </div>
       </article>
     </div>
