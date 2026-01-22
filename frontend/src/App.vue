@@ -1,4 +1,7 @@
 <script setup>
+import headerHecho from '../src/components/header.vue'
+import footerHecho from '../src/components/Footer.vue'
+
 import { RouterLink, RouterView } from 'vue-router'
 //import HelloWorld from './components/HelloWorld.vue'
 function prueba(){
@@ -14,19 +17,9 @@ function prueba(){
 </script>
 
 <template>
-<div>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/juegos">Home</RouterLink>
-        <RouterLink to="/eventos">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-
+<div class="contenedorPadre">
+  <headerHecho />
+ <footerHecho />
   <RouterView/>
 </div>
 </template>
