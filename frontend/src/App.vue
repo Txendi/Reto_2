@@ -38,6 +38,7 @@ function prueba(){
 =======
 <div class="contenedorPadre">
   <headerHecho />
+  
  <footerHecho />
 >>>>>>> develop
   <RouterView/>
