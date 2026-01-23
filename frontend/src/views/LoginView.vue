@@ -22,7 +22,7 @@
           Registrarse
         </router-link>
       </div>
-      <!-- Aquí iría el resto del contenido -->
+    
     </div>
   </div>
 </template>
