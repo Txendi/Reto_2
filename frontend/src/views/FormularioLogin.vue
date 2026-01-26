@@ -1,5 +1,27 @@
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+const nombreUsuario = ref('')
+const contraUsuario = ref('')
+
+async function login() {  
+  try {
+
+  const response = await fetch('http://localhost/bbdd.php?action=logearse&usuario='+nombreUsuario.value+'&contrasena='+contraUsuario.value)
+    if (!response.ok) {
+      throw new Error('Error HTTP: ' + response.status);
+    }
+    const data = await response.text();
+    console.log('Datos:', data);
+
+  } catch (error) {
+    console.error('Error en la petición:', error);
+  }
+
+
+
+}
+</script>
 
 <template>
   <div class="w-full h-full flex items-center justify-center">
@@ -34,6 +56,7 @@
             id="usuario"
             class="bg-gray-100 rounded-xl w-full p-3 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
             placeholder="Introduzca nombre de usuario..."
+            v-model="nombreUsuario"
           />
         </div>
         <div>
@@ -43,12 +66,15 @@
             id="contraseña"
             class="bg-gray-100 rounded-xl w-full p-3 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
             placeholder="Introduzca su contraseña..."
+            v-model="contraUsuario"
           />
         </div>
         <button
           type="submit"
           class="mt-4 bg-[rgba(222,26,88,1)] hover:bg-pink-700 text-[rgba(244,179,66,1)] font-bold py-3 rounded-xl shadow transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:shadow-pink-300/60 active:scale-95"
-        >
+          
+          @click.prevent="login"
+          >
           Entrar
         </button>
       </form>
