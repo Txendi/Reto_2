@@ -16,11 +16,11 @@
         foreach ($canciones as $c) {
             $c["plataformas"] = json_decode( $c["plataformas"]);
             if ($query !== "") {
-                $inTitulo  = stripos($c["titulo"], $query);
-                $inGenero = stripos($c["genero"], $query);
+                $inTitulo  = strtolower(stripos($c["titulo"], $query));
+                $inGenero = strtolower(stripos($c["genero"], $query));
                 $inPlataforma = false;
                 foreach($c["plataformas"] as $plat){
-                    $inPlataforma = stripos($plat, $query);
+                    $inPlataforma = strtolower(stripos($plat, $query));
                     if($inPlataforma !== false){
                         break;
                     }
