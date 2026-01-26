@@ -1,14 +1,19 @@
-<script setup></script>
+
+<script setup>
+import { ref } from 'vue'
+const menuAbierto = ref(false)
+</script>
 
 <template>
   <header>
     <nav
-      class="contenedorPrincipal flex items-center justify-between px-8 py-3 shadow-lg rounded-b-2xl"
+      class="contenedorPrincipal flex items-center justify-between px-8 py-3 shadow-lg rounded-b-2xl relative"
     >
       <div class="flex items-center space-x-4">
         <p class="text-2xl font-extrabold text-white drop-shadow-lg">Placeholder Logo</p>
       </div>
-      <div class="flex items-center space-x-8">
+
+      <div class="hidden md:flex items-center space-x-8">
         <router-link
           to="/eventos"
           class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
@@ -26,6 +31,88 @@
           Registrarse / Iniciar sesión
         </router-link>
       </div>
+
+      <button
+        class="md:hidden flex items-center text-white focus:outline-none"
+        @click="menuAbierto = !menuAbierto"
+        aria-label="Abrir menú"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-8 h-8"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+      </button>
+
+      <transition name="fade">
+        <div
+          v-if="menuAbierto"
+          class="absolute top-20 right-4 z-50 bg-white rounded-2xl shadow-2xl flex flex-col w-64 py-6 px-4 space-y-2 border border-pink-100 animate-fade-in"
+        >
+          <router-link
+            to="/eventos"
+            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
+            @click="menuAbierto = false"
+          >
+            <svg
+              class="w-6 h-6 text-[rgba(222,26,88,1)]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h8m-4-4v8" />
+            </svg>
+            Eventos
+          </router-link>
+          <router-link
+            to="/juegos"
+            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
+            @click="menuAbierto = false"
+          >
+            <svg
+              class="w-6 h-6 text-[rgba(222,26,88,1)]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12a6 6 0 0112 0" />
+            </svg>
+            Juegos
+          </router-link>
+          <router-link
+            to="/login"
+            class="flex items-center gap-3 w-full font-bold py-3 px-4 rounded-xl text-white bg-[rgba(222,26,88,1)] hover:bg-pink-700 shadow transition"
+            @click="menuAbierto = false"
+          >
+            <svg
+              class="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m7.5 0v10.5A2.25 2.25 0 0113.5 21h-3a2.25 2.25 0 01-2.25-2.25V9m7.5 0H6.75"
+              />
+            </svg>
+            Registrarse / Iniciar sesión
+          </router-link>
+        </div>
+      </transition>
     </nav>
   </header>
 </template>
@@ -61,6 +148,5 @@
   border-color: #f4b342 !important;
   transform: scale(1.15);
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 </style>
