@@ -16,11 +16,11 @@
         foreach ($canciones as $c) {
             $c["plataformas"] = json_decode( $c["plataformas"]);
             if ($query !== "") {
-                $inTitulo  = stripos($c["titulo"], $query);
-                $inGenero = stripos($c["genero"], $query);
+                $inTitulo  = strtolower(stripos($c["titulo"], $query));
+                $inGenero = strtolower(stripos($c["genero"], $query));
                 $inPlataforma = false;
                 foreach($c["plataformas"] as $plat){
-                    $inPlataforma = stripos($plat, $query);
+                    $inPlataforma = strtolower(stripos($plat, $query));
                     if($inPlataforma !== false){
                         break;
                     }
@@ -33,8 +33,21 @@
         }
         return $result;
     }
-    function filter_eventos(array $eventos, string $pagina): array {
-        return array_slice($eventos, $pagina*9, 9);
+    function filter_eventos(array $eventos, string $tipo, string $fecha, string $plazas): array {
+        $result = [];
+        foreach ($eventos as $e) {
+            if ($tipo !== "" && $e['tipo'] !== $tipo) {
+                continue;
+            }
+            if ($fecha !== "" && $e['fecha'] !== $fecha) {
+                continue;
+            }
+            if ($plazas !== "" && $e['plazas'] === 0) {
+                continue;
+            }
+            $result[] = $e;
+        }
+        return $result;
     }
 
 
@@ -52,16 +65,13 @@
         $query = "SELECT * FROM events";
         $resultado = $conexion->query($query);
         $eventos = $resultado->fetch_all(MYSQLI_ASSOC );
-        print json_encode(array_slice($eventos, $_GET["pagina"]*9, 9));
+        $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
+        print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
         $resultado->free();
-
-        //filter_eventos();
-    }else if($action === "numeroPaginas"){
-        $query = "SELECT COUNT(*) FROM TableName";
     }else if($action === "registrarse"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contraseña']}, USER, now())";
     }else if($action === "logearse"){
-
+      
     }
     
     // $query = "SELECT * FROM games";

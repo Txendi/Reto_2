@@ -3,29 +3,29 @@
 <template>
   <footer class="contenedorFooter w-screen">
     <div class="flex items-center justify-between px-8 py-4">
-      <!-- Logo a la izquierda -->
+   
       <p class="text-2xl font-extrabold text-white drop-shadow-lg">Placeholder Logo</p>
-      
-      <!-- Copyright en el centro -->
+
+  
       <p class="text-white/80 text-sm font-medium">© 2026 Placeholder Logo</p>
-      
-      <!-- Enlaces a la derecha -->
+
+     
       <div class="flex items-center gap-1">
         <a
           href="#"
           class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"
-          ><img src="../img/icons8-instagram-50.png" class="logo w-1/2" alt=""></a
-        >
+          ><img src="../img/icons8-instagram-50.png" class="logo w-1/2" alt=""
+        /></a>
         <a
           href="#"
           class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"
-          ><img src="../img/icons8-twitter-50.png" class="logo w-1/2" alt=""></a
-        >
+          ><img src="../img/icons8-twitter-50.png" class="logo w-1/2" alt=""
+        /></a>
         <a
           href="#"
           class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"
-          ><img src="../img/icons8-linkedin-50.png" class="logo w-1/2" alt=""></a
-        >
+          ><img src="../img/icons8-linkedin-50.png" class="logo w-1/2" alt=""
+        /></a>
       </div>
     </div>
   </footer>
@@ -39,13 +39,15 @@
     rgba(222, 26, 88, 1) 60%,
     rgba(244, 179, 66, 1) 100%
   );
-  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 -4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 -2px 4px -1px rgba(0, 0, 0, 0.06);
   width: 100vw;
-  position: fixed;
+  position: absolute;
   left: 0;
   bottom: 0;
 }
-.logo{
+.logo {
   filter: brightness(0) invert(1);
 }
 
