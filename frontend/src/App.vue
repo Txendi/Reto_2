@@ -28,7 +28,7 @@ function prueba() {
         class="absolute inset-0 w-full h-full object-cover z-0"
       >
         <source src="../src/img/ia-slop.mp4" type="video/mp4" />
-        Tu navegador no soporta el vídeo de fondo.
+        
       </video>
 
       <div class="relative w-full z-10">
@@ -41,7 +41,6 @@ function prueba() {
 </template>
 
 <style scoped>
-/* Opcional: oscurecer el vídeo para mejorar la legibilidad */
 .contenedorPadre .central-video-bg::before {
   content: '';
   position: absolute;
