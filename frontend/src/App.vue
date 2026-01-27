@@ -1,7 +1,7 @@
 <script setup>
-import headerHecho from '../src/components/header.vue'
+import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
-import { RouterLink, RouterView } from 'vue-router'
+//import { RouterLink, RouterView } from 'vue-router'
 
 </script>
 
@@ -18,7 +18,6 @@ import { RouterLink, RouterView } from 'vue-router'
         class="absolute inset-0 w-full h-full object-cover z-0"
       >
         <source src="../src/img/ia-slop.mp4" type="video/mp4" />
-        
       </video>
 
       <div class="relative w-full z-10">
