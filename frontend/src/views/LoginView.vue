@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue';
-  import FormularioLogin from './FormularioLogin.vue';
-  import FormularioRegistro from './FormularioRegistro.vue';
+  import FormularioLogin from '../components/FormularioLogin.vue';
+  import FormularioRegistro from '../components/FormularioRegistro.vue';
   const mostrarLogin = ref(true);
   const mostrarRegistro = ref(false);
   const titulo = ref("Iniciar Sesión");
