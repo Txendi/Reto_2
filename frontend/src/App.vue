@@ -1,5 +1,5 @@
 <script setup>
-import headerHecho from '../src/components/header.vue'
+import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
 //import { RouterLink, RouterView } from 'vue-router'
 
