@@ -9,17 +9,17 @@
     $conexion->set_charset('utf8mb4');
     
 
-    function filter_juegos(array $canciones, string $query): array {
+    function filter_juegos(array $juegos, string $query): array {
         $result = [];
         $query = trim($query);
 
-        foreach ($canciones as $c) {
-            $c["plataformas"] = json_decode( $c["plataformas"]);
+        foreach ($juegos as $e) {
+            $e["plataformas"] = json_decode( $e["plataformas"]);
             if ($query !== "") {
-                $inTitulo  = strtolower(stripos($c["titulo"], $query));
-                $inGenero = strtolower(stripos($c["genero"], $query));
+                $inTitulo  = strtolower(stripos($e["titulo"], $query));
+                $inGenero = strtolower(stripos($e["genero"], $query));
                 $inPlataforma = false;
-                foreach($c["plataformas"] as $plat){
+                foreach($e["plataformas"] as $plat){
                     $inPlataforma = strtolower(stripos($plat, $query));
                     if($inPlataforma !== false){
                         break;
@@ -29,7 +29,7 @@
                     continue;
                 }
             }
-            $result[] = $c;
+            $result[] = $e;
         }
         return $result;
     }
