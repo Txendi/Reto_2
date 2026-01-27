@@ -1,3 +1,4 @@
+
 <?php
     header('Content-Type: application/json; charset=utf-8');
     header("Access-Control-Allow-Origin: *");
@@ -77,31 +78,15 @@
         $resultado->free();
 
     }else if($action === "registrarse"){
-        $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contrasena']}, USER, now())";
-         $conexion->query($query);
+        $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contraseña']}, USER, now())";
     }else if($action === "logearse"){
-        $query = "SELECT username, password_hash FROM users WHERE username = {$_GET['usuario']}";
-        $resultado = $conexion->query($query);
-        while($eventos = $resultado->fetch_assoc()){
-            if ($resultado->num_rows === 0) {
-        echo "No esta registrado";
-        
-        }else if($eventos['password_hash']===$_GET['contrasena']){
-        echo "Todo perfecto mi reina";
 
-        }else{
-           echo "contraseña erronea payasa"; 
-        }
-        }
-        
     }
-   
+    
     // $query = "SELECT * FROM games";
     // $resultado = $conexion->query($query);
     // $dato = $resultado->fetch_all(MYSQLI_ASSOC);
     // print var_dump($dato);
     // print json_encode($dato, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-
     $conexion->close();
 ?>
