@@ -4,10 +4,9 @@ import { ref, computed, onMounted } from 'vue';
 const eventos = ref([]);
 const cargando = ref(true);
 const error = ref('');
-const paginaActual = ref(1);
 const tipoSeleccionado = ref('');
-
-
+const paginaActual = ref(0);
+const totalPaginas = ref(0)
 
 
 const eventosFiltrados = computed(() => {
@@ -18,8 +17,8 @@ const eventosFiltrados = computed(() => {
     const texto = tipoSeleccionado.value
 
     return eventos.value.filter(
-    evento => evento.tipo === tipoSeleccionado.value
-  )
+        evento => evento.tipo === tipoSeleccionado.value
+    )
 })
 
 const cargarEventos = async () => {
@@ -30,6 +29,7 @@ const cargarEventos = async () => {
         }
         const data = await response.json()
         console.log(data)  // así puedes ver exactamente qué devuelve tu PHP
+        totalPaginas.value = data[0]
         eventos.value = data[1]
 
 
@@ -62,16 +62,13 @@ const cambiarPagina = (numPagina) => {
 
             <option value="">Tipos</option>
 
-            <option
-             v-for="evento in eventos"
-             :key="evento.tipo"
-             :value="evento.tipo">
-            {{ evento.tipo }}
+            <option v-for="evento in eventos" :key="evento.tipo" :value="evento.tipo">
+                {{ evento.tipo }}
             </option>
 
         </select>
 
-       
+
 
         <p v-if="cargando" class="text-gray-500">Cargando...</p>
         <p v-else-if="error" class="text-red-600">{{ error }}</p>
@@ -118,9 +115,9 @@ const cambiarPagina = (numPagina) => {
             </article>
         </div>
         <div class="flex justify-center mt-7 gap-8">
-            <button @click="cambiarPagina(0)" class=" bg-yellow-200 px-5 py-2 cursor-pointer">1</button>
-            <button @click="cambiarPagina(1)" class=" bg-yellow-200 px-5 py-2 cursor-pointer">2</button>
-            <button @click="cambiarPagina(2)" class=" bg-yellow-200 px-5 py-2 cursor-pointer">3</button>
+            <button class="bg-yellow-200 px-5 py-2 cursor-pointer hover:bg-white" v-for="n in totalPaginas" :key="n" @click="cambiarPagina(n - 1)">
+                {{ n }}
+            </button>
         </div>
     </section>
 </template>
