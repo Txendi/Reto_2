@@ -5,7 +5,7 @@ const eventos = ref([]);
 const cargando = ref(true);
 const error = ref('');
 const busqueda = ref('');
-const paginaActual = ref(0);
+const paginaActual = ref(1);
 
 
 
@@ -13,7 +13,7 @@ const paginaActual = ref(0);
 
 const eventosFiltrados = computed(() => {
     if (!busqueda.value) {
-        return eventos.value
+        return eventos.value[1]
     }
 
     const texto = busqueda.value.toLowerCase()
@@ -33,7 +33,7 @@ const eventosFiltrados = computed(() => {
 
 const cargarEventos = async () => {
     try {
-        const response = await fetch(`http://localhost/proyecto_elorrieta/bbdd.php?action=listaEventos&pagina=${paginaActual.value}`)
+        const response = await fetch(`http://localhost/bbdd.php?action=listaEventos&pagina=${paginaActual.value}`)
         if (!response.ok) {
             throw new Error('Error de HTTP: ' + response.status)
         }
@@ -43,7 +43,7 @@ const cargarEventos = async () => {
 
 
     } catch (e) {
-        error.value = 'No se ha podido cargar la pagina con los juegos'
+        error.value = 'No se ha podido cargar la pagina con los eventos'
     } finally {
         cargando.value = false
     }
@@ -75,18 +75,27 @@ const cambiarPagina = (numPagina) => {
         <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
             <article v-for="evento in eventosFiltrados" :key="evento.id"
                 class="bg-gray-200 border-b-gray-800 rounded-lg shadow hover:shadow-xl cursor-pointer flex flex-col">
-                <img :src="`/img/games/${evento.imagen}`" :alt="evento.titulo"
+                <img :src="`/img/events/${evento.imagen}`" :alt="evento.titulo"
                     class="w-full h-56 object-cover rounded-lg" />
 
                 <div class="p-4 flex flex-col gap-2 flex-grow">
                     <h3 class="text-lg font-semibold text-center">
                         {{ evento.titulo }}
                     </h3>
+                    <div class="flex items-end gap-3">
+                        <div class="h-full w-1/2 ">
+                            <p class="text-sm text-gray-600 text-center">
+                                {{ evento.tipo }}
+                            </p>
+                        </div>
+                        <div class="h-full w-full justify-end">
+                            <p class="text-sm text-gray-600 text-center">
+                                <span class="font-bold">Plazas: </span>
+                                {{ evento.plazasLibres }}
+                            </p>
+                        </div>
 
-                    <p class="text-sm text-gray-600 text-center">
-                        {{ evento.tipo }}
-                    </p>
-
+                    </div>
                     <p class="text-sm text-gray-600">
                         <span class="font-bold">Descripcion: </span>
                         {{ evento.descripcion }}
