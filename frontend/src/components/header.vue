@@ -2,6 +2,7 @@
 <script setup>
 import { ref } from 'vue'
 const menuAbierto = ref(false)
+const admin = ref(true)
 </script>
 
 <template>
@@ -15,15 +16,21 @@ const menuAbierto = ref(false)
 
       <div class="hidden md:flex items-center space-x-8">
         <router-link
-          to="/eventos"
-          class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
-          >Eventos</router-link
-        >
-        <router-link
           to="/juegos"
           class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
-          >Juegos</router-link
-        >
+          >Juegos
+        </router-link>
+        <router-link
+          to="/eventos"
+          v-if="admin"
+          class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
+          >Eventos
+        </router-link>
+        <router-link
+          to="/nuevoEvento"
+          class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
+          >Nuevo evento
+        </router-link>
         <router-link
           to="/login"
           class="botonRegistrarse ml-4 px-6 py-2 rounded-full font-bold text-[rgba(222,26,88,1)] bg-[rgba(244,179,66,1)] border-2 border-[rgba(222,26,88,1)] shadow-lg transition-all duration-500 focus:outline-none focus:shadow-[0_0_0_3px_rgba(222,26,88,0.33)]"
