@@ -9,17 +9,6 @@ const paginaActual = ref(0);
 const totalPaginas = ref(0)
 
 
-const eventosFiltrados = computed(() => {
-    if (!tipoSeleccionado.value) {
-        return eventos.value
-    }
-
-    const texto = tipoSeleccionado.value
-
-    return eventos.value.filter(
-        evento => evento.tipo === tipoSeleccionado.value
-    )
-})
 
 const cargarEventos = async () => {
     try {
@@ -74,7 +63,7 @@ const cambiarPagina = (numPagina) => {
         <p v-else-if="error" class="text-red-600">{{ error }}</p>
 
         <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-            <article v-for="evento in eventosFiltrados" :key="evento.id"
+            <article v-for="evento in eventos" :key="evento.id"
                 class="bg-gray-200 border-b-gray-800 rounded-lg shadow hover:shadow-xl cursor-pointer flex flex-col">
                 <img :src="`/img/events/${evento.imagen}`" :alt="evento.titulo"
                     class="w-full h-56 object-cover rounded-lg" />
