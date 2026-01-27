@@ -6,9 +6,9 @@ RewriteEngine on
 # RewriteCond %{REQUEST_URI} !(/$|\.) 
 #Le ponemos un slash final
 # RewriteRule (.*) %{REQUEST_URI}/ [R=301] 
-RewriteRule ^\/auth\/register$ bbdd.php?action=register
+RewriteRule ^\/auth\/register$ bbdd.php?action=registrar
 RewriteRule ^\/auth\/login$ bbdd.php
-RewriteRule ^\/auth\/games$ bbdd.php
+RewriteRule ^\/auth\/games$ bbdd.php?action=listaEventos
 RewriteRule ^\/auth\/games/(\d+)$ bbdd.php
 RewriteRule ^\/auth\/events(?:\/?page=(\d+))?$ bbdd.php
 RewriteRule ^\/auth\/events\/(\d+)$ bbdd.php
