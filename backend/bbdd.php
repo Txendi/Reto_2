@@ -13,14 +13,14 @@
         $result = [];
         $query = trim($query);
 
-        foreach ($juegos as $e) {
-            $e["plataformas"] = json_decode( $e["plataformas"]);
+        foreach ($juegos as $j) {
+            $j["plataformas"] = json_decode( $j["plataformas"]);
             if ($query !== "") {
-                $inTitulo  = strtolower(stripos($e["titulo"], $query));
-                $inGenero = strtolower(stripos($e["genero"], $query));
+                $inTitulo  = stripos($j["titulo"], $query);
+                $inGenero = stripos($j["genero"], $query);
                 $inPlataforma = false;
-                foreach($e["plataformas"] as $plat){
-                    $inPlataforma = strtolower(stripos($plat, $query));
+                foreach($j["plataformas"] as $plat){
+                    $inPlataforma = stripos($plat, $query);
                     if($inPlataforma !== false){
                         break;
                     }
@@ -29,7 +29,7 @@
                     continue;
                 }
             }
-            $result[] = $e;
+            $result[] = $j;
         }
         return $result;
     }
@@ -54,8 +54,8 @@
     $action = $_GET["action"] ?? "";
 
     if ($action === "listaJuegos") {
-        
-        $query = filter_juegos($canciones, $_GET["q"] ?? "");
+
+        $query = "SELECT * FROM games";
         $resultado = $conexion->query($query);
         $canciones = $resultado->fetch_all(MYSQLI_ASSOC );
         print  json_encode(filter_juegos($canciones, $_GET["q"] ?? ""));
@@ -68,10 +68,18 @@
         $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
         print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
         $resultado->free();
+
+        //filter_eventos();
+    }else if($action === "numeroPaginas"){
+        $query = "SELECT COUNT(*) FROM events";
+        $resultado = $conexion->query($query);
+        print $resultado->fetch_all(MYSQLI_ASSOC )/9;
+        $resultado->free();
+
     }else if($action === "registrarse"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contraseña']}, USER, now())";
     }else if($action === "logearse"){
-        
+
     }
     
     // $query = "SELECT * FROM games";
