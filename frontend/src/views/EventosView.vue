@@ -4,31 +4,22 @@ import { ref, computed, onMounted } from 'vue';
 const eventos = ref([]);
 const cargando = ref(true);
 const error = ref('');
-const busqueda = ref('');
 const paginaActual = ref(1);
-
+const tipoSeleccionado = ref('');
 
 
 
 
 const eventosFiltrados = computed(() => {
-    if (!busqueda.value) {
-        return eventos.value[1]
+    if (!tipoSeleccionado.value) {
+        return eventos.value
     }
 
-    const texto = busqueda.value.toLowerCase()
+    const texto = tipoSeleccionado.value
 
-    return eventos.value.filter((evento) => {
-        const titulo = evento.titulo?.toLowerCase() || ''
-        const tipo = evento.tipo?.toLowerCase() || ''
-
-
-        return (
-            titulo.includes(texto) ||
-            tipo.includes(texto)
-
-        )
-    })
+    return eventos.value.filter(
+    evento => evento.tipo === tipoSeleccionado.value
+  )
 })
 
 const cargarEventos = async () => {
@@ -39,7 +30,7 @@ const cargarEventos = async () => {
         }
         const data = await response.json()
         console.log(data)  // así puedes ver exactamente qué devuelve tu PHP
-        eventos.value = data
+        eventos.value = data[1]
 
 
     } catch (e) {
@@ -66,8 +57,21 @@ const cambiarPagina = (numPagina) => {
     <section class="max-w-7xl mx-auto px-4 pt-8 pb-25">
         <h1 class="text-3xl text-white font-bold mb-5">Lista de Eventos</h1>
 
-        <input type="text" placeholder="Buscar eventos..." class="text-white mb-5 p-2 border-2 rounded-xl w-full"
-            v-model="busqueda" />
+
+        <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-3xl">
+
+            <option value="">Tipos</option>
+
+            <option
+             v-for="evento in eventos"
+             :key="evento.tipo"
+             :value="evento.tipo">
+            {{ evento.tipo }}
+            </option>
+
+        </select>
+
+       
 
         <p v-if="cargando" class="text-gray-500">Cargando...</p>
         <p v-else-if="error" class="text-red-600">{{ error }}</p>
