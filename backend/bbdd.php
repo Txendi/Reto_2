@@ -54,8 +54,8 @@
     $action = $_GET["action"] ?? "";
 
     if ($action === "listaJuegos") {
-
-        $query = "SELECT * FROM games";
+        
+        $query = filter_juegos($canciones, $_GET["q"] ?? "");
         $resultado = $conexion->query($query);
         $canciones = $resultado->fetch_all(MYSQLI_ASSOC );
         print  json_encode(filter_juegos($canciones, $_GET["q"] ?? ""));
@@ -71,7 +71,7 @@
     }else if($action === "registrarse"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contraseña']}, USER, now())";
     }else if($action === "logearse"){
-      
+        
     }
     
     // $query = "SELECT * FROM games";

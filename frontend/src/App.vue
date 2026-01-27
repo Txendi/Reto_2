@@ -3,16 +3,6 @@ import headerHecho from '../src/components/header.vue'
 import footerHecho from '../src/components/Footer.vue'
 import { RouterLink, RouterView } from 'vue-router'
 
-function prueba() {
-  fetch('http://localhost/bbdd.php')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Datos JSON:', data)
-    })
-    .catch((error) => {
-      console.error('Error en la petición:', error)
-    })
-}
 </script>
 
 <template>
