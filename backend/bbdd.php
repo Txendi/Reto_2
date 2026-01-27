@@ -80,24 +80,6 @@
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contrasena']}, USER, now())";
          $conexion->query($query);
     }else if($action === "logearse"){
-<<<<<<< HEAD
-        $query = "SELECT username, password_hash FROM users WHERE username = {$_GET['usuario']}";
-        $resultado = $conexion->query($query);
-        while($eventos = $resultado->fetch_assoc()){
-            if ($resultado->num_rows === 0) {
-        echo "No esta registrado";
-        
-        }else if($eventos['password_hash']===$_GET['contrasena']){
-        echo "Todo perfecto mi reina";
-
-        }else{
-           echo "contraseña erronea payasa"; 
-        }
-        }
-        
-=======
-
->>>>>>> rama/iker
     }
    
     // $query = "SELECT * FROM games";
