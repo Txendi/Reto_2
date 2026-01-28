@@ -1,0 +1,37 @@
+services:
+  # front:
+  #   build:
+  #     context: frontend
+  #     dockerfile: Dockerfile
+  #   container_name: my-front-compose-container
+  #   ports:
+  #     - "8080:80"
+  #   networks:
+  #     - my-network
+  back:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    container_name: my-php-compose-container
+    depends_on:
+      - mysql
+    ports:
+      - "80:80"
+    networks:
+      - my-network
+  mysql:
+    build:
+      context: mysql
+      dockerfile: Dockerfile
+    container_name: my-sql-compose-container
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    volumes:
+      - datadir:/var/lib/mysql
+    networks:
+      - my-network
+networks:
+  my-network:
+
+volumes:
+  datadir:                   

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, reactive } from 'vue'
 
 //-> Es como que se ejecuta de nuevo (se monta encima del componente)
 //-> Reacciona a los cambios de la variable
@@ -7,7 +7,7 @@ import { ref, onMounted, watch } from 'vue'
 const api = 'http://localhost/bbdd.php?action=listaJuegos'
 
 //-> La lista de los juegos
-const juegos = ref([])
+const juegos = reactive({array: []})
 
 const cargando = ref(false) //-> Para el mensaje de cuando cargue los juegos,
 const error = ref('')      // |_> A su vez mostrara el mensaje de error si no los encuentra
@@ -16,26 +16,30 @@ const error = ref('')      // |_> A su vez mostrara el mensaje de error si no lo
 const busqueda = ref('')
 
 const fetchJuegos = async () => {
-  cargando.value = true
-  error.value = ''
+  cargando.value = true;
+  error.value = '';
 
   try {
-    const url = `${api}&q=${encodeURIComponent(busqueda.value)}`  // el encode sirve para que no deje espacion ni huecos raros
 
-    const response = await fetch(url)
-    if (!response.ok) throw new Error('Error HTTP ' + response.status) // Si no encuentra la URL
+    const url = `${api}&q=${encodeURIComponent(busqueda.value)}`;  // el encode sirve para que no deje espacion ni huecos raros
 
-    juegos.value = await response.json()
+    const response = await fetch(url);
+
+    if (!response.ok) throw new Error('Error HTTP ' + response.status); // Si no encuentra la URL
+
+    juegos.array = await response.json();
+
 
   } catch (e) {
-    error.value = 'No se han podido cargar los juegos'
+    console.log(e);
   } finally {
-    cargando.value = false
+    cargando.value = false;
   }
 }
 
 onMounted(() => {       // Cuando entre en la vista se va a poner a cargar los juegos
   fetchJuegos()
+  
 })
 
 watch(busqueda, () => {  // Como el propio nombre dice, mira para ver que cada vez que la variable busqueda (el input)
@@ -54,7 +58,7 @@ watch(busqueda, () => {  // Como el propio nombre dice, mira para ver que cada v
     <p v-else-if="error" class="text-red-600">{{ error }}</p>
 
     <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-      <article v-for="juego in juegosFiltrados" :key="juego.id"
+      <article v-for="juego in juegos.array" :key="juego.id"
         class="bg-gray-200 border-b-gray-800 rounded-lg shadow hover:shadow-xl cursor-pointer flex flex-col">
         <img :src="`/img/games/${juego.imagen}`" :alt="juego.titulo" class="w-full h-56 object-cover rounded-lg" />
 
