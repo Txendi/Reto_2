@@ -18,6 +18,7 @@ import footerHecho from '../src/components/Footer.vue'
         class="absolute inset-0 w-full h-full object-cover z-0"
       >
         <source src="../src/img/ia-slop.mp4" type="video/mp4" />
+        
       </video>
 
       <div class="relative w-full z-10">
