@@ -4,7 +4,8 @@ import { ref, onMounted, watch, reactive } from 'vue'
 //-> Es como que se ejecuta de nuevo (se monta encima del componente)
 //-> Reacciona a los cambios de la variable
 
-const api = 'http://localhost/bbdd.php?action=listaJuegos'
+const api = 'http://localhost/games'
+// const api = 'http://localhost/bbdd.php?action=listaJuegos'
 
 //-> La lista de los juegos
 const juegos = reactive({array: []})
@@ -20,8 +21,8 @@ const fetchJuegos = async () => {
   error.value = '';
 
   try {
-
-    const url = `${api}&q=${encodeURIComponent(busqueda.value)}`;  // el encode sirve para que no deje espacion ni huecos raros
+    const url = `${api}/${encodeURIComponent(busqueda.value)}`;
+    //const url = `${api}&q=${encodeURIComponent(busqueda.value)}`;  // el encode sirve para que no deje espacion ni huecos raros
 
     const response = await fetch(url);
 
