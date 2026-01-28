@@ -1,18 +1,8 @@
 <script setup>
-import headerHecho from '../src/components/header.vue'
+import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
-import { RouterLink, RouterView } from 'vue-router'
+//import { RouterLink, RouterView } from 'vue-router'
 
-function prueba() {
-  fetch('http://localhost/bbdd.php')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Datos JSON:', data)
-    })
-    .catch((error) => {
-      console.error('Error en la petición:', error)
-    })
-}
 </script>
 
 <template>
@@ -28,7 +18,7 @@ function prueba() {
         class="absolute inset-0 w-full h-full object-cover z-0"
       >
         <source src="../src/img/ia-slop.mp4" type="video/mp4" />
-        Tu navegador no soporta el vídeo de fondo.
+        
       </video>
 
       <div class="relative w-full z-10">
@@ -41,7 +31,6 @@ function prueba() {
 </template>
 
 <style scoped>
-/* Opcional: oscurecer el vídeo para mejorar la legibilidad */
 .contenedorPadre .central-video-bg::before {
   content: '';
   position: absolute;
