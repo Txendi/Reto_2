@@ -64,7 +64,7 @@ watch(busqueda, () => {
       <article
         v-for="juego in juegos.array"
         :key="juego.id"
-        class="bg-gray-200 border-b-gray-800 rounded-lg shadow-gray-700 hover:shadow-xl cursor-pointer flex flex-col transition-transform duration-300 ease-in-out hover:scale-110"
+        class="bg-gray-200 border-b-gray-800 rounded-lg shadow-gray-700 hover:bg-gray-300 hover:shadow-xl cursor-pointer flex flex-col transition-transform duration-300 ease-in-out hover:scale-110"
       >
         <img
           :src="`/img/games/${juego.imagen}`"
@@ -72,7 +72,7 @@ watch(busqueda, () => {
           class="w-full h-56 object-cover rounded-lg"
         />
 
-        <div class="p-4 flex flex-col gap-2 flex-grow">
+        <div class="p-4 flex flex-col gap-2 flex-gro">
           <h3 class="text-lg font-semibold">
             {{ juego.titulo }}
           </h3>
