@@ -4,7 +4,7 @@
   //-> Es como que se ejecuta de nuevo (se monta encima del componente)
   //-> Reacciona a los cambios de la variable
 
-  const api = 'http://localhost/juegos.php?action=listaJuegos'
+  const api = 'http://localhost/bbdd.php?action=listaJuegos'
 
   //-> La lista de los juegos
   const juegos = reactive({ array: [] })

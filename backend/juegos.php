@@ -1,13 +1,12 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
-
-define('SERVIDOR', 'localhost');
+define('SERVIDOR', 'mysql');
 define('BBDD', 'gamefest');
 define('USUARIO', 'root');
-define('CLAVE', '12345');
-
-$conexion = new mysqli(SERVIDOR, USUARIO, null, BBDD);
+define('CLAVE', 'pass');
+$conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
+$conexion->set_charset('utf8mb4');
 
 if ($conexion->connect_error) {
     echo json_encode(['error' => 'Error conexión BD']);
@@ -28,7 +27,7 @@ if ($q === '') {
                 plataforma LIKE ?";
     $stmt = $conexion->prepare($sql);
     $like = "%$q%";
-    $stmt = bind_param("sss", $like, $like, $like);
+    $stmt->bind_param("sss", $like, $like, $like);
 }
 
 $stmt->execute();
