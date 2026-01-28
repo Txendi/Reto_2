@@ -8,13 +8,13 @@ RewriteEngine on
 # RewriteRule (.*) %{REQUEST_URI}/ [R=301] 
 RewriteRule ^\/auth\/register$ bbdd.php?action=registrar
 RewriteRule ^\/auth\/login$ bbdd.php
-RewriteRule ^\/auth\/games$ bbdd.php?action=listaEventos
-RewriteRule ^\/auth\/games/(\d+)$ bbdd.php
-RewriteRule ^\/auth\/events(?:\/?page=(\d+))?$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)$ bbdd.php
-RewriteRule ^\/auth\/users\/me\/events$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)\/singup$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)\/singup$ bbdd.php
+RewriteRule ^\/games\/(\w)$ bbdd.php?action=listaEventos
+RewriteRule ^\/games\/(\d+)$ bbdd.php
+RewriteRule ^\/events(?:\/?page=(\d+))?$ bbdd.php
+RewriteRule ^\/events\/(\d+)$ bbdd.php
+RewriteRule ^\/users\/me\/events$ bbdd.php
+RewriteRule ^\/events\/(\d+)\/singup$ bbdd.php
+RewriteRule ^\/events\/(\d+)\/singup$ bbdd.php
 
 RewriteRule ^/?deuda/?$ ./principal.php [NC,L]
 RewriteRule ^/?deuda/(\d+)/?$ ./principal.php?com=$1 [NC,L]
