@@ -6,53 +6,53 @@ const emailUsuario = ref('')
 const mensaje = ref('')
 const error = ref('')
 
-
+function validarEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
 async function registrar() {
-  
   mensaje.value = ''
   error.value = ''
 
+  // Validación frontend
+  if (!validarEmail(emailUsuario.value)) {
+    console.error('❌ Email inválido (frontend)')
+    error.value = 'Email inválido'
+    return
+  }
 
   try {
-    const response = await fetch('http://localhost/auth/register.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'  
-      },
-      body: JSON.stringify({
-        usuario: nombreUsuario.value,
-        contraseña: contraUsuario.value,
-        email: emailUsuario.value,
-      })
-    })
+    const response = await fetch('http://localhost/backend/auth/register', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    usuario: nombreUsuario.value,
+    password: contraUsuario.value,
+    email: emailUsuario.value,
+  })
+})
 
     const data = await response.json()
 
-    if (response.ok) {
-    
-      mensaje.value = data.message || 'Usuario registrado exitosamente'
-      console.log('Usuario creado:', data.data)
+    if (response.ok && data.status === 'ok') {
+      console.log('✅ Registro correcto:', data)
+      mensaje.value = data.debug || 'Usuario registrado'
       
-      // Limpiar formulario
       nombreUsuario.value = ''
       contraUsuario.value = ''
       emailUsuario.value = ''
-      
-    
     } else {
-      // Error del servidor
-      if (data.errors && Array.isArray(data.errors)) {
-        error.value = data.errors.join(', ')
-      } else {
-        error.value = data.error || 'Error al registrar usuario'
+      console.error('❌ Error registro:', data)
+      error.value = data.debug || 'Error al registrar'
+      if (data.errors) {
+        console.error('Detalles:', data.errors)
       }
     }
-    
+
   } catch (err) {
-    console.error('Error en la petición:', err)
+    console.error('❌ Error conexión:', err)
     error.value = 'Error de conexión con el servidor'
   }
-
+}
   /*
   fetch('http://localhost/bbdd.php?action=logearse&usuario='+nombreUsuario.value+'&email='+emailUsuario.value+'&contraseña='+contraUsuario.value)
   .then(response => {
@@ -66,7 +66,7 @@ async function registrar() {
     console.error('Error en la petición o en HTTP:', error);
  });
 */
-}
+
 </script>
 
 <template>
@@ -79,6 +79,7 @@ async function registrar() {
           <input
             type="text"
             id="usuario"
+            name="usuario"
             class="bg-gray-100 rounded-xl w-full p-3 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
             placeholder="Introduzca nombre de usuario..."
             v-model="nombreUsuario"
@@ -88,6 +89,7 @@ async function registrar() {
           <label for="contraseña" class="block text-gray-700 font-semibold mb-2">Contraseña</label>
           <input
             type="password"
+            name="contraseña"
             id="contraseña"
             class="bg-gray-100 rounded-xl w-full p-3 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
             placeholder="Introduzca su contraseña..."
@@ -97,6 +99,7 @@ async function registrar() {
           <input
             type="text"
             id="email"
+            name="email"
             class="bg-gray-100 rounded-xl w-full p-3 focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
             placeholder="Introduzca su email..."
             v-model="emailUsuario"

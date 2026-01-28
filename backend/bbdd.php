@@ -1,11 +1,9 @@
 <?php
-    header('Content-Type: application/json; charset=utf-8');
-    header("Access-Control-Allow-Origin: *");
     define('SERVIDOR', 'localhost');
     define('BBDD', 'gamefest');
     define('USUARIO', 'root');
     define('CLAVE', '12345');
-    $conexion = new mysqli(SERVIDOR, USUARIO, null, BBDD);
+    $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
     $conexion->set_charset('utf8mb4');
     
 
@@ -76,7 +74,7 @@
         print $resultado->fetch_all(MYSQLI_ASSOC )/9;
         $resultado->free();
 
-    }else if($action === "registrarse"){
+    }else if($action === "registrar"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contrasena']}, USER, now())";
          $conexion->query($query);
     }else if($action === "logearse"){
