@@ -1,33 +1,62 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 const eventos = ref([]);
 const cargando = ref(true);
 const error = ref('');
+const tipos = ref([]);
 const tipoSeleccionado = ref('');
 const paginaActual = ref(0);
-const totalPaginas = ref(0)
-
+const totalPaginas = ref(0);
+const soloConPlazas = ref(false);
 
 
 const cargarEventos = async () => {
     try {
-        const response = await fetch(`http://localhost/bbdd.php?action=listaEventos&pagina=${paginaActual.value}`)
+        cargando.value = true
+        error.value = ''
+
+        const params = new URLSearchParams({
+            pagina: paginaActual.value
+        })
+
+        if (tipoSeleccionado.value) {
+            params.append('tipo', tipoSeleccionado.value)
+        }
+
+        if (soloConPlazas.value) {
+            params.append('plazas', 1)
+        }
+
+        const response = await fetch(`http://localhost/eventos.php?${params.toString()}`)
         if (!response.ok) {
-            throw new Error('Error de HTTP: ' + response.status)
+            throw new Error('Error HTTP ' + response.status)
         }
         const data = await response.json()
-        console.log(data)  // así puedes ver exactamente qué devuelve tu PHP
-        totalPaginas.value = data[0]
-        eventos.value = data[1]
 
+        eventos.value = data.eventos
+        totalPaginas.value = data.totalPaginas
+        tipos.value = data.tipos
 
     } catch (e) {
-        error.value = 'No se ha podido cargar la pagina con los eventos'
+        error.value = 'No se han podido cargar los eventos'
     } finally {
         cargando.value = false
     }
 }
+
+
+watch(tipoSeleccionado, async () => {
+    paginaActual.value = 0
+    await cargarEventos()
+})
+
+
+watch(soloConPlazas, async () => {
+    paginaActual.value = 0
+    await cargarEventos()
+})
+
 
 
 onMounted(() => {
@@ -47,12 +76,12 @@ const cambiarPagina = (numPagina) => {
         <h1 class="text-3xl text-white font-bold mb-5">Lista de Eventos</h1>
 
 
-        <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-3xl">
+        <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-xl">
 
             <option value="">Tipos</option>
 
-            <option v-for="evento in eventos" :key="evento.tipo" :value="evento.tipo">
-                {{ evento.tipo }}
+            <option v-for="tipo in tipos" :key="tipo" :value="tipo">
+                {{ tipo }}
             </option>
 
         </select>
@@ -104,7 +133,8 @@ const cambiarPagina = (numPagina) => {
             </article>
         </div>
         <div class="flex justify-center mt-7 gap-8">
-            <button class="bg-yellow-200 px-5 py-2 cursor-pointer hover:bg-white" v-for="n in totalPaginas" :key="n" @click="cambiarPagina(n - 1)">
+            <button class="bg-yellow-200 px-5 py-2 cursor-pointer hover:bg-white" v-for="n in totalPaginas" :key="n"
+                @click="cambiarPagina(n - 1)">
                 {{ n }}
             </button>
         </div>

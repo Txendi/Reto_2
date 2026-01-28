@@ -71,11 +71,21 @@
         $resultado->free();
 
         //filter_eventos();
-    }else if($action === "numeroPaginas"){
-        $query = "SELECT COUNT(*) FROM events";
-        $resultado = $conexion->query($query);
-        print $resultado->fetch_all(MYSQLI_ASSOC )/9;
-        $resultado->free();
+    }else if ($action === "numeroPaginas"){
+
+    $query = "SELECT COUNT(*) AS total FROM events";
+    $resultado = $conexion->query($query);
+
+    $fila = $resultado->fetch_assoc();
+    $totalEventos = (int)$fila['total'];
+
+    $totalPaginas = ceil($totalEventos / 9);
+
+    echo json_encode($totalPaginas);
+
+    $resultado->free();
+
+
 
     }else if($action === "registrarse"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contrasena']}, USER, now())";
