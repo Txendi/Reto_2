@@ -19,17 +19,17 @@ const busqueda = ref('')
 const fetchJuegos = async () => {
   cargando.value = true;
   error.value = '';
-
+  
   try {
     const url = `${api}/${encodeURIComponent(busqueda.value)}`;
     //const url = `${api}&q=${encodeURIComponent(busqueda.value)}`;  // el encode sirve para que no deje espacion ni huecos raros
-
+    console.log(url)
     const response = await fetch(url);
 
     if (!response.ok) throw new Error('Error HTTP ' + response.status); // Si no encuentra la URL
-
+    
     juegos.array = await response.json();
-
+    console.log(juegos.array);
 
   } catch (e) {
     console.log(e);
