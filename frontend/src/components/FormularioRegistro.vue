@@ -3,8 +3,57 @@ import { ref } from 'vue'
 const nombreUsuario = ref('')
 const contraUsuario = ref('')
 const emailUsuario = ref('')
+const mensaje = ref('')
+const error = ref('')
+
 
 async function registrar() {
+  
+  mensaje.value = ''
+  error.value = ''
+
+
+  try {
+    const response = await fetch('http://localhost/auth/register.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'  
+      },
+      body: JSON.stringify({
+        usuario: nombreUsuario.value,
+        contraseña: contraUsuario.value,
+        email: emailUsuario.value,
+      })
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+    
+      mensaje.value = data.message || 'Usuario registrado exitosamente'
+      console.log('Usuario creado:', data.data)
+      
+      // Limpiar formulario
+      nombreUsuario.value = ''
+      contraUsuario.value = ''
+      emailUsuario.value = ''
+      
+    
+    } else {
+      // Error del servidor
+      if (data.errors && Array.isArray(data.errors)) {
+        error.value = data.errors.join(', ')
+      } else {
+        error.value = data.error || 'Error al registrar usuario'
+      }
+    }
+    
+  } catch (err) {
+    console.error('Error en la petición:', err)
+    error.value = 'Error de conexión con el servidor'
+  }
+
+  /*
   fetch('http://localhost/bbdd.php?action=logearse&usuario='+nombreUsuario.value+'&email='+emailUsuario.value+'&contraseña='+contraUsuario.value)
   .then(response => {
     if (!response.ok) {
@@ -16,7 +65,7 @@ async function registrar() {
   .catch(error => {
     console.error('Error en la petición o en HTTP:', error);
  });
-
+*/
 }
 </script>
 
