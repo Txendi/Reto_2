@@ -1,17 +1,32 @@
 <?php
-// Permitir el origen de tu frontend en desarrollo
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
-header("Access-Control-Allow-Credentials: true");
+// 1. Incluir la conexión obligatoriamente
+require_once 'bbdd.php'; 
 
-// Manejo inmediato del preflight (petición OPTIONS)
+// 2. Cabeceras CORS completas
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header('Content-Type: application/json; charset=utf-8');
+
+// 3. Manejo mejorado del preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
 header('Content-Type: application/json; charset=utf-8');
+$conexion = new mysqli("localhost", "root", "", "gamefest");
+$conexion->set_charset('utf8mb4');
+
+if ($conexion->connect_error) {
+    http_response_code(500);
+    echo json_encode([
+      "status" => "error",
+      "debug" => "Error conexión BD"
+    ]);
+    exit;
+}
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 $usuario  = trim($data['usuario'] ?? '');
