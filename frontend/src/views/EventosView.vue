@@ -9,7 +9,7 @@ const tipoSeleccionado = ref('');
 const paginaActual = ref(0);
 const totalPaginas = ref(0);
 const soloConPlazas = ref(false);
-
+const eventoActivo = ref(null);
 
 const cargarEventos = async () => {
     try {
@@ -57,6 +57,14 @@ watch(soloConPlazas, async () => {
     await cargarEventos()
 })
 
+watch(eventoActivo,(nuevoValor)=>{
+    if(nuevoValor){
+        document.body.style.overflow='hidden'
+    }else{
+        document.body.style.overflow=''
+    }
+})
+
 
 
 onMounted(() => {
@@ -75,24 +83,26 @@ const cambiarPagina = (numPagina) => {
     <section class="max-w-7xl mx-auto px-4 pt-8 pb-25">
         <h1 class="text-3xl text-white font-bold mb-5">Lista de Eventos</h1>
 
+        <div class="">
+            <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-xl">
 
-        <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-xl">
+                <option value="">Tipos</option>
 
-            <option value="">Tipos</option>
+                <option v-for="tipo in tipos" :key="tipo" :value="tipo">
+                    {{ tipo }}
+                </option>
 
-            <option v-for="tipo in tipos" :key="tipo" :value="tipo">
-                {{ tipo }}
-            </option>
+            </select>
 
-        </select>
+            <button ></button>
 
-
+        </div>
 
         <p v-if="cargando" class="text-gray-500">Cargando...</p>
         <p v-else-if="error" class="text-red-600">{{ error }}</p>
 
         <div v-else class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-            <article v-for="evento in eventos" :key="evento.id"
+            <article v-for="evento in eventos" :key="evento.id" @click="eventoActivo = evento"
                 class="bg-gray-200 border-b-gray-800 rounded-lg shadow hover:shadow-xl cursor-pointer flex flex-col">
                 <img :src="`/img/events/${evento.imagen}`" :alt="evento.titulo"
                     class="w-full h-56 object-cover rounded-lg" />
@@ -138,7 +148,71 @@ const cambiarPagina = (numPagina) => {
                 {{ n }}
             </button>
         </div>
+
+        <!-- Modal de evento -->
+        <Transition name="fade">
+            <div v-if="eventoActivo" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                @click="eventoActivo = null"></div>
+        </Transition>
+
+        <Transition name="fade">
+            <div v-if="eventoActivo" 
+            class="fixed inset-0 z-50 flex items-center justify-center"
+            @click="eventoActivo=null">
+                <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
+                    <!-- <button class="absolute top-3 right-3 text-xl" @click="eventoActivo = null">❌</button>-->
+                    <h2 class="text-2xl font-bold mb-4">
+                        {{ eventoActivo.titulo }}
+                    </h2>
+
+                    <img :src="`/img/events/${eventoActivo.imagen}`" class="w-full h-56 object-cover rounded mb-4" />
+
+                    <p class="mb-2"><strong>Tipo:</strong> {{ eventoActivo.tipo }}</p>
+                    <p class="mb-2">
+                        <strong>Fecha:</strong>
+                        {{ eventoActivo.fecha }}
+                    </p>
+                    <p class="mb-2">
+                        <strong>Hora:</strong>
+                        {{ eventoActivo.hora }}
+                    </p>
+                    <p class="mb-2">
+                        <strong>Plazas:</strong>
+                        {{ eventoActivo.plazasLibres }}
+                    </p>
+
+                    <p class="text-gray-700">
+                         <strong>Descripcion:</strong>
+                        {{ eventoActivo.descripcion }}
+                    </p>
+                </div>
+            </div>
+        </Transition>
     </section>
 </template>
 
-<style></style>
+
+<!-- Animacion creada con IA -->
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.modal-enter-active,
+.modal-leave-active {
+    transition: all 0.25s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+    transform: scale(1.2);
+}
+</style>
