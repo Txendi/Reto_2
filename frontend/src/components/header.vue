@@ -29,7 +29,7 @@ const admin = ref(true)
         <router-link
           to="/nuevoEvento"
           class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
-          >Nuevo evento
+          >Crear evento
         </router-link>
         <router-link
           to="/login"
