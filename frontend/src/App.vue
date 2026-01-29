@@ -1,14 +1,28 @@
 <script setup>
 import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
+import { useUserStore } from './stores/userStore';
+
 //import { RouterLink, RouterView } from 'vue-router'
+
+async function prueba(){
+
+  const userStore = useUserStore();
+  userStore.user.id
+  userStore.user = {role: "admin", id: 3, user: 21332};
+  userStore.status = "authenticated";
+  const { isAuthenticated, isAdmin } = await userStore.fetchAuthState();
+  console.log(isAuthenticated);
+   console.log(isAdmin);
+
+}
 
 </script>
 
 <template>
   <div class="contenedorPadre relative min-h-screen flex flex-col overflow-hidden">
     <headerHecho class="relative z-20" />
-
+    <button @click="prueba">Hola</button>
     <div class="relative flex-1 flex items-stretch z-10">
       <video
         autoplay
