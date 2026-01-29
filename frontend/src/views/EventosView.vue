@@ -10,6 +10,7 @@ const paginaActual = ref(0);
 const totalPaginas = ref(0);
 const soloConPlazas = ref(false);
 const eventoActivo = ref(null);
+const fechaSeleccionada = ref('');
 
 const cargarEventos = async () => {
     try {
@@ -22,6 +23,10 @@ const cargarEventos = async () => {
 
         if (tipoSeleccionado.value) {
             params.append('tipo', tipoSeleccionado.value)
+        }
+
+        if(fechaSeleccionada.value){
+            params.append('fecha', fechaSeleccionada.value)
         }
 
         if (soloConPlazas.value) {
@@ -47,6 +52,11 @@ const cargarEventos = async () => {
 
 
 watch(tipoSeleccionado, async () => {
+    paginaActual.value = 0
+    await cargarEventos()
+})
+
+watch(fechaSeleccionada, async () => {
     paginaActual.value = 0
     await cargarEventos()
 })
@@ -83,8 +93,8 @@ const cambiarPagina = (numPagina) => {
     <section class="max-w-7xl mx-auto px-4 pt-8 pb-25">
         <h1 class="text-3xl text-white font-bold mb-5">Lista de Eventos</h1>
 
-        <div class="">
-            <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-xl">
+        <div class="flex flex-col sm:flex-row">
+            <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-4xs sm:w-2/7 md:w-2/6 lg:w-2/5">
 
                 <option value="">Tipos</option>
 
@@ -94,7 +104,15 @@ const cambiarPagina = (numPagina) => {
 
             </select>
 
-            <button ></button>
+            <input type="date" class="text-black mb-5 p-2 border-2 rounded-xl sm:mx-3" v-model="fechaSeleccionada">
+
+            <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox"
+                v-model="soloConPlazas"
+                class="w-4 h-4">
+
+                <span class="text-white">Solo con plazas disponibles</span>
+            </label>
 
         </div>
 
