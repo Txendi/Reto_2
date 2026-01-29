@@ -1,6 +1,6 @@
 <?php
     header('Content-Type: application/json; charset=utf-8');
-    header("Access-Control-Allow-Origin: *");
+    // header("Access-Control-Allow-Origin: *");
     define('SERVIDOR', 'mysql');
     define('BBDD', 'gamefest');
     define('USUARIO', 'root');
@@ -8,7 +8,6 @@
     $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
     $conexion->set_charset('utf8mb4');
     
-
     function filter_juegos(array $juegos, string $query): array {
         $result = [];
         $query = trim($query);
@@ -59,15 +58,16 @@
         $resultado = $conexion->query($query);
         $canciones = $resultado->fetch_all(MYSQLI_ASSOC );
         print  json_encode(filter_juegos($canciones, $_GET["q"] ?? ""));
+
         $resultado->free();
 
     }else if ($action === "listaEventos"){
         $query = "SELECT * FROM events";
         $resultado = $conexion->query($query);
         $eventos = $resultado->fetch_all(MYSQLI_ASSOC );
-        // $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
-        // print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
-        print json_encode($eventos);
+        $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
+        print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
+        // print json_encode($eventos);
         $resultado->free();
 
         //filter_eventos();
