@@ -15,7 +15,7 @@ if ($conexion->connect_error) {
 
 $conexion->set_charset('utf8mb4');
 
-$q = $_POST['q'] ?? '';
+$q = $_GET['q'] ?? '';
 
 if ($q === '') {
     $sql = "SELECT * FROM games";
