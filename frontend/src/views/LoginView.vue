@@ -42,7 +42,6 @@
 </template>
 
 <style scoped>
-
 .router-link-exact-active {
   background: #fff !important;
   border-bottom-width: 4px !important;

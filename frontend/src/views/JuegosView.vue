@@ -46,6 +46,14 @@ watch(busqueda, () => {
   // Como el propio nombre dice, mira para ver que cada vez que la variable busqueda (el input)
   fetchJuegos() // va cambiando mientras escribe, y se actualiza a la vez
 })
+
+watch(juegoActivo, (nuevoValor) => {
+  if (nuevoValor) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
   <template>
@@ -107,10 +115,11 @@ watch(busqueda, () => {
     </Transition>
 
     <Transition name="fade">
-      <div v-if="juegoActivo" class="fixed inset-0 z-50 flex items-center justify-center">
+      <div v-if="juegoActivo" class="fixed inset-0 z-50 flex items-center justify-center"
+      @click="juegoActivo=null">
         <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
-          <button class="absolute top-3 right-3 text-xl" @click="juegoActivo = null">❌</button>
-
+<!--           <button class="absolute top-3 right-3 text-xl" @click="juegoActivo = null">❌</button>
+ -->
           <h2 class="text-2xl font-bold mb-4">
             {{ juegoActivo.titulo }}
           </h2>
@@ -141,7 +150,7 @@ watch(busqueda, () => {
 
 <!-- Animacion creada con IA -->
 
-  <style scoped> 
+  <style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;

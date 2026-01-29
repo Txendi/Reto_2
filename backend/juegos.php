@@ -1,3 +1,4 @@
+
 <?php
 header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
@@ -15,7 +16,7 @@ if ($conexion->connect_error) {
 
 $conexion->set_charset('utf8mb4');
 
-$q = $_POST['q'] ?? '';
+$q = $_GET['q'] ?? '';
 
 if ($q === '') {
     $sql = "SELECT * FROM games";
