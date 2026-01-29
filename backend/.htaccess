@@ -6,7 +6,8 @@ RewriteEngine on
 # RewriteCond %{REQUEST_URI} !(/$|\.) 
 #Le ponemos un slash final
 # RewriteRule (.*) %{REQUEST_URI}/ [R=301] 
-RewriteRule ^auth/register$ autenticacion.php [L]
+RewriteRule ^auth/register$ registro.php [L]
+RewriteRule ^auth/login$ login.php [L]
 
 
 RewriteRule ^\/auth\/login$ bbdd.php

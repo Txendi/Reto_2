@@ -1,8 +1,5 @@
 <?php
-// 1. Incluir la conexión obligatoriamente/*
-/*
-require_once 'bbdd.php'; 
-*/
+
 // 2. Cabeceras CORS completas
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
