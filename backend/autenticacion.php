@@ -1,30 +1,33 @@
 <?php
-// 1. Incluir la conexión obligatoriamente
+// 1. Incluir la conexión obligatoriamente/*
+/*
 require_once 'bbdd.php'; 
-
+*/
 // 2. Cabeceras CORS completas
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header('Content-Type: application/json; charset=utf-8');
-
+define('SERVIDOR', 'mysql');
+define('BBDD', 'gamefest');
+define('USUARIO', 'root');
+define('CLAVE', 'pass');
 // 3. Manejo mejorado del preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
+  http_response_code(200);
+  exit;
 }
 
-header('Content-Type: application/json; charset=utf-8');
-$conexion = new mysqli("localhost", "root", "", "gamefest");
+$conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
 $conexion->set_charset('utf8mb4');
 
 if ($conexion->connect_error) {
-    http_response_code(500);
-    echo json_encode([
-      "status" => "error",
-      "debug" => "Error conexión BD"
-    ]);
-    exit;
+  http_response_code(500);
+  echo json_encode([
+    "status" => "error",
+    "debug" => "Error conexión BD"
+  ]);
+  exit;
 }
 
 $data = json_decode(file_get_contents("php://input"), true);
@@ -37,29 +40,29 @@ $errores = [];
 
 // Validaciones
 if ($usuario === '' || $email === '' || $password === '') {
-    $errores[] = "Campos obligatorios vacíos";
+  $errores[] = "Campos obligatorios vacíos";
 }
 
 if (!preg_match('/^[a-z0-9]{3,50}$/i', $usuario)) {
-    $errores[] = "Formato de usuario incorrecto";
+  $errores[] = "Formato de usuario incorrecto";
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errores[] = "Formato de email incorrecto";
+  $errores[] = "Formato de email incorrecto";
 }
 
 if (strlen($password) < 6) {
-    $errores[] = "Contraseña demasiado corta";
+  $errores[] = "Contraseña demasiado corta";
 }
 
 if (!empty($errores)) {
-    http_response_code(400);
-    echo json_encode([
-      "status" => "error",
-      "debug" => "Validación fallida",
-      "errors" => $errores
-    ]);
-    exit;
+  http_response_code(400);
+  echo json_encode([
+    "status" => "error",
+    "debug" => "Validación fallida",
+    "errors" => $errores
+  ]);
+  exit;
 }
 
 // Comprobar duplicados
@@ -69,13 +72,13 @@ $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
-    http_response_code(409);
-    echo json_encode([
-      "status" => "error",
-      "debug" => "Usuario o email ya existen"
-    ]);
-    $stmt->close();
-    exit;
+  http_response_code(409);
+  echo json_encode([
+    "status" => "error",
+    "debug" => "Usuario o email ya existen"
+  ]);
+  $stmt->close();
+  exit;
 }
 $stmt->close();
 
@@ -90,21 +93,21 @@ $stmt = $conexion->prepare("
 $stmt->bind_param("sss", $usuario, $email, $hash);
 
 if ($stmt->execute()) {
-    echo json_encode([
-      "status" => "ok",
-      "debug" => "Usuario insertado correctamente",
-      "data" => [
-        "id" => $stmt->insert_id,
-        "username" => $usuario,
-        "email" => $email
-      ]
-    ]);
+  echo json_encode([
+    "status" => "ok",
+    "debug" => "Usuario insertado correctamente",
+    "data" => [
+      "id" => $stmt->insert_id,
+      "username" => $usuario,
+      "email" => $email
+    ]
+  ]);
 } else {
-    http_response_code(500);
-    echo json_encode([
-      "status" => "error",
-      "debug" => "Fallo en INSERT"
-    ]);
+  http_response_code(500);
+  echo json_encode([
+    "status" => "error",
+    "debug" => "Fallo en INSERT"
+  ]);
 }
 
 $stmt->close();

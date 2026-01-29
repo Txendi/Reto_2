@@ -9,13 +9,12 @@ const error = ref('')
 function validarEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
+
 async function registrar() {
   mensaje.value = ''
   error.value = ''
 
-  // Validación frontend
   if (!validarEmail(emailUsuario.value)) {
-    console.error('❌ Email inválido (frontend)')
     error.value = 'Email inválido'
     return
   }
@@ -31,40 +30,36 @@ async function registrar() {
       }),
     })
 
-    const data = await response.json()
+    // 1. Leemos la respuesta como texto una sola vez para evitar el SyntaxError
+    const text = await response.text();
+    let data;
 
+    try {
+      // 2. Intentamos convertir ese texto a JSON
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error("Servidor no envió JSON:", text);
+      error.value = "Error en el formato de respuesta del servidor.";
+      return; 
+    }
+
+    // 3. Procesamos la lógica con el objeto 'data' ya obtenido
     if (response.ok && data.status === 'ok') {
       console.log('✅ Registro correcto:', data)
       mensaje.value = data.debug || 'Usuario registrado'
-
       nombreUsuario.value = ''
       contraUsuario.value = ''
       emailUsuario.value = ''
     } else {
       console.error('❌ Error registro:', data)
       error.value = data.debug || 'Error al registrar'
-      if (data.errors) {
-        console.error('Detalles:', data.errors)
-      }
     }
+
   } catch (err) {
     console.error('❌ Error conexión:', err)
     error.value = 'Error de conexión con el servidor'
   }
 }
-/*
-  fetch('http://localhost/bbdd.php?action=logearse&usuario='+nombreUsuario.value+'&email='+emailUsuario.value+'&contraseña='+contraUsuario.value)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error HTTP: ' + response.status);
-    }
-    return response.json();
-  })
-  .then(data => console.log(data))
-  .catch(error => {
-    console.error('Error en la petición o en HTTP:', error);
- });
-*/
 </script>
 
 <template>
@@ -111,6 +106,9 @@ async function registrar() {
     >
       Registrarse
     </button>
+
+    <p v-if="mensaje" class="text-green-600 text-center font-bold">{{ mensaje }}</p>
+    <p v-if="error" class="text-red-600 text-center font-bold">{{ error }}</p>
   </form>
 </template>
 

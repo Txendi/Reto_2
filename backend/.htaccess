@@ -1,4 +1,3 @@
-RewriteBase http://localhost
 RewriteEngine on
 
 #Si no existe la url como fichero
@@ -8,6 +7,7 @@ RewriteEngine on
 #Le ponemos un slash final
 # RewriteRule (.*) %{REQUEST_URI}/ [R=301] 
 RewriteRule ^auth/register$ autenticacion.php [L]
+
 
 RewriteRule ^\/auth\/login$ bbdd.php
 RewriteRule ^\/auth\/games$ bbdd.php?action=listaEventos
