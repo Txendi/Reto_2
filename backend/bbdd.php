@@ -65,9 +65,9 @@
         $query = "SELECT * FROM events";
         $resultado = $conexion->query($query);
         $eventos = $resultado->fetch_all(MYSQLI_ASSOC );
-        // $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
-        // print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
-        print json_encode($eventos);
+        $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
+        print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
+        // print json_encode($eventos);
         $resultado->free();
 
         //filter_eventos();
