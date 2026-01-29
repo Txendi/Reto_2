@@ -16,7 +16,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "80:80"
+      - "800:800"
     networks:
       - my-network
   mysql:
@@ -24,6 +24,8 @@ services:
       context: mysql
       dockerfile: Dockerfile
     container_name: my-sql-compose-container
+    ports:
+      - "33060:33060"
     environment:
       MYSQL_ROOT_PASSWORD: pass
     volumes:
