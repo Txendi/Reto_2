@@ -1,4 +1,3 @@
-
 <?php
 header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
@@ -25,11 +24,12 @@ if ($q === '') {
     $sql = "SELECT * FROM games WHERE
                 titulo LIKE ? OR
                 genero LIKE ? OR
-                plataforma LIKE ?";
+                plataformas LIKE ?";
     $stmt = $conexion->prepare($sql);
     $like = "%$q%";
     $stmt->bind_param("sss", $like, $like, $like);
 }
+
 
 $stmt->execute();
 $result = $stmt->get_result();

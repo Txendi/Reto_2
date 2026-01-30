@@ -2,27 +2,19 @@ Header set Access-Control-Allow-Origin "*"
 Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
 Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 
-RewriteEngine on
-# RewriteBase http://localhost
-# RewriteBase /var/www/html/
-
+RewriteEngine On
 
 RewriteRule ^auth/register$ bbdd.php?action=registrar [NC,L]
 RewriteRule ^auth/login$ bbdd.php [NC,L]
 
-RewriteRule ^games/?(\w+)$ juegos.php?q=$1 [NC,L]
-RewriteRule ^games/?$ juegos.php?q= [NC,L]
+RewriteRule ^games/?(.*)$ juegos.php?q=$1 [NC,L]
 
-RewriteRule ^games/(\d+)$ bbdd.php [NC,L]
-
-RewriteRule ^events(?:\/?page=(\d+))?$ bbdd.php [NC,L]
-
+RewriteRule ^events$ bbdd.php [NC,L]
 RewriteRule ^events/(\d+)$ bbdd.php [NC,L]
 RewriteRule ^users/me/events$ bbdd.php [NC,L]
-RewriteRule ^events/(\d+)/singup$ bbdd.php [NC,L]
-# RewriteRule ^/events/(\d+)/singup$ bbdd.php
+RewriteRule ^events/(\d+)/signup$ bbdd.php [NC,L]
 
-RewriteRule ^/?deuda/?$ ./principal.php [NC,L]
-RewriteRule ^/?deuda/(\d+)/?$ ./principal.php?com=$1 [NC,L]
-RewriteRule ^/?deuda/(\d+)/(\d+)/?$  ./principal.php?com=$1&prov=$2 [NC,L]
-RewriteRule ^/?deuda/(\d+)/(\d+)/(\d+)/?$  ./principal.php?com=$1&prov=$2&ayto=$3 [NC,L]
+RewriteRule ^/?deuda/?$ principal.php [NC,L]
+RewriteRule ^/?deuda/(\d+)/?$ principal.php?com=$1 [NC,L]
+RewriteRule ^/?deuda/(\d+)/(\d+)/?$ principal.php?com=$1&prov=$2 [NC,L]
+RewriteRule ^/?deuda/(\d+)/(\d+)/(\d+)/?$ principal.php?com=$1&prov=$2&ayto=$3 [NC,L]

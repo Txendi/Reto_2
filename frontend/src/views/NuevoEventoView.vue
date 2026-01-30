@@ -14,9 +14,8 @@ const onImagenChange = (e) => {
   imagen.value = e.target.files[0]
 }
 
-const crearEvento = () => {
-  const tipoFinal =
-    tipo.value === 'otro' ? tipoPersonalizado.value : tipo.value
+const crearEvento = async () => {
+  const tipoFinal = tipo.value === 'otro' ? tipoPersonalizado.value : tipo.value
 
   const evento = {
     titulo: titulo.value,
@@ -25,26 +24,50 @@ const crearEvento = () => {
     hora: hora.value,
     plazas: Number(plazas.value),
     tipo: tipoFinal,
-    imagen: imagen.value ? imagen.value.name : null
+    imagen: imagen.value ? imagen.value.name : null,
   }
 
-  console.log('EVENTO CREADO:', evento)
+  try {
+    const res = await fetch('http://localhost/admin.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(evento),
+    })
+
+    const data = await res.json()
+
+    if (data.ok) {
+      alert('Evento creado correctamente')
+
+      // (opcional) limpiar formulario
+      titulo.value = ''
+      descripcion.value = ''
+      fecha.value = ''
+      hora.value = ''
+      plazas.value = ''
+      tipo.value = ''
+      tipoPersonalizado.value = ''
+      imagen.value = null
+    } else {
+      alert('Error al crear el evento')
+    }
+  } catch (error) {
+    console.error(error)
+    alert('Error de conexión con el servidor')
+  }
 }
 </script>
 
 <template>
   <section class="min-h-screen flex justify-center pt-28 px-4">
     <div class="w-full max-w-xl bg-white rounded-2xl shadow-xl p-8">
-      <h1 class="text-2xl font-bold text-gray-800 mb-6">
-        Crear evento
-      </h1>
+      <h1 class="text-2xl font-bold text-gray-800 mb-6">Crear evento</h1>
 
       <form @submit.prevent="crearEvento" class="flex flex-col gap-5">
-        <!-- Título -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
-            Título
-          </label>
+          <label class="block text-sm font-semibold text-gray-700 mb-1"> Título </label>
           <input
             v-model="titulo"
             type="text"
@@ -53,11 +76,8 @@ const crearEvento = () => {
           />
         </div>
 
-        <!-- Descripción -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
-            Descripción
-          </label>
+          <label class="block text-sm font-semibold text-gray-700 mb-1"> Descripción </label>
           <textarea
             v-model="descripcion"
             rows="4"
@@ -69,9 +89,7 @@ const crearEvento = () => {
         <!-- Fecha y hora -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">
-              Fecha
-            </label>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"> Fecha </label>
             <input
               v-model="fecha"
               type="date"
@@ -80,9 +98,7 @@ const crearEvento = () => {
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">
-              Hora
-            </label>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"> Hora </label>
             <input
               v-model="hora"
               type="time"
@@ -93,9 +109,7 @@ const crearEvento = () => {
 
         <!-- Plazas -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
-            Plazas disponibles
-          </label>
+          <label class="block text-sm font-semibold text-gray-700 mb-1"> Plazas disponibles </label>
           <input
             v-model="plazas"
             type="number"
@@ -107,9 +121,7 @@ const crearEvento = () => {
 
         <!-- Tipo -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
-            Tipo de evento
-          </label>
+          <label class="block text-sm font-semibold text-gray-700 mb-1"> Tipo de evento </label>
 
           <select
             v-model="tipo"
@@ -132,15 +144,8 @@ const crearEvento = () => {
 
         <!-- Imagen -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">
-            Imagen del evento
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            @change="onImagenChange"
-            class="w-full text-sm"
-          />
+          <label class="block text-sm font-semibold text-gray-700 mb-1"> Imagen del evento </label>
+          <input type="file" accept="image/*" @change="onImagenChange" class="w-full text-sm" />
         </div>
 
         <!-- Botón -->
