@@ -8,12 +8,12 @@ import { useUserStore } from './stores/userStore';
 async function prueba(){
 
   const userStore = useUserStore();
-  userStore.user.id
+  console.log(userStore.isAuthenticated);
+  console.log(userStore.isAdmin);
   userStore.user = {role: "admin", id: 3, user: 21332};
   userStore.status = "authenticated";
-  const { isAuthenticated, isAdmin } = await userStore.fetchAuthState();
-  console.log(isAuthenticated);
-   console.log(isAdmin);
+  console.log(userStore.isAuthenticated);
+  console.log(userStore.isAdmin);
 
 }
 

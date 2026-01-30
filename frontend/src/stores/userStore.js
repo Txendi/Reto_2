@@ -14,12 +14,28 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     async fetchAuthState() {
-      // Evita repetir llamadas si ya sabemos el estado
+      //Evita repetir llamadas si ya sabemos el estado
       if (this.status !== 'unknown') {
         return {
           isAuthenticated: this.isAuthenticated,
           isAdmin: this.isAdmin,
         }
+      } else {
+          let name = "usuario=";
+          let ca = document.cookie.split(';');
+          for(let i = 0; i <ca.length; i++) {
+            let c = ca[i].trim();
+            
+            if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+            }
+          }
+      }
+      try {
+        const res = await fetch("http://localhost/user");
+        res
+      }catch(e){
+        console.log(e);
       }
     }
   }

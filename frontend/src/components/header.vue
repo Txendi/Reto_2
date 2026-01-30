@@ -1,8 +1,10 @@
 
 <script setup>
+import { useUserStore } from '@/stores/userStore';
 import { ref } from 'vue'
 const menuAbierto = ref(false)
 const admin = ref(true)
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -32,10 +34,18 @@ const admin = ref(true)
           >Nuevo evento
         </router-link>
         <router-link
+          v-if="!userStore.isAuthenticated"
           to="/login"
           class="botonRegistrarse ml-4 px-6 py-2 rounded-full font-bold text-[rgba(222,26,88,1)] bg-[rgba(244,179,66,1)] border-2 border-[rgba(222,26,88,1)] shadow-lg transition-all duration-500 focus:outline-none focus:shadow-[0_0_0_3px_rgba(222,26,88,0.33)]"
         >
           Registrarse / Iniciar sesión
+        </router-link>
+        <router-link
+          v-if="userStore.isAuthenticated"
+          to="/prefil"
+          class="botonRegistrarse ml-4 px-6 py-2 rounded-full font-bold text-[rgba(222,26,88,1)] bg-[rgba(244,179,66,1)] border-2 border-[rgba(222,26,88,1)] shadow-lg transition-all duration-500 focus:outline-none focus:shadow-[0_0_0_3px_rgba(222,26,88,0.33)]"
+        >
+          Usuario
         </router-link>
       </div>
 
@@ -99,6 +109,7 @@ const admin = ref(true)
             Juegos
           </router-link>
           <router-link
+            v-if="!userStore.isAuthenticated"
             to="/login"
             class="flex items-center gap-3 w-full font-bold py-3 px-4 rounded-xl text-white bg-[rgba(222,26,88,1)] hover:bg-pink-700 shadow transition"
             @click="menuAbierto = false"
@@ -117,6 +128,45 @@ const admin = ref(true)
               />
             </svg>
             Registrarse / Iniciar sesión
+          </router-link>
+          <router-link
+            v-if="userStore.isAuthenticated"
+            to="/prefil"
+            class="flex items-center gap-3 w-full font-bold py-3 px-4 rounded-xl text-white bg-[rgba(222,26,88,1)] hover:bg-pink-700 shadow transition"
+            @click="menuAbierto = false"
+          >
+            <svg
+              class="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m7.5 0v10.5A2.25 2.25 0 0113.5 21h-3a2.25 2.25 0 01-2.25-2.25V9m7.5 0H6.75"
+              />
+            </svg>
+            Username
+          </router-link>
+          <router-link
+            v-if="userStore.isAuthenticated"
+            to="/juegos"
+            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
+            @click="menuAbierto = false"
+          >
+            <svg
+              class="w-6 h-6 text-[rgba(222,26,88,1)]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12a6 6 0 0112 0" />
+            </svg>
+            Cerrar sesión
           </router-link>
         </div>
       </transition>
