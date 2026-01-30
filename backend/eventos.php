@@ -9,16 +9,16 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 
-define('SERVIDOR', 'localhost');
+define('SERVIDOR', 'mysql');
 define('BBDD', 'gamefest');
 define('USUARIO', 'root');
-define('CLAVE', '12345');
+define('CLAVE', 'pass');
 
 /* require_once 'funciones.php'; */
 
-$conexion = new mysqli(SERVIDOR, USUARIO, null, BBDD);
+$conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
 $conexion->set_charset('utf8mb4');
-
+$conexion->query("SET NAMES utf8mb4");
 
 //Leer datos
 $pagina = isset($_GET['pagina']) && is_numeric($_GET['pagina'])
@@ -88,7 +88,7 @@ echo json_encode([
     "eventos" => $eventos,
     "totalPaginas" => $totalPaginas,
     "tipos" => $tipos
-]);
+], JSON_UNESCAPED_UNICODE);
 
 
 
