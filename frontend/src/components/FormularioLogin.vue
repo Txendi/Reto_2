@@ -15,30 +15,21 @@ async function login() {
         password: contraUsuario.value,
       }),
     })
-    // 1. Leemos la respuesta como texto una sola vez para evitar el SyntaxError
-    const text = await response.text()
-    let data
-    try {
-      // 2. Intentamos convertir ese texto a JSON
-      data = JSON.parse(text)
-    } catch (e) {
-      console.error('Servidor no envió JSON:', text)
-      error.value = 'Error en el formato de respuesta del servidor.'
-      return
-    }
+  
+        // Leemos el JSON una sola vez
+    const data = await response.json();
 
     // 3. Procesamos la lógica con el objeto 'data' ya obtenido
     if (response.ok && data.status === 'ok') {
       console.log('✅ Login correcto:', data)
       mensaje.value = data.debug || 'Login correcto'
+      error.value = ''
       nombreUsuario.value = ''
       contraUsuario.value = ''
     } else {
-      //TODO SI HAY ALGUNA CREDENCIA INCORRECTA DEVUELVE ERROR
-      /*
-      console.error('❌ Error registro:', data)
-      error.value = data.debug || 'Error al registrar'
-      */
+      // Accedemos al mensaje de error dentro del JSON que enviamos desde PHP
+      console.log("Las credenciales no son correctas")
+     
     }
   } catch (err) {
     console.error('❌ Error conexión:', err)

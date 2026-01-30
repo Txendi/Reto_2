@@ -1,15 +1,17 @@
 <?php
 
-// 2. Cabeceras CORS completas
+// Cabeceras CORS completas
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header('Content-Type: application/json; charset=utf-8');
+
 define('SERVIDOR', 'mysql');
 define('BBDD', 'gamefest');
 define('USUARIO', 'root');
 define('CLAVE', 'pass');
-// 3. Manejo mejorado del preflight
+
+// Manejo del preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(200);
   exit;
@@ -22,7 +24,7 @@ if ($conexion->connect_error) {
   http_response_code(500);
   echo json_encode([
     "status" => "error",
-    "debug" => "Error conexión BD"
+    "debug" => "Error conexion BD"
   ]);
   exit;
 }
@@ -37,7 +39,7 @@ $errores = [];
 
 // Validaciones
 if ($usuario === '' || $email === '' || $password === '') {
-  $errores[] = "Campos obligatorios vacíos";
+  $errores[] = "Campos obligatorios vacios";
 }
 
 if (!preg_match('/^[a-z0-9]{3,50}$/i', $usuario)) {
@@ -49,14 +51,14 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 if (strlen($password) < 6) {
-  $errores[] = "Contraseña demasiado corta";
+  $errores[] = "Contrasena demasiado corta";
 }
 
 if (!empty($errores)) {
   http_response_code(400);
   echo json_encode([
     "status" => "error",
-    "debug" => "Validación fallida",
+    "debug" => "Validacion fallida",
     "errors" => $errores
   ]);
   exit;
@@ -84,21 +86,33 @@ $hash = password_hash($password, PASSWORD_BCRYPT);
 
 // Insert
 $stmt = $conexion->prepare("
-  INSERT INTO users (username, email, password_hash, role)
-  VALUES (?, ?, ?, 'USER')
-");
+  INSERT INTO users (username, email, password_hash, role, created_at)
+  VALUES (?, ?, ?, 'USER', NOW())");
 $stmt->bind_param("sss", $usuario, $email, $hash);
 
 if ($stmt->execute()) {
-  echo json_encode([
-    "status" => "ok",
-    "debug" => "Usuario insertado correctamente",
-    "data" => [
+  $respuesta = [
+    "status" => "success",
+    "nuevoUsuario" => [
       "id" => $stmt->insert_id,
       "username" => $usuario,
-      "email" => $email
-    ]
-  ]);
+      "email" => $email,
+      "contra"=>$password,
+      "role" => "USER"
+    ],
+    "listaUsuarios" => []
+  ];
+  
+
+$result = $conexion->query("SELECT id, username, email, password_hash as contra, role FROM users ORDER BY id");
+  if ($result) {
+    while ($row = $result->fetch_assoc()) {
+      $respuesta["listaUsuarios"][] = $row;
+    }
+  }
+  
+  echo json_encode($respuesta);
+
 } else {
   http_response_code(500);
   echo json_encode([

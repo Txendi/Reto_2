@@ -1,17 +1,28 @@
 <script setup>
 import { ref } from 'vue'
+import { useUserStore } from '../stores/userStore'
+
 const nombreUsuario = ref('')
 const contraUsuario = ref('')
 const emailUsuario = ref('')
-const mensaje = ref('')
+const idUsuario = ref('')
+const rolUsuario = ref('')
+
 const error = ref('')
+
+
+async function registrarUsuario(id, username, email, rol) {
+  const userStore = useUserStore();
+  userStore.user = { id: id, username: username, email: email, rol: rol };
+  userStore.status = "authenticated";
+}
+
 
 function validarEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
 async function registrar() {
-  mensaje.value = ''
   error.value = ''
 
   if (!validarEmail(emailUsuario.value)) {
@@ -30,36 +41,41 @@ async function registrar() {
       }),
     })
 
-    // 1. Leemos la respuesta como texto una sola vez para evitar el SyntaxError
-    const text = await response.text();
-    let data;
+    // Leemos el JSON una sola vez
+    const data = await response.json();
 
-    try {
-      // 2. Intentamos convertir ese texto a JSON
-      data = JSON.parse(text);
-    } catch (e) {
-      console.error("Servidor no envió JSON:", text);
-      error.value = "Error en el formato de respuesta del servidor.";
-      return; 
+    if (!response.ok) {
+      // Si el PHP devolvió un error (400, 409, 500), lo mostramos
+      error.value = data.debug || "Error en el servidor";
+      if (data.errors && data.errors.length > 0) {
+        error.value += ': ' + data.errors.join(', ');
+      }
+      return;
     }
 
-    // 3. Procesamos la lógica con el objeto 'data' ya obtenido
-    if (response.ok && data.status === 'ok') {
-      console.log('✅ Registro correcto:', data)
-      mensaje.value = data.debug || 'Usuario registrado'
-      nombreUsuario.value = ''
-      contraUsuario.value = ''
-      emailUsuario.value = ''
-    } else {
-      console.error('❌ Error registro:', data)
-      error.value = data.debug || 'Error al registrar'
-    }
+    // Si todo fue bien, procesamos los datos
+    console.log("=== REGISTRO EXITOSO ===");
+    console.log("Nuevo usuario:", data.nuevoUsuario);
+    console.log("=== LISTA DE USUARIOS ===");
+    console.table(data.listaUsuarios);
+
+    // Guardamos los datos del usuario
+    const usuario = data.nuevoUsuario;
+    idUsuario.value = usuario.id;
+    nombreUsuario.value = usuario.username;
+    contraUsuario.value= usuario.contra;
+    emailUsuario.value = usuario.email;
+    rolUsuario.value = usuario.role;
+
+    // Registramos en el store
+    registrarUsuario(usuario.id, usuario.username,usuario.contra, usuario.email, usuario.role);
 
   } catch (err) {
-    console.error('❌ Error conexión:', err)
-    error.value = 'Error de conexión con el servidor'
+    console.error('❌ Error conexión:', err);
+    error.value = 'Error de conexión con el servidor';
   }
 }
+
 </script>
 
 <template>
@@ -67,6 +83,10 @@ async function registrar() {
     class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 -mt-8 flex flex-col gap-6 backdrop-blur"
     method="GET"
   >
+    <div v-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+      {{ error }}
+    </div>
+
     <div>
       <label for="usuario" class="block text-gray-700 font-semibold mb-2">Usuario</label>
       <input
@@ -107,8 +127,6 @@ async function registrar() {
       Registrarse
     </button>
 
-    <p v-if="mensaje" class="text-green-600 text-center font-bold">{{ mensaje }}</p>
-    <p v-if="error" class="text-red-600 text-center font-bold">{{ error }}</p>
   </form>
 </template>
 
