@@ -27,6 +27,8 @@ CREATE TABLE users (
 INSERT INTO users (id, username, email, password_hash, role) VALUES
 (1, 'admin', 'admin@gamefest.local', '$2b$10$REEMPLAZA_ESTE_HASH_CON_BCRYPT_REAL', 'ADMIN'),
 (2, 'alumno', 'alumno@gamefest.local', '$2b$10$REEMPLAZA_ESTE_HASH_CON_BCRYPT_REAL', 'USER');
+(1, 'admin', 'admin@gamefest.local', 'pass', 'ADMIN'),
+(2, 'user', 'user@gamefest.local', 'pass', 'USER');
 
 -- =========================
 -- GAMES

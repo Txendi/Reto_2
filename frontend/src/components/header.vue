@@ -1,4 +1,3 @@
-
 <script setup>
 import { ref } from 'vue'
 const menuAbierto = ref(false)
@@ -29,7 +28,7 @@ const admin = ref(true)
         <router-link
           to="/nuevoEvento"
           class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
-          >Crear evento
+          >Nuevo evento
         </router-link>
         <router-link
           to="/login"
