@@ -3,13 +3,20 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: null,              // datos del usuario (o null)
+    user: {
+      id:null,
+      email:null,
+      username:null,
+      rol:null,
+    }
+    ,             // datos del usuario (o null)
     status: 'unknown',       // 'unknown' | 'authenticated' | 'guest'
   }),
 
   getters: {
     isAuthenticated: (state) => state.status === 'authenticated',
     isAdmin: (state) => state.user?.role === 'admin',
+    username: (state) => state.user?.username || '',
   },
 
   actions: {
@@ -20,7 +27,19 @@ export const useUserStore = defineStore('user', {
           isAdmin: this.isAdmin,
         }
       }
+    },
+    
+    login(userData) {
+      this.user = userData
+      this.status = 'authenticated'
+    },
+
+    logout() {
+      this.user = null
+      this.status = 'guest'
     }
+  },
+    
   }
 )
 

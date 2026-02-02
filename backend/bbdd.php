@@ -77,7 +77,7 @@
         print $resultado->fetch_all(MYSQLI_ASSOC )/9;
         $resultado->free();
 
-    }else if($action === "registrarse"){
+    }else if($action === "registrar"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contrasena']}, USER, now())";
          $conexion->query($query);
     }else if($action === "logearse"){
