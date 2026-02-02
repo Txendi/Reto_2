@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Desactivar visualización de errores de texto para no romper el JSON
 error_reporting(0);
 ini_set('display_errors', 0);
@@ -38,27 +39,34 @@ try {
     if ($usuario === '' || $contrasena === '') {
         $errores[] = "Campos obligatorios vacíos";
     } else {
-        $stmt = $conexion->prepare("SELECT username, password_hash FROM users WHERE username = ?");
+        $stmt = $conexion->prepare("SELECT id, username, password_hash FROM users WHERE username = ?");
         $stmt->bind_param("s", $usuario);
         $stmt->execute();
         $stmt->store_result();
-        
+
         // Importante: Vincular antes del fetch
-        $stmt->bind_result($nombreBD, $hashBD);
+        $stmt->bind_result($idBD, $nombreBD, $hashBD);
 
         if ($stmt->fetch()) {
             // Verificamos si el hash existe y es válido
             if (empty($hashBD) || !password_verify($contrasena, $hashBD)) {
                 $errores[] = "La contraseña no es correcta";
             } else {
+                // Login exitoso - crear sesión
+                $_SESSION["id"] = $idBD;
+                $_SESSION["username"] = $nombreBD;
+
                 echo json_encode([
                     "status" => "ok",
                     "debug" => "Login exitoso",
-                    "usuario" => $nombreBD
+                    "usuarioLogeado" => [
+                        "id" => $idBD,
+                        "username" => $nombreBD
+                    ]
                 ]);
                 $stmt->close();
                 $conexion->close();
-                exit; 
+                exit;
             }
         } else {
             $errores[] = "Usuario no encontrado";
@@ -74,7 +82,6 @@ try {
             "errors" => $errores
         ]);
     }
-
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
@@ -84,4 +91,3 @@ try {
 }
 
 $conexion->close();
-?>

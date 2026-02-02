@@ -5,8 +5,6 @@ import { useUserStore } from '../stores/userStore'
 const nombreUsuario = ref('')
 const contraUsuario = ref('')
 const emailUsuario = ref('')
-const idUsuario = ref('')
-const rolUsuario = ref('')
 
 const error = ref('')
 
@@ -61,11 +59,7 @@ async function registrar() {
 
     // Guardamos los datos del usuario
     const usuario = data.nuevoUsuario;
-    idUsuario.value = usuario.id;
-    nombreUsuario.value = usuario.username;
-    contraUsuario.value= usuario.contra;
-    emailUsuario.value = usuario.email;
-    rolUsuario.value = usuario.role;
+ 
 
     // Registramos en el store
     registrarUsuario(usuario.id, usuario.username,usuario.contra, usuario.email, usuario.role);

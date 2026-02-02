@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Cabeceras CORS completas
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
@@ -91,28 +91,32 @@ $stmt = $conexion->prepare("
 $stmt->bind_param("sss", $usuario, $email, $hash);
 
 if ($stmt->execute()) {
+  $_SESSION["id"]       = $stmt->insert_id;
+  $_SESSION["username"] = $usuario;
+  $_SESSION["email"]    = $email;
+  $_SESSION["role"]     = "USER";
+
   $respuesta = [
     "status" => "success",
     "nuevoUsuario" => [
-      "id" => $stmt->insert_id,
-      "username" => $usuario,
-      "email" => $email,
-      "contra"=>$password,
-      "role" => "USER"
+      $_SESSION["id"] => $stmt->insert_id,
+      "id"       => $_SESSION["id"],
+      "username" => $_SESSION["username"],
+      "email"    => $_SESSION["email"],
+      "role"     => $_SESSION["role"]
     ],
     "listaUsuarios" => []
   ];
-  
 
-$result = $conexion->query("SELECT id, username, email, password_hash as contra, role FROM users ORDER BY id");
+
+  $result = $conexion->query("SELECT id, username, email, password_hash as contra, role FROM users ORDER BY id");
   if ($result) {
     while ($row = $result->fetch_assoc()) {
       $respuesta["listaUsuarios"][] = $row;
     }
   }
-  
-  echo json_encode($respuesta);
 
+  echo json_encode($respuesta);
 } else {
   http_response_code(500);
   echo json_encode([
