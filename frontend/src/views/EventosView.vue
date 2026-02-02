@@ -186,7 +186,6 @@ const cambiarPagina = (numPagina) => {
             <div v-if="eventoActivo" class="fixed inset-0 z-50 flex items-center justify-center"
                 @click="eventoActivo = null">
                 <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
-                    <!-- <button class="absolute top-3 right-3 text-xl" @click="eventoActivo = null">❌</button>-->
                     <h2 class="text-2xl font-bold mb-4">
                         {{ eventoActivo.titulo }}
                     </h2>
