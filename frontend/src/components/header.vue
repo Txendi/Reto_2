@@ -8,10 +8,10 @@ const admin = ref(true)
 <template>
   <header>
     <nav
-      class="contenedorPrincipal flex items-center justify-between px-8 py-3 shadow-lg rounded-b-2xl relative"
+      class="contenedorPrincipal h-20 flex items-center justify-between px-8 shadow-lg rounded-b-2xl relative"
     >
       <div class="flex items-center space-x-4">
-        <p class="text-2xl font-extrabold text-white drop-shadow-lg">Placeholder Logo</p>
+        <img src="../img/logo.png" class="size-45 h-auto" alt="logo Elofest">
       </div>
 
       <div class="hidden md:flex items-center space-x-8">

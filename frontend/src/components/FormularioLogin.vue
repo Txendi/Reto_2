@@ -28,7 +28,8 @@ async function login() {
       contraUsuario.value = ''
     } else {
       // Accedemos al mensaje de error dentro del JSON que enviamos desde PHP
-      console.log("Las credenciales no son correctas")
+      console.log(data.debug)
+      
      
     }
   } catch (err) {
