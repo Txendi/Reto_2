@@ -13,6 +13,7 @@ RewriteRule ^auth/login$ bbdd.php [NC,L]
 RewriteRule ^games/(\w+)$ juegos.php?q=$1 [NC,L]
 
 RewriteRule ^events/?$ eventos.php [NC,L]
+RewriteRule ^events/tipos/?$ eventos_tipos.php [NC,L]
 
 #RewriteRule ^events(?:\/?page=(\d+))?$ eventos.php [NC,L]
 

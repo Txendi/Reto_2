@@ -2,11 +2,11 @@
 header('Content-Type: application/json; charset=utf-8');
 header("Access-Control-Allow-Origin: *");
 
-/* error_reporting(0);
-ini_set('display_errors', 0); */
+error_reporting(0);
+ini_set('display_errors', 0);
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+/* error_reporting(E_ALL);
+ini_set('display_errors', 1); */
 
 
 define('SERVIDOR', 'mysql');
@@ -32,13 +32,6 @@ $plazas = $_GET['plazas'] ?? '';
 $porPagina = 9;
 $eventosPagina = $pagina * $porPagina;
 
-
-//Obtener tipos para Select
-
-$sqlTipos = "SELECT DISTINCT tipo FROM events ORDER BY tipo";
-$resTipos = $conexion->query($sqlTipos);
-$tipos = array_column($resTipos->fetch_all(MYSQLI_ASSOC), 'tipo');
-$resTipos->free();
 
 //SQL eventos
 
@@ -74,7 +67,7 @@ $totalPaginas = ceil($totalEventos / $porPagina);
 $resTotal->free();
 
 // ==============================
-// 6️⃣ Paginación
+//  Paginación
 // ==============================
 $sqlEventos .= " LIMIT $porPagina OFFSET $eventosPagina";
 $resEventos = $conexion->query($sqlEventos);
@@ -82,12 +75,11 @@ $eventos = $resEventos->fetch_all(MYSQLI_ASSOC);
 $resEventos->free();
 
 // ==============================
-// 7️⃣ Respuesta final
+//  Respuesta final
 // ==============================
 echo json_encode([
     "eventos" => $eventos,
     "totalPaginas" => $totalPaginas,
-    "tipos" => $tipos
 ], JSON_UNESCAPED_UNICODE);
 
 

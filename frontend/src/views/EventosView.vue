@@ -25,7 +25,7 @@ const cargarEventos = async () => {
             params.append('tipo', tipoSeleccionado.value)
         }
 
-        if(fechaSeleccionada.value){
+        if (fechaSeleccionada.value) {
             params.append('fecha', fechaSeleccionada.value)
         }
 
@@ -42,13 +42,21 @@ const cargarEventos = async () => {
 
         eventos.value = data.eventos
         totalPaginas.value = data.totalPaginas
-        tipos.value = data.tipos
 
     } catch (e) {
         error.value = 'No se han podido cargar los eventos'
     } finally {
         cargando.value = false
     }
+}
+
+
+const cargarTipos = async () => {
+
+    const respuesta = await fetch(`http://localhost/events/tipos`)
+
+    tipos.value=await respuesta.json();
+
 }
 
 
@@ -68,11 +76,11 @@ watch(soloConPlazas, async () => {
     await cargarEventos()
 })
 
-watch(eventoActivo,(nuevoValor)=>{
-    if(nuevoValor){
-        document.body.style.overflow='hidden'
-    }else{
-        document.body.style.overflow=''
+watch(eventoActivo, (nuevoValor) => {
+    if (nuevoValor) {
+        document.body.style.overflow = 'hidden'
+    } else {
+        document.body.style.overflow = ''
     }
 })
 
@@ -80,6 +88,7 @@ watch(eventoActivo,(nuevoValor)=>{
 
 onMounted(() => {
     cargarEventos()
+    cargarTipos()
 })
 
 const cambiarPagina = (numPagina) => {
@@ -95,7 +104,8 @@ const cambiarPagina = (numPagina) => {
         <h1 class="text-3xl text-white font-bold mb-5">Lista de Eventos</h1>
 
         <div class="flex flex-col sm:flex-row">
-            <select v-model="tipoSeleccionado" class="text-black mb-5 p-2 border-2 rounded-xl w-4xs sm:w-2/7 md:w-2/6 lg:w-2/5">
+            <select v-model="tipoSeleccionado"
+                class="text-black mb-5 p-2 border-2 rounded-xl w-4xs sm:w-2/7 md:w-2/6 lg:w-2/5">
 
                 <option value="">Tipos</option>
 
@@ -108,9 +118,7 @@ const cambiarPagina = (numPagina) => {
             <input type="date" class="text-black mb-5 p-2 border-2 rounded-xl sm:mx-3" v-model="fechaSeleccionada">
 
             <label class="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox"
-                v-model="soloConPlazas"
-                class="w-4 h-4">
+                <input type="checkbox" v-model="soloConPlazas" class="w-4 h-4">
 
                 <span class="text-white">Solo con plazas disponibles</span>
             </label>
@@ -175,9 +183,8 @@ const cambiarPagina = (numPagina) => {
         </Transition>
 
         <Transition name="fade">
-            <div v-if="eventoActivo" 
-            class="fixed inset-0 z-50 flex items-center justify-center"
-            @click="eventoActivo=null">
+            <div v-if="eventoActivo" class="fixed inset-0 z-50 flex items-center justify-center"
+                @click="eventoActivo = null">
                 <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
                     <!-- <button class="absolute top-3 right-3 text-xl" @click="eventoActivo = null">❌</button>-->
                     <h2 class="text-2xl font-bold mb-4">
@@ -201,7 +208,7 @@ const cambiarPagina = (numPagina) => {
                     </p>
 
                     <p class="text-gray-700">
-                         <strong>Descripcion:</strong>
+                        <strong>Descripcion:</strong>
                         {{ eventoActivo.descripcion }}
                     </p>
                 </div>
