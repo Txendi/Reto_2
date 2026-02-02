@@ -7,16 +7,13 @@ RewriteEngine On
 RewriteRule ^auth/register$ bbdd.php?action=registrar [NC,L]
 RewriteRule ^auth/login$ bbdd.php [NC,L]
 
-# Si es un número después de /games/, es un ID
 RewriteRule ^games/([0-9]+)$ juegos.php?id=$1 [NC,L]
 
-# Si es solo /games, es el listado (que puede llevar su ?q=...)
 RewriteRule ^games/?$ juegos.php [NC,L]
 
-RewriteRule ^events$ bbdd.php [NC,L]
-RewriteRule ^events/(\d+)$ bbdd.php [NC,L]
-RewriteRule ^users/me/events$ bbdd.php [NC,L]
-RewriteRule ^events/(\d+)/signup$ bbdd.php [NC,L]
+
+RewriteRule ^events/?$ eventos.php [NC,L]
+RewriteRule ^events/tipos/?$ eventos_tipos.php [NC,L]
 
 RewriteRule ^/?deuda/?$ principal.php [NC,L]
 RewriteRule ^/?deuda/(\d+)/?$ principal.php?com=$1 [NC,L]

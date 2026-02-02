@@ -23,7 +23,7 @@ $id = $_GET['id'] ?? '';
 if ($id && is_numeric($id)) {
     $sql = "SELECT * FROM games WHERE id = ?";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("i", $id); // i para que sea un entero (integer)  
+    $stmt->bind_param("i", $id);
     $stmt->execute();
     $juego = $stmt->get_result()->fetch_assoc(); // devuelve solo el juego esperado, para eso el fetch assoc
 
@@ -53,8 +53,6 @@ if ($id && is_numeric($id)) {
     foreach ($lista as &$j) {
         $j['plataformas'] = json_decode($j['plataformas']);
     }
-
     echo json_encode($lista, JSON_UNESCAPED_UNICODE);
-
 }
 ?>
