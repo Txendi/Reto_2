@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, watch, reactive } from 'vue'
-
+import { useUserStore } from '../stores/userStore';
+  const userStore = useUserStore();
+  console.log(userStore.user.id ?? '')
 //-> Es como que se ejecuta de nuevo (se monta encima del componente)
 //-> Reacciona a los cambios de la variable
 

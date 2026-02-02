@@ -22,8 +22,7 @@ async function prueba(){
 <template>
   <div class="contenedorPadre relative min-h-screen flex flex-col overflow-hidden">
     <headerHecho class="relative z-20" />
-    <button @click="prueba">Hola</button>
-    <div class="relative flex-1 flex items-stretch z-10">
+    <div class="relative flex-1 flex items-stretch z-10 h-full">
       <video
         autoplay
         muted
