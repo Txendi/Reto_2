@@ -1,6 +1,18 @@
 //import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
+function getCookie(cname) {
+  var name = cname + "="; //Crea una variable con el texto del campo y un  igual
+  var ca = document.cookie.split(';'); //divide la cookie en trozos separados  por ;
+  for(let i=0; i<ca.length; i++) { //Recorre cada trozo de la cookie  
+    let c = ca[i].trim(); //Extraemos la cookie y eliminamos el espacio inicial
+    if (c.indexOf(name) == 0) //Si encuentra el campo buscado
+      return c.substring(name.length,c.length); //Lo devuelve
+    }
+  return ""; //Si no devuelve vacío
+}
+
+
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,              // datos del usuario (o null)
@@ -15,30 +27,12 @@ export const useUserStore = defineStore('user', {
   actions: {
     async fetchAuthState() {
       //Evita repetir llamadas si ya sabemos el estado
-      if (this.status !== 'unknown') {
         return {
           isAuthenticated: this.isAuthenticated,
           isAdmin: this.isAdmin,
         }
-      } else {
-          let name = "usuario=";
-          let ca = document.cookie.split(';');
-          for(let i = 0; i <ca.length; i++) {
-            let c = ca[i].trim();
-            
-            if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-            }
-          }
-      }
-      try {
-        const res = await fetch("http://localhost/user");
-        res
-      }catch(e){
-        console.log(e);
       }
     }
   }
-}
 )
 
