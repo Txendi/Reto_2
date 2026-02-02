@@ -11,4 +11,3 @@ RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
 COPY .htaccess /var/www/html
 COPY *.php /var/www/html
-

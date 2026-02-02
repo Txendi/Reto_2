@@ -6,60 +6,88 @@
     define('USUARIO', 'root');
     define('CLAVE', 'pass');
 
-    require_once 'funciones.php';
+error_reporting(0);
+ini_set('display_errors', 0);
 
     $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
     $conexion->set_charset('utf8mb4');
 
-    // Leer el body
-    $input = file_get_contents('php://input');
 
-    // Convertir JSON → array PHP
-    $data = json_decode($input, true);
+define('SERVIDOR', 'mysql');
+define('BBDD', 'gamefest');
+define('USUARIO', 'root');
+define('CLAVE', 'pass');
 
-    // Usar los datos
-    $tipo = $data['tipo'] ?? null;
-    $fecha   = $data['fecha'] ?? null; 
-    $plazasLibres   = $data['plazasLibres'] ?? null; 
+/* require_once 'funciones.php'; */
 
-    $sql = "SELECT * FROM usuarios WHERE 1=1";
-    $params = [];
-    $types  = "";
+$conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
+$conexion->set_charset('utf8mb4');
+$conexion->query("SET NAMES utf8mb4");
 
-    // Filtro tipo
-    if (!empty($tipo)) {
-    $sql .= " AND nombre LIKE ";
-    $params[] = "%" . $_POST['tipo'] . "%";
-    $types .= "s";
-    }
+//Leer datos
+$pagina = isset($_GET['pagina']) && is_numeric($_GET['pagina'])
+    ? (int) $_GET['pagina']
+    : 0;
 
-    // Filtro email
-    if (!empty($_POST['fecha'])) {
-    $sql .= " AND fecha = ?";
-    $params[] = $_POST['fecha'];
-    $types .= "s";
-    }
+$tipo = $_GET['tipo'] ?? '';
+$fecha = $_GET['fecha'] ?? '';
+$plazas = $_GET['plazas'] ?? '';
 
-    // Filtro edad
-    if (!empty($_POST['plazasLibres'])) {
-    $sql .= " AND plazasLibres = ?";
-    $params[] = $_POST['plazasLibres'];
-    $types .= "i";
-    }
+$porPagina = 9;
+$eventosPagina = $pagina * $porPagina;
 
-    $stmt = $conn->prepare($sql);
 
-    if ($params) {
-    $stmt->bind_param($types, ...$params);
-    }
+//SQL eventos
 
-    $stmt->execute();
-    $result = $stmt->get_result();
+$sqlEventos = "SELECT * FROM events WHERE 1=1";
+$sqlTotal   = "SELECT COUNT(*) AS total FROM events WHERE 1=1";
 
-    $eventos = $result->fetch_all(MYSQLI_ASSOC);
-    $array = filter_eventos( $eventos,  $_GET["tipo"] ?? "",  $_GET["fecha"] ?? "",  $_GET["plazas"] ?? "");
-    print json_encode([ceil(count($array)/9), array_slice($array, $_GET["pagina"] *9, 9)]);
-    $resultado->free();
+//Filtros de tipos, fecha y plazas
 
-    $conexion->close();
-?>
+if ($tipo !== '') {
+    $tipoEleg = $conexion->real_escape_string($tipo);
+    $sqlEventos .= " AND tipo = '$tipoEleg'";
+    $sqlTotal .= " AND tipo = '$tipoEleg'";
+}
+
+if ($fecha !== '') {
+    $fechaEleg = $conexion->real_escape_string($fecha);
+    $sqlEventos .= " AND fecha = '$fechaEleg'";
+    $sqlTotal .= " AND fecha = '$fechaEleg'";
+}
+
+if ($plazas === '1') {
+    $sqlEventos .= " AND plazasLibres > 0";
+    $sqlTotal .= " AND plazasLibres > 0";
+}
+
+
+//Total de paginas existentes
+
+$resTotal = $conexion->query($sqlTotal);
+$fila = $resTotal->fetch_assoc();
+$totalEventos = (int) $fila['total'];
+$totalPaginas = ceil($totalEventos / $porPagina);
+$resTotal->free();
+
+// ==============================
+//  Paginación
+// ==============================
+$sqlEventos .= " LIMIT $porPagina OFFSET $eventosPagina";
+$resEventos = $conexion->query($sqlEventos);
+$eventos = $resEventos->fetch_all(MYSQLI_ASSOC);
+$resEventos->free();
+
+// ==============================
+//  Respuesta final
+// ==============================
+echo json_encode([
+    "eventos" => $eventos,
+    "totalPaginas" => $totalPaginas,
+], JSON_UNESCAPED_UNICODE);
+
+
+
+
+
+$conexion->close();

@@ -1,6 +1,6 @@
 <script setup>
-import headerHecho from './components/Header.vue';
-import footerHecho from '../src/components/Footer.vue';
+import headerHecho from './components/Header.vue'
+import footerHecho from '../src/components/Footer.vue'
 import { useUserStore } from './stores/userStore';
 
 //import { RouterLink, RouterView } from 'vue-router'
