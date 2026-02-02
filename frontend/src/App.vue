@@ -1,7 +1,21 @@
 <script setup>
-import headerHecho from './components/Header.vue'
-import footerHecho from '../src/components/Footer.vue'
+import headerHecho from './components/Header.vue';
+import footerHecho from '../src/components/Footer.vue';
+import { useUserStore } from './stores/userStore';
+
 //import { RouterLink, RouterView } from 'vue-router'
+
+async function prueba(){
+
+  const userStore = useUserStore();
+  console.log(userStore.isAuthenticated);
+  console.log(userStore.isAdmin);
+  userStore.user = {role: "admin", id: 2, user: 21332, email: "asereje"};
+  userStore.status = "authenticated";
+  console.log(userStore.isAuthenticated);
+  console.log(userStore.isAdmin);
+
+}
 
 </script>
 

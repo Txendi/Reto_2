@@ -10,14 +10,21 @@ RewriteRule ^auth/register$ registro.php [L]
 RewriteRule ^auth/login$ login.php [L]
 
 
-RewriteRule ^\/auth\/login$ bbdd.php
-RewriteRule ^\/auth\/games$ bbdd.php?action=listaEventos
-RewriteRule ^\/auth\/games/(\d+)$ bbdd.php
-RewriteRule ^\/auth\/events(?:\/?page=(\d+))?$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)$ bbdd.php
-RewriteRule ^\/auth\/users\/me\/events$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)\/singup$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)\/singup$ bbdd.php
+RewriteRule ^auth/register$ bbdd.php?action=registrar [NC,L]
+RewriteRule ^auth/login$ bbdd.php [NC,L]
+
+RewriteRule ^games/?(\w+)$ juegos.php?q=$1 [NC,L]
+RewriteRule ^games/?$ juegos.php?q= [NC,L]
+
+RewriteRule ^games/(\d+)$ bbdd.php [NC,L]
+
+RewriteRule ^events(?:\/?page=(\d+))?$ bbdd.php [NC,L]
+
+RewriteRule ^events/(\d+)$ bbdd.php [NC,L]
+RewriteRule ^users/me/events$ bbdd.php [NC,L]
+RewriteRule ^user/(\w+)$ usuario.php?id=$1 [NC,L]
+RewriteRule ^events/(\d+)/singup$ bbdd.php [NC,L]
+# RewriteRule ^/events/(\d+)/singup$ bbdd.php
 
 RewriteRule ^/?deuda/?$ ./principal.php [NC,L]
 RewriteRule ^/?deuda/(\d+)/?$ ./principal.php?com=$1 [NC,L]
