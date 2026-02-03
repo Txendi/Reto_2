@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useUserStore } from '../stores/userStore'
+import { useUserStore } from '../stores/userStore.js'
 
 const nombreUsuario = ref('')
 const contraUsuario = ref('')
@@ -13,6 +13,7 @@ async function registrarUsuario(id, username, email, rol) {
   const userStore = useUserStore();
   userStore.user = { id: id, username: username, email: email, rol: rol };
   userStore.status = "authenticated";
+  
 }
 
 

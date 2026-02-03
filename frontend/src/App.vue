@@ -2,20 +2,24 @@
 import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
 import { useUserStore } from './stores/userStore';
+import { onMounted } from 'vue';
 
 //import { RouterLink, RouterView } from 'vue-router'
 
 async function prueba(){
 
   const userStore = useUserStore();
-  userStore.user.id
-  userStore.user = {role: "admin", id: 3, user: 21332};
+  console.log(userStore.isAuthenticated);
+  console.log(userStore.isAdmin);
+  userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
   userStore.status = "authenticated";
-  const { isAuthenticated, isAdmin } = await userStore.fetchAuthState();
-  console.log(isAuthenticated);
-   console.log(isAdmin);
+  console.log(userStore.isAuthenticated);
+  console.log(userStore.isAdmin);
 
 }
+onMounted(
+  prueba
+)
 
 </script>
 

@@ -1,15 +1,17 @@
 //import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
+
+
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: {
-      id:null,
-      email:null,
-      username:null,
-      rol:null,
-    }
-    ,             // datos del usuario (o null)
+    user: 
+    {
+      id: null,
+      email: null,
+      username: null,
+      rol: null
+    },              // datos del usuario (o null)
     status: 'unknown',       // 'unknown' | 'authenticated' | 'guest'
   }),
 
@@ -21,8 +23,7 @@ export const useUserStore = defineStore('user', {
 
   actions: {
     async fetchAuthState() {
-      // Evita repetir llamadas si ya sabemos el estado
-      if (this.status !== 'unknown') {
+      //Evita repetir llamadas si ya sabemos el estado
         return {
           isAuthenticated: this.isAuthenticated,
           isAdmin: this.isAdmin,
@@ -39,8 +40,6 @@ export const useUserStore = defineStore('user', {
       this.user = null
       this.status = 'guest'
     }
-  },
-    
   }
-)
 
+)

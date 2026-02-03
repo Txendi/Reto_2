@@ -12,47 +12,48 @@
         $result = [];
         $query = trim($query);
 
-        foreach ($juegos as $j) {
-            $j["plataformas"] = json_decode( $j["plataformas"]);
-            if ($query !== "") {
-                $inTitulo  = stripos($j["titulo"], $query);
-                $inGenero = stripos($j["genero"], $query);
-                $inPlataforma = false;
-                foreach($j["plataformas"] as $plat){
-                    $inPlataforma = stripos($plat, $query);
-                    if($inPlataforma !== false){
-                        break;
-                    }
-                }
-                if ($inTitulo === false && $inGenero === false && $inPlataforma === false) {
-                    continue;
+    foreach ($juegos as $j) {
+        $j["plataformas"] = json_decode($j["plataformas"]);
+        if ($query !== "") {
+            $inTitulo = stripos($j["titulo"], $query);
+            $inGenero = stripos($j["genero"], $query);
+            $inPlataforma = false;
+            foreach ($j["plataformas"] as $plat) {
+                $inPlataforma = stripos($plat, $query);
+                if ($inPlataforma !== false) {
+                    break;
                 }
             }
-            $result[] = $j;
+            if ($inTitulo === false && $inGenero === false && $inPlataforma === false) {
+                continue;
+            }
         }
-        return $result;
+        $result[] = $j;
     }
-    function filter_eventos(array $eventos, string $tipo, string $fecha, string $plazas): array {
-        $result = [];
-        foreach ($eventos as $e) {
-            if ($tipo !== "" && $e['tipo'] !== $tipo) {
-                continue;
-            }
-            if ($fecha !== "" && $e['fecha'] !== $fecha) {
-                continue;
-            }
-            if ($plazas !== "" && $e['plazas'] === 0) {
-                continue;
-            }
-            $result[] = $e;
+    return $result;
+}
+function filter_eventos(array $eventos, string $tipo, string $fecha, string $plazas): array
+{
+    $result = [];
+    foreach ($eventos as $e) {
+        if ($tipo !== "" && $e['tipo'] !== $tipo) {
+            continue;
         }
-        return $result;
+        if ($fecha !== "" && $e['fecha'] !== $fecha) {
+            continue;
+        }
+        if ($plazas !== "" && $e['plazas'] === 0) {
+            continue;
+        }
+        $result[] = $e;
     }
+    return $result;
+}
 
 
-    $action = $_GET["action"] ?? "";
+$action = $_GET["action"] ?? "";
 
-    if ($action === "listaJuegos") {
+if ($action === "listaJuegos") {
 
         $query = "SELECT * FROM games";
         $resultado = $conexion->query($query);
@@ -70,22 +71,14 @@
         // print json_encode($eventos);
         $resultado->free();
 
-        //filter_eventos();
-    }else if ($action === "numeroPaginas"){
-
-    $query = "SELECT COUNT(*) AS total FROM events";
+} else if ($action === "listaEventos") {
+    $query = "SELECT * FROM events";
     $resultado = $conexion->query($query);
-
-    $fila = $resultado->fetch_assoc();
-    $totalEventos = (int)$fila['total'];
-
-    $totalPaginas = ceil($totalEventos / 9);
-
-    echo json_encode($totalPaginas);
-
+    $eventos = $resultado->fetch_all(MYSQLI_ASSOC);
+    $array = filter_eventos($eventos, $_GET["tipo"] ?? "", $_GET["fecha"] ?? "", $_GET["plazas"] ?? "");
+    print json_encode([ceil(count($array) / 9), array_slice($array, $_GET["pagina"] * 9, 9)]);
+    // print json_encode($eventos);
     $resultado->free();
-
-
 
     }else if($action === "registrar"){
         $query = "INSERT INTO users VALUES ({$_GET['usuario']}, {$_GET['email']}, {$_GET['contrasena']}, USER, now())";
@@ -100,5 +93,5 @@
     // print json_encode($dato, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
 
-    $conexion->close();
+$conexion->close();
 ?>
