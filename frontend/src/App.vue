@@ -17,9 +17,9 @@ async function prueba(){
   console.log(userStore.isAdmin);
 
 }
-// onMounted(
-//   prueba
-// )
+onMounted(
+  prueba
+)
 
 </script>
 
