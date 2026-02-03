@@ -8,11 +8,10 @@ $conexion->set_charset('utf8mb4');
 $q = $_GET['q'] ?? '';
 $id = $_GET['id'] ?? '';
 
-if (($id && is_numeric($id)) || (is_numeric($q))) {
-    $realId = !empty($id) ? $id : $q;
+if (($id && is_numeric($id))) {
 
     $stmt = $conexion->prepare("SELECT * FROM games WHERE id = ?");
-    $stmt->bind_param("i", $realId);
+    $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
     $juego = $result->fetch_assoc();

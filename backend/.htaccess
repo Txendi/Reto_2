@@ -14,8 +14,8 @@ RewriteRule ^user/(\d+)$ eventosUsuario.php?id=$1  [NC,L]
 RewriteRule ^user/desapuntar$ desapuntarEvento.php  [NC,L]
 
 #JUEGOS
-RewriteRule ^games/(\w+)$ juegos.php?q=$1 [NC,L]
-RewriteRule ^games/(\d+)$ juegos.php?id=$1 [NC,L]
+RewriteRule ^games/(.+)$ juegos.php?q=$1 [NC,L]
+# RewriteRule ^games/(\d+)$ juegos.php?id=$1 [NC,L]
 RewriteRule ^games/?$ juegos.php?q= [NC,L]
 
 #EVENTOS

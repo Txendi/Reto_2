@@ -21,7 +21,8 @@ async function desapuntar(idEvento){
     if (!response.ok) {
       throw new Error('Error de HTTP: ' + response.status)
     }
-
+    let elem = data.array.find(elem => elem.id == idEvento);
+    data.array.splice(data.array.indexOf(elem), 1);
     } catch (e) {
     console.log(e)
   }
