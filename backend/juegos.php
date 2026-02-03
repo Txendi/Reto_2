@@ -5,10 +5,7 @@ header("Access-Control-Allow-Origin: *");
 $conexion = new mysqli('mysql', 'root', 'pass', 'gamefest');
 $conexion->set_charset('utf8mb4');
 
-$q = $_GET['q'] ?? '';
 $id = $_GET['id'] ?? '';
-
-if (($id && is_numeric($id))) {
 
     $stmt = $conexion->prepare("SELECT * FROM games WHERE id = ?");
     $stmt->bind_param("i", $id);
@@ -22,24 +19,5 @@ if (($id && is_numeric($id))) {
 
     echo json_encode($juego, JSON_UNESCAPED_UNICODE);
 
-} else {
-    $sql = "SELECT * FROM games WHERE 1=1";
-    if ($q) {
-        $sql .= " AND (titulo LIKE ? OR genero LIKE ? OR plataformas LIKE ?)";
-        $stmt = $conexion->prepare($sql);
-        $like = "%$q%";
-        $stmt->bind_param("sss", $like, $like, $like);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    } else {
-        $result = $conexion->query($sql);
-    }
 
-    $lista = [];
-    while ($fila = $result->fetch_assoc()) {
-        $fila['plataformas'] = json_decode($fila['plataformas']);
-        $lista[] = $fila;
-    }
-    echo json_encode($lista, JSON_UNESCAPED_UNICODE);
-}
 ?>

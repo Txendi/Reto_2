@@ -34,12 +34,14 @@ const fetchJuegos = async () => {
 
 const cargarDetalle = async (id) => {
   try {
-    const response = await fetch(`http://localhost/games/${id}`)
+    const response = await fetch(`http://localhost/game/${id}`)
     if (!response.ok) throw new Error('Error al cargar detalle')
 
     const data = await response.json()
 
     juegoActivo.value = Array.isArray(data) ? data[0] : data
+    console.log(data)
+    console.log(juegoActivo.value.id)
   } catch (e) {
     error.value = 'No se pudo cargar la información del juego'
   }
