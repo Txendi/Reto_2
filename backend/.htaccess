@@ -18,9 +18,6 @@ RewriteRule ^games/?$ juegos.php?q= [NC,L]
 
 RewriteRule ^games/(\d+)$ bbdd.php [NC,L]
 
-RewriteRule ^events(?:\/?page=(\d+))?$ bbdd.php [NC,L]
-
-RewriteRule ^events/(\d+)$ bbdd.php [NC,L]
 RewriteRule ^users/me/events$ bbdd.php [NC,L]
 RewriteRule ^user/(\w+)$ usuario.php?id=$1 [NC,L]
 RewriteRule ^events/(\d+)/singup$ bbdd.php [NC,L]
