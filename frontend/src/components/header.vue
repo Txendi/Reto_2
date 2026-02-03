@@ -3,7 +3,6 @@
 import { useUserStore } from '@/stores/userStore';
 import { ref } from 'vue'
 const menuAbierto = ref(false)
-const admin = ref(true)
 const userStore = useUserStore();
 </script>
 
@@ -29,7 +28,7 @@ const userStore = useUserStore();
           >Eventos
         </router-link>
         <router-link
-          v-if="admin"
+          v-if="userStore.isAdmin"
           to="/nuevoEvento"
           class="textoHeader text-white font-semibold text-lg relative transition-colors duration-300"
           >Nuevo evento
@@ -46,7 +45,7 @@ const userStore = useUserStore();
           to="/perfil"
           class="botonRegistrarse ml-4 px-6 py-2 rounded-full font-bold text-[rgba(222,26,88,1)] bg-[rgba(244,179,66,1)] border-2 border-[rgba(222,26,88,1)] shadow-lg transition-all duration-500 focus:outline-none focus:shadow-[0_0_0_3px_rgba(222,26,88,0.33)]"
         >
-          Usuario
+          {{ userStore.user.username }}
         </router-link>
       </div>
 
@@ -77,6 +76,23 @@ const userStore = useUserStore();
           class="absolute top-20 right-4 z-50 bg-white rounded-2xl shadow-2xl flex flex-col w-64 py-6 px-4 space-y-2 border border-pink-100 animate-fade-in"
         >
           <router-link
+            to="/juegos"
+            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
+            @click="menuAbierto = false"
+          >
+            <svg
+              class="w-6 h-6 text-[rgba(222,26,88,1)]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12a6 6 0 0112 0" />
+            </svg>
+            Juegos
+          </router-link>
+          <router-link
             to="/eventos"
             class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
             @click="menuAbierto = false"
@@ -93,7 +109,8 @@ const userStore = useUserStore();
             Eventos
           </router-link>
           <router-link
-            to="/juegos"
+            v-if="userStore.isAdmin"
+            to="/eventos"
             class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
             @click="menuAbierto = false"
           >
@@ -104,10 +121,9 @@ const userStore = useUserStore();
               stroke-width="2"
               viewBox="0 0 24 24"
             >
-              <circle cx="12" cy="12" r="4" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 12a6 6 0 0112 0" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h8m-4-4v8" />
             </svg>
-            Juegos
+            Nuevo evento
           </router-link>
           <router-link
             v-if="!userStore.isAuthenticated"
@@ -149,7 +165,7 @@ const userStore = useUserStore();
                 d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m7.5 0v10.5A2.25 2.25 0 0113.5 21h-3a2.25 2.25 0 01-2.25-2.25V9m7.5 0H6.75"
               />
             </svg>
-            Username
+            {{ userStore.user.username }}
           </router-link>
           <router-link
             v-if="userStore.isAuthenticated"
