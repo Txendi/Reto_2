@@ -24,7 +24,6 @@ const fetchJuegos = async () => {
 
     const data = await response.json()
 
-    // Aseguramos que juegos.array siempre reciba un array
     juegos.array = Array.isArray(data) ? data : [data]
   } catch (e) {
     error.value = 'No se han podido cargar los juegos'
@@ -35,11 +34,12 @@ const fetchJuegos = async () => {
 
 const cargarDetalle = async (id) => {
   try {
-    const response = await fetch(`http://localhost/games/${id}`) // Usamos el nuevo endpoint
+    const response = await fetch(`http://localhost/games/${id}`)
     if (!response.ok) throw new Error('Error al cargar detalle')
 
-    // Guardamos el resultado de la base de datos en el modal
-    juegoActivo.value = await response.json()
+    const data = await response.json()
+
+    juegoActivo.value = Array.isArray(data) ? data[0] : data
   } catch (e) {
     error.value = 'No se pudo cargar la información del juego'
   }
