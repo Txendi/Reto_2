@@ -27,7 +27,7 @@ const fetchJuegos = async () => {
     // Aseguramos que juegos.array siempre reciba un array
     juegos.array = Array.isArray(data) ? data : [data]
   } catch (e) {
-    error.value = 'No se han podido cargar los juegos'
+    console.log(e)
   } finally {
     cargando.value = false
   }
@@ -41,7 +41,7 @@ const cargarDetalle = async (id) => {
     // Guardamos el resultado de la base de datos en el modal
     juegoActivo.value = await response.json()
   } catch (e) {
-    error.value = 'No se pudo cargar la información del juego'
+    console.log(e)
   }
 }
 

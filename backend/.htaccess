@@ -4,15 +4,15 @@ Header set Access-Control-Allow-Methods "*"
 Header set Access-Control-Allow-Headers "*"
 
 #REGISTRO
-RewriteRule ^auth/login$ login.php [L]
+RewriteRule ^auth/login$ login.php [NC,L]
 
 #LOGIN
-RewriteRule ^auth/register$ registro.php [L]
+RewriteRule ^auth/register$ registro.php [NC,L]
 
 #JUEGOS
-RewriteRule ^games/?(\w+)$ juegos.php?q=$1 [NC,L]
-RewriteRule ^games/?$ juegos.php?q= [NC,L]
+RewriteRule ^games/(\w+)$ juegos.php?q=$1 [NC,L]
 RewriteRule ^games/(\d+)$ juegos.php?id=$1 [NC,L]
+RewriteRule ^games/?$ juegos.php?q= [NC,L]
 
 #EVENTOS
 RewriteRule ^events/?$ eventos.php [NC,L]
