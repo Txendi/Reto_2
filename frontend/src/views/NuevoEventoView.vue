@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router' // Importamos para poder redirigir
+import { useRouter } from 'vue-router'
 
-const router = useRouter() // Inicializamos el router
+const router = useRouter()
 
-// Referencias para el formulario
 const titulo = ref('')
 const descripcion = ref('')
 const fecha = ref('')
@@ -14,43 +13,44 @@ const tipo = ref('')
 const tipoPersonalizado = ref('')
 const imagen = ref(null)
 
-// Captura el archivo de imagen cuando el usuario lo selecciona
 const onImagenChange = (e) => {
   imagen.value = e.target.files[0]
 }
 
 const crearEvento = async () => {
-  // Usamos FormData para empaquetar archivos y texto
-  const formData = new FormData()
-  const tipoFinal = tipo.value === 'otro' ? tipoPersonalizado.value : tipo.value
-
-  formData.append('titulo', titulo.value)
-  formData.append('descripcion', descripcion.value)
-  formData.append('fecha', fecha.value)
-  formData.append('hora', hora.value)
-  formData.append('plazas', plazas.value)
-  formData.append('tipo', tipoFinal)
-
+  let imagenBase64 = null
   if (imagen.value) {
-    formData.append('imagen', imagen.value)
+    imagenBase64 = await new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result)
+      reader.readAsDataURL(imagen.value)
+    })
+  }
+
+  const datosEvento = {
+    titulo: titulo.value,
+    descripcion: descripcion.value,
+    fecha: fecha.value,
+    hora: hora.value,
+    plazas: plazas.value,
+    tipo: tipo.value === 'otro' ? tipoPersonalizado.value : tipo.value,
+    imagen: imagenBase64,
   }
 
   try {
     const response = await fetch('http://localhost/admin.php', {
       method: 'POST',
-      body: formData,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datosEvento),
     })
 
     const data = await response.json()
-
     if (data.ok) {
       alert('¡Evento creado con éxito!')
       router.push('/events')
-    } else {
-      alert('Error del servidor: ' + (data.error || 'Desconocido'))
     }
   } catch (error) {
-    alert('Fallo de red o servidor: ' + error.message)
+    alert('Error: ' + error.message)
   }
 }
 </script>
