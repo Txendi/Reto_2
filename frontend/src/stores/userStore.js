@@ -32,6 +32,7 @@ export const useUserStore = defineStore('user', {
       this.user.username = null
       this.user.rol = null
       this.status = 'unknown'
+      window.location.href = 'http://localhost:5173/login'
     },
   },
 

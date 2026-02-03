@@ -93,17 +93,17 @@ if ($stmt->execute()) {
   $_SESSION["username"] = $usuario;
   $_SESSION["email"]    = $email;
   $_SESSION["role"]     = "USER";
-
-  $respuesta = [
-    "status" => "success",
-    "nuevoUsuario" => [
-      $_SESSION["id"] => $stmt->insert_id,
-      "id"       => $_SESSION["id"],
-      "username" => $_SESSION["username"],
-      "email"    => $_SESSION["email"],
-      "role"     => $_SESSION["role"]
-    ],
-    "listaUsuarios" => []
+  $_SESSION["autenticado"] = true;
+ $respuesta = [
+        "status" => "success",
+        "nuevoUsuario" => [
+            "id"          => $_SESSION["id"],
+            "username"    => $_SESSION["username"],
+            "email"       => $_SESSION["email"],
+            "role"        => $_SESSION["role"],
+            "autenticado" => $_SESSION["autenticado"]
+        ],
+        "listaUsuarios" => []
   ];
 
 
