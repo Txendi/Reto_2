@@ -1,18 +1,15 @@
 //import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-
-
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: 
-    {
+    user: {
       id: null,
       email: null,
       username: null,
-      rol: null
-    },              // datos del usuario (o null)
-    status: 'unknown',       // 'unknown' | 'authenticated' | 'guest'
+      rol: null,
+    }, // datos del usuario (o null)
+    status: 'unknown', // 'unknown' | 'authenticated' | 'guest'
   }),
 
   getters: {
@@ -24,23 +21,18 @@ export const useUserStore = defineStore('user', {
   actions: {
     async fetchAuthState() {
       //Evita repetir llamadas si ya sabemos el estado
-        return {
-          isAuthenticated: this.isAuthenticated,
-          isAdmin: this.isAdmin,
-        }
+      return {
+        isAuthenticated: this.isAuthenticated,
+        isAdmin: this.isAdmin,
       }
     },
-    
-    login(userData) {
-      this.user = userData
-      this.status = 'authenticated'
-    },
-
     logout() {
-      this.user = null
-      this.status = 'guest'
-    }
-  }
+      this.user.id = null
+      this.user.email = null
+      this.user.username = null
+      this.user.rol = null
+      this.status = 'unknown'
+    },
+  },
 
-)
-
+})
