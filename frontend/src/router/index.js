@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import JuegosView from '../views/JuegosView.vue'
 import LoginView from'../views/LoginView.vue'
 import EventosView from '../views/EventosView.vue'
-
+import NuevoEventoView from '../views/NuevoEventoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_BASE_URL),
@@ -26,6 +26,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/nuevoEvento',
+      name: 'nuevoEvento',
+      component: NuevoEventoView
     }
   ]
 })

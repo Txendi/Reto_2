@@ -18,15 +18,25 @@ RewriteRule ^games/?$ juegos.php?q= [NC,L]
 
 RewriteRule ^games/(\d+)$ bbdd.php [NC,L]
 
-RewriteRule ^events(?:\/?page=(\d+))?$ bbdd.php [NC,L]
-
-RewriteRule ^events/(\d+)$ bbdd.php [NC,L]
 RewriteRule ^users/me/events$ bbdd.php [NC,L]
 RewriteRule ^user/(\w+)$ usuario.php?id=$1 [NC,L]
 RewriteRule ^events/(\d+)/singup$ bbdd.php [NC,L]
 # RewriteRule ^/events/(\d+)/singup$ bbdd.php
 
-RewriteRule ^/?deuda/?$ ./principal.php [NC,L]
-RewriteRule ^/?deuda/(\d+)/?$ ./principal.php?com=$1 [NC,L]
-RewriteRule ^/?deuda/(\d+)/(\d+)/?$  ./principal.php?com=$1&prov=$2 [NC,L]
-RewriteRule ^/?deuda/(\d+)/(\d+)/(\d+)/?$  ./principal.php?com=$1&prov=$2&ayto=$3 [NC,L]
+RewriteEngine On
+
+RewriteRule ^auth/register$ bbdd.php?action=registrar [NC,L]
+RewriteRule ^auth/login$ bbdd.php [NC,L]
+
+RewriteRule ^games/([0-9]+)$ juegos.php?id=$1 [NC,L]
+
+RewriteRule ^games/?$ juegos.php [NC,L]
+
+
+RewriteRule ^events/?$ eventos.php [NC,L]
+RewriteRule ^events/tipos/?$ eventos_tipos.php [NC,L]
+
+RewriteRule ^/?deuda/?$ principal.php [NC,L]
+RewriteRule ^/?deuda/(\d+)/?$ principal.php?com=$1 [NC,L]
+RewriteRule ^/?deuda/(\d+)/(\d+)/?$ principal.php?com=$1&prov=$2 [NC,L]
+RewriteRule ^/?deuda/(\d+)/(\d+)/(\d+)/?$ principal.php?com=$1&prov=$2&ayto=$3 [NC,L]

@@ -1,4 +1,3 @@
-
 <script setup>
 import { ref } from 'vue'
 const menuAbierto = ref(false)
