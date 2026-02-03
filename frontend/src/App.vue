@@ -11,15 +11,15 @@ async function prueba(){
   const userStore = useUserStore();
   console.log(userStore.isAuthenticated);
   console.log(userStore.isAdmin);
-  userStore.user = {role: "user", id: 2, username: 21332, email: "asereje"};
+  userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
   userStore.status = "authenticated";
   console.log(userStore.isAuthenticated);
   console.log(userStore.isAdmin);
 
 }
-// onMounted(
-//   prueba
-// )
+/* onMounted(
+  prueba
+) */
 
 </script>
 
