@@ -5,9 +5,10 @@
     define('CLAVE', 'pass');
 
     require_once 'funciones.php';
+    $data = json_decode(file_get_contents('php://input'), true);
 
-    $idUsuario = $_GET['idUsuario'] ?? '';
-    $idEvento = $_GET['idEvento'] ?? '';
+    $idUsuario = $data['idUsuario'] ?? '';
+    $idEvento = $data['idEvento'] ?? '';
 
     $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
     $conexion->set_charset('utf8mb4');
@@ -17,9 +18,6 @@
     $stmt->bind_param("dd", $idUsuario, $idEvento);
 
     $stmt->execute();
-    $result = $stmt->get_result();
-    $eventos = $result->fetch_all(MYSQLI_ASSOC);
-    print json_encode($eventos);
-
+    
     $conexion->close();
 ?>
