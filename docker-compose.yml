@@ -15,8 +15,6 @@ services:
     container_name: my-php-compose-container
     depends_on:
       - mysql
-    volumes:
-      - ./backend:/var/www/html
     ports:
       - "80:80"
     networks:
