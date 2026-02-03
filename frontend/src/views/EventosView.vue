@@ -33,7 +33,7 @@ const cargarEventos = async () => {
             params.append('plazas', 1)
         }
 
-        const response = await fetch(`http://localhost/events/${params.toString()}`)
+        const response = await fetch(`http://localhost/events?${params.toString()}`)
 
         if (!response.ok) {
             throw new Error('Error HTTP ' + response.status)
