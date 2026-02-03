@@ -44,7 +44,7 @@ const cargarEventos = async () => {
         totalPaginas.value = data.totalPaginas
 
     } catch (e) {
-        console.log(e)
+        error.value = 'No se han podido cargar los eventos'
     } finally {
         cargando.value = false
     }
