@@ -1,32 +1,18 @@
-RewriteEngine on
+RewriteEngine On
 
-#Si no existe la url como fichero
-# RewriteCond %{REQUEST_FILENAME} !-f
-#Y no acaba en /
-# RewriteCond %{REQUEST_URI} !(/$|\.) 
-#Le ponemos un slash final
-# RewriteRule (.*) %{REQUEST_URI}/ [R=301] 
-RewriteRule ^auth/register$ registro.php [L]
-RewriteRule ^auth/login$ login.php [L]
+Header set Access-Control-Allow-Origin "*"
 
+#REGISTRO
+RewriteRule ^auth/login$ login.php [NC,L]
+
+#LOGIN
+RewriteRule ^auth/register$ registro.php [NC,L]
+
+#JUEGOS
 RewriteRule ^games/(\w+)$ juegos.php?q=$1 [NC,L]
+RewriteRule ^games/(\d+)$ juegos.php?id=$1 [NC,L]
+RewriteRule ^games/?$ juegos.php?q= [NC,L]
 
-#Eventos
+#EVENTOS
 RewriteRule ^events/?$ eventos.php [NC,L]
-
-#Tipos para el SELECT
 RewriteRule ^events/tipos/?$ eventos_tipos.php [NC,L]
-
-RewriteRule ^\/auth\/login$ bbdd.php
-RewriteRule ^\/auth\/games$ bbdd.php?action=listaEventos
-RewriteRule ^\/auth\/games/(\d+)$ bbdd.php
-RewriteRule ^\/auth\/events(?:\/?page=(\d+))?$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)$ bbdd.php
-RewriteRule ^\/auth\/users\/me\/events$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)\/singup$ bbdd.php
-RewriteRule ^\/auth\/events\/(\d+)\/singup$ bbdd.php
-
-RewriteRule ^/?deuda/?$ ./principal.php [NC,L]
-RewriteRule ^/?deuda/(\d+)/?$ ./principal.php?com=$1 [NC,L]
-RewriteRule ^/?deuda/(\d+)/(\d+)/?$  ./principal.php?com=$1&prov=$2 [NC,L]
-RewriteRule ^/?deuda/(\d+)/(\d+)/(\d+)/?$  ./principal.php?com=$1&prov=$2&ayto=$3 [NC,L]
