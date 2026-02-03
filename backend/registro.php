@@ -1,6 +1,8 @@
 <?php
 session_start();
 // Cabeceras CORS completas
+header('Content-Type: application/json; charset=utf-8');
+header("Access-Control-Allow-Origin: *");
 
 define('SERVIDOR', 'mysql');
 define('BBDD', 'gamefest');
@@ -91,16 +93,15 @@ if ($stmt->execute()) {
   $_SESSION["username"] = $usuario;
   $_SESSION["email"]    = $email;
   $_SESSION["role"]     = "USER";
-  $_SESSION["autenticado"] = true;
 
   $respuesta = [
     "status" => "success",
     "nuevoUsuario" => [
+      $_SESSION["id"] => $stmt->insert_id,
       "id"       => $_SESSION["id"],
       "username" => $_SESSION["username"],
       "email"    => $_SESSION["email"],
-      "role"     => $_SESSION["role"],
-      "autenticado" => $_SESSION["autenticado"]
+      "role"     => $_SESSION["role"]
     ],
     "listaUsuarios" => []
   ];

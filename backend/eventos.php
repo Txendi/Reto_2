@@ -84,4 +84,4 @@ echo json_encode([
 
 
 
-$conexion->;close(int)
+$conexion-> close();

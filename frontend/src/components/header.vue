@@ -1,9 +1,18 @@
-
 <script setup>
-import { useUserStore } from '@/stores/userStore';
+import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'
 const menuAbierto = ref(false)
-const userStore = useUserStore();
+const userStore = useUserStore()
+const isOpen = ref(false);
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value;
+};
+const logout = () => {
+  console.log("Cerrando sesión...");
+  userStore.logout()
+  isOpen.value = false;
+  console.log("Sesión cerrada")
+};
 </script>
 
 <template>
@@ -12,9 +21,8 @@ const userStore = useUserStore();
       class="contenedorPrincipal h-20 flex items-center justify-between px-8 shadow-lg rounded-b-2xl relative"
     >
       <div class="flex items-center space-x-4">
-        <img src="../img/logo.png" class="size-45 h-auto" alt="logo Elofest">
+        <img src="../img/logo.png" class="size-45 h-auto" alt="logo Elofest" />
       </div>
-
 
       <div class="hidden md:flex items-center space-x-8">
         <router-link
@@ -40,13 +48,20 @@ const userStore = useUserStore();
         >
           Registrarse / Iniciar sesión
         </router-link>
-        <router-link
-          v-if="userStore.isAuthenticated"
-          to="/perfil"
-          class="botonRegistrarse ml-4 px-6 py-2 rounded-full font-bold text-[rgba(222,26,88,1)] bg-[rgba(244,179,66,1)] border-2 border-[rgba(222,26,88,1)] shadow-lg transition-all duration-500 focus:outline-none focus:shadow-[0_0_0_3px_rgba(222,26,88,0.33)]"
-        >
-          {{ userStore.user.username }}
-        </router-link>
+        <div class="menu-container">
+          <router-link
+            v-if="userStore.isAuthenticated"
+            to="/perfil"
+            @click="toggleMenu"
+            class="botonRegistrarse ml-4 px-6 py-2 rounded-full font-bold text-[rgba(222,26,88,1)] bg-[rgba(244,179,66,1)] border-2 border-[rgba(222,26,88,1)] shadow-lg transition-all duration-500 focus:outline-none focus:shadow-[0_0_0_3px_rgba(222,26,88,0.33)]"
+          >
+            {{ userStore.user.username }}
+          </router-link>
+          <ul v-if="isOpen" class="dropdown bg-[#DE1A58] text-white font-bold rounded absolute top-20 right-4 border">
+            <li class="border-b p-4 hover:bg-[#F4B342] hover:scale-105"><a href="/perfil" >Ver Perfil</a></li>
+            <li @click="logout" class="logout-item p-4 hover:bg-[#F4B342] hover:scale-105">Cerrar Sesión</li>
+          </ul>
+        </div>
       </div>
 
       <button

@@ -9,7 +9,7 @@ const userStore = useUserStore()
 
 onMounted(() => {
   // if (userStore.isAuthenticated && userStore.user) {
-    console.log("Hola " + userStore.username)
+    console.log("Hola " + userStore.user.username)
   // }
 })
 async function loginUsuario(username, contrasena) {
