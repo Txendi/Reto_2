@@ -1,6 +1,7 @@
 RewriteEngine On
 
 Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Headers "*"
 
 #REGISTRO
 RewriteRule ^auth/login$ login.php [NC,L]
