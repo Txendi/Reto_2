@@ -1,7 +1,7 @@
-Header set Access-Control-Allow-Origin "*"
-Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 RewriteEngine on
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "*"
+Header set Access-Control-Allow-Headers "*"
 
 #REGISTRO
 RewriteRule ^auth/login$ login.php [L]
