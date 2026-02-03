@@ -22,3 +22,6 @@ RewriteRule ^games/?$ juegos.php?q= [NC,L]
 RewriteRule ^events/?$ eventos.php [NC,L]
 RewriteRule ^events/tipos/?$ eventos_tipos.php [NC,L]
 
+
+#Usuario
+RewriteRule ^auth/me$ authMe.php [NC,L]
