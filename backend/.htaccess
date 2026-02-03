@@ -10,8 +10,8 @@ RewriteRule ^auth/login$ login.php [NC,L]
 RewriteRule ^auth/register$ registro.php [NC,L]
 
 #JUEGOS
-RewriteRule ^games/(\w+)$ juegos.php?q=$1 [NC,L]
-RewriteRule ^games/(\d+)$ juegos.php?id=$1 [NC,L]
+RewriteRule ^games/(.+)$ juegos.php?q=$1 [NC,L]
+# RewriteRule ^games/(\d+)$ juegos.php?id=$1 [NC,L]
 RewriteRule ^games/?$ juegos.php?q= [NC,L]
 
 #EVENTOS
