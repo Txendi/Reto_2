@@ -2,6 +2,7 @@
 import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
 import { useUserStore } from './stores/userStore';
+import { onMounted } from 'vue';
 
 //import { RouterLink, RouterView } from 'vue-router'
 
@@ -16,6 +17,9 @@ async function prueba(){
   console.log(userStore.isAdmin);
 
 }
+onMounted(
+  prueba
+)
 
 </script>
 

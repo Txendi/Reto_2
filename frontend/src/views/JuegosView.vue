@@ -17,7 +17,7 @@ const fetchJuegos = async () => {
   error.value = ''
 
   try {
-    const url = `http://localhost/games?q=${encodeURIComponent(busqueda.value)}`
+    const url = `http://localhost/games/${encodeURIComponent(busqueda.value)}`
 
     const response = await fetch(url)
     if (!response.ok) throw new Error('Error HTTP ' + response.status)
