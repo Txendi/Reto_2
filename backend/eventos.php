@@ -12,12 +12,6 @@ ini_set('display_errors', 0);
     $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
     $conexion->set_charset('utf8mb4');
 
-
-define('SERVIDOR', 'mysql');
-define('BBDD', 'gamefest');
-define('USUARIO', 'root');
-define('CLAVE', 'pass');
-
 /* require_once 'funciones.php'; */
 
 $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
@@ -90,4 +84,4 @@ echo json_encode([
 
 
 
-$conexion->close();
+$conexion->;close(int)

@@ -4,11 +4,6 @@ session_start();
 error_reporting(0);
 ini_set('display_errors', 0);
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
-header('Content-Type: application/json; charset=utf-8');
-
 // Configuración de BD
 define('SERVIDOR', 'mysql');
 define('BBDD', 'gamefest');
