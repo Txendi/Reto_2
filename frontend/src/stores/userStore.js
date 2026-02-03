@@ -41,7 +41,7 @@ export const useUserStore = defineStore('user', {
       this.status = 'guest'
     }
   },
-    
-  }
+
+  
 )
 
