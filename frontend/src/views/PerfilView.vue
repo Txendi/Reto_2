@@ -2,16 +2,16 @@
 import { useUserStore } from '../stores/userStore.js'
 import { onMounted, reactive } from 'vue'
 const userStore = useUserStore()
-const userRol = userStore.isAdmin ? 'Usuario normal' : 'Administrador'
+const userRol = !userStore.isAdmin ? 'Usuario normal' : 'Administrador'
 
 const data = reactive({ array: [] })
 
-async function desapuntar(idEvento){
+async function desapuntar(idEvento) {
   try {
     const response = await fetch('http://localhost/user/desapuntar', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'  
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         idUsuario: userStore.user.id,
@@ -24,7 +24,7 @@ async function desapuntar(idEvento){
     console.log(await response.text())
     let elem = data.array.find(elem => elem.id == idEvento);
     data.array.splice(data.array.indexOf(elem), 1);
-    } catch (e) {
+  } catch (e) {
     console.log(e)
   }
 }
@@ -33,6 +33,9 @@ async function desapuntar(idEvento){
 
 async function pedirEventos() {
   try {
+    /////////////////////////////////////////////////////////
+    console.log('👤 Perfil → user id:', userStore.user.id)
+    ///////////////////////////////////////////////////////////////
     const response = await fetch('http://localhost/user/' + userStore.user.id)
     if (!response.ok) {
       throw new Error('Error de HTTP: ' + response.status)
@@ -56,8 +59,7 @@ onMounted(
       <h2 class="text-2xl font-bold mb-4 text-gray-800">Perfil de Usuario</h2>
       <div class="mb-6">
         <p class="text-lg text-gray-700">
-          Bienvenido, <span class="font-semibold text-gray-800">{{ userStore.user.email }}</span
-          >.
+          Bienvenido, <span class="font-semibold text-gray-800">{{ userStore.user.email }}</span>.
         </p>
         <p class="text-sm text-gray-500">
           Tipo de usuario: <span class="font-semibold text-blue-500">{{ userRol }}</span>
@@ -79,18 +81,13 @@ onMounted(
                 <p class="text-md text-gray-600">
                   <strong>Hora:</strong> {{ evento.hora }}
                 </p>
-                <button
-                  @click="desapuntar(evento.id)"
-                  class="w-full mt-3 bg-purple-800 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300"
-                >
+                <button @click="desapuntar(evento.id)"
+                  class="w-full mt-3 bg-purple-800 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
                   Desapuntarse
                 </button>
               </div>
-              <img
-                :src= evento.imagen
-                :alt= evento.titulo
-                class="w-1/2 h-20 object-cover rounded-lg border border-gray-300"
-              />
+              <img :src=evento.imagen :alt=evento.titulo
+                class="w-1/2 h-20 object-cover rounded-lg border border-gray-300" />
             </div>
           </div>
         </div>

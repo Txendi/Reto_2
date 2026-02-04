@@ -1,16 +1,18 @@
 <?php
-    //header('Content-Type: application/json; charset=utf-8');
-    //header("Access-Control-Allow-Origin: *");
-    define('SERVIDOR', 'mysql');
-    define('BBDD', 'gamefest');
-    define('USUARIO', 'root');
-    define('CLAVE', 'pass');
+header('Content-Type: application/json; charset=utf-8');
+header("Access-Control-Allow-Origin: *");
 
 error_reporting(0);
 ini_set('display_errors', 0);
 
-    $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
-    $conexion->set_charset('utf8mb4');
+/* error_reporting(E_ALL);
+ini_set('display_errors', 1); */
+
+
+define('SERVIDOR', 'mysql');
+define('BBDD', 'gamefest');
+define('USUARIO', 'root');
+define('CLAVE', 'pass');
 
 /* require_once 'funciones.php'; */
 
