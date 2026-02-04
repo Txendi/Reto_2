@@ -14,7 +14,7 @@ RewriteRule ^auth/logout$ authLogout.php [NC,L]
 
 
 #PERFIL
-RewriteRule ^user/(\d+)$ eventosUsuario.php?id=$1  [NC,L]
+RewriteRule ^user/events$ eventosUsuario.php [NC,L]
 RewriteRule ^user/desapuntar$ desapuntarEvento.php  [NC,L]
 RewriteRule ^user/apuntar$ apuntarEvento.php  [NC,L]
 
