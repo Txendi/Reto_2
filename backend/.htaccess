@@ -1,7 +1,7 @@
 RewriteEngine On
 
-Header set Access-Control-Allow-Origin "*"
-Header set Access-Control-Allow-Headers "*"
+#Header set Access-Control-Allow-Origin "*"
+#Header set Access-Control-Allow-Headers "*"
 
 #REGISTRO
 RewriteRule ^auth/login$ login.php [NC,L]
@@ -9,9 +9,15 @@ RewriteRule ^auth/login$ login.php [NC,L]
 #LOGIN
 RewriteRule ^auth/register$ registro.php [NC,L]
 
+#LOGOUT
+RewriteRule ^auth/logout$ authLogout.php [NC,L]
+
+
 #PERFIL
 RewriteRule ^user/(\d+)$ eventosUsuario.php?id=$1  [NC,L]
 RewriteRule ^user/desapuntar$ desapuntarEvento.php  [NC,L]
+RewriteRule ^user/apuntar$ apuntarEvento.php  [NC,L]
+
 
 #JUEGOS
 RewriteRule ^game/(\d+)$ juegos.php?id=$1 [NC,L]
@@ -20,5 +26,8 @@ RewriteRule ^games/?$ listaJuegos.php?q= [NC,L]
 
 #EVENTOS
 RewriteRule ^events/?$ eventos.php [NC,L]
-RewriteRule ^events/tipos/?$ eventos_tipos.php [NC,L]
+RewriteRule ^events/tipos/?$ eventosTipos.php [NC,L]
 
+
+#Usuario
+RewriteRule ^auth/me$ authMe.php [NC,L]

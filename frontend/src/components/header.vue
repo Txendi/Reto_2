@@ -1,18 +1,37 @@
 <script setup>
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { ref } from 'vue'
+const router = useRouter()
+
 const menuAbierto = ref(false)
 const userStore = useUserStore()
 const isOpen = ref(false);
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
 };
-const logout = () => {
-  console.log("Cerrando sesión...");
-  userStore.logout()
-  isOpen.value = false;
-  console.log("Sesión cerrada")
-};
+
+
+const logout = async () => {
+  try {
+    await fetch('http://localhost/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    })
+
+    userStore.logout()
+    isOpen.value = false
+    menuAbierto.value = false
+
+    router.push('/login')   // 👈 ESTO FALTABA
+
+    console.log('Sesión cerrada correctamente')
+  } catch (e) {
+    console.error('Error al cerrar sesión', e)
+  }
+}
+
+
 </script>
 
 <template>
@@ -182,11 +201,10 @@ const logout = () => {
             </svg>
             {{ userStore.user.username }}
           </router-link>
-          <router-link
+          <button
             v-if="userStore.isAuthenticated"
-            to="/juegos"
+            @click.prevent="logout(); menuAbierto = false"
             class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
-            @click="menuAbierto = false"
           >
             <svg
               class="w-6 h-6 text-[rgba(222,26,88,1)]"
@@ -199,7 +217,7 @@ const logout = () => {
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 12a6 6 0 0112 0" />
             </svg>
             Cerrar sesión
-          </router-link>
+          </button>
         </div>
       </transition>
     </nav>

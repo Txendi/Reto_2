@@ -7,12 +7,49 @@ import { useRoute } from 'vue-router' // Importa useRoute
 
 const route = useRoute(); // Obtén la ruta actual
 
+const userStore = useUserStore()
+
+
+
+
+
+
+onMounted(async () => {
+  try {
+    const response = await fetch('http://localhost/auth/me', {
+      credentials: 'include'
+    })
+    const data = await response.json()
+
+    console.log('🔐 auth/me:', data)
+
+    if (data.authenticated) {
+      userStore.user = data.user
+      userStore.status = 'authenticated'
+    } else {
+      userStore.user = { id: null }
+      userStore.status = 'guest'
+    }
+  } catch (e) {
+    console.error('Error comprobando sesión', e)
+    userStore.user = { id: null }
+    userStore.status = 'guest'
+  }
+})
+
+
+
+
+
+
+
+
 async function prueba(){
 
   const userStore = useUserStore();
   console.log(userStore.isAuthenticated);
   console.log(userStore.isAdmin);
-  userStore.user = {role: "user", id: 2, username: 21332, email: "asereje"};
+  userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
   userStore.status = "authenticated";
   console.log(userStore.isAuthenticated);
   console.log(userStore.isAdmin);
