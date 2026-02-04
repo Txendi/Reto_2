@@ -2,7 +2,7 @@
 import { useUserStore } from '../stores/userStore.js'
 import { onMounted, reactive } from 'vue'
 const userStore = useUserStore()
-const userRol = userStore.isAdmin ? 'Usuario normal' : 'Administrador'
+const userRol = !userStore.isAdmin ? 'Usuario normal' : 'Administrador'
 
 const data = reactive({ array: [] })
 

@@ -2,7 +2,7 @@
 import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
 import { useUserStore } from './stores/userStore';
-
+import { onMounted } from 'vue';
 import { useRoute } from 'vue-router' // Importa useRoute
 
 const route = useRoute(); // Obtén la ruta actual
