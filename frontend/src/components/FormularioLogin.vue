@@ -12,11 +12,11 @@ onMounted(() => {
     console.log("Hola " + userStore.user.username)
   // }
 })
-async function loginUsuario(username, contrasena) {
+/* async function loginUsuario(username, contrasena) {
   const userStore = useUserStore()
   userStore.user = { username: username, contrasena: contrasena }
   userStore.status = 'authenticated'
-}
+} */
 
 
 
@@ -25,6 +25,7 @@ async function login() {
     const response = await fetch('http://localhost/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         usuario: nombreUsuario.value,
         password: contraUsuario.value,
@@ -35,7 +36,7 @@ async function login() {
     const data = await response.json()
 
     // 3. Procesamos la lógica con el objeto 'data' ya obtenido
-    if (response.ok && data.status === 'ok') {
+    /* if (response.ok && data.status === 'ok') {
       console.log('✅ Login correcto:', data)
       mensaje.value = data.debug || 'Login correcto'
       error.value = ''
@@ -48,7 +49,25 @@ async function login() {
 
       nombreUsuario.value = ''
       contraUsuario.value = ''
-    } else {
+    } */
+   
+   if (response.ok && data.status === 'ok') {
+  console.log('✅ Login correcto:', data)
+  mensaje.value = data.debug || 'Login correcto'
+  error.value = ''
+
+  // 🔐 Volver a consultar la sesión REAL
+  const resMe = await fetch('http://localhost/auth/me', {
+    credentials: 'include'
+  })
+  const meData = await resMe.json()
+
+  if (meData.authenticated) {
+    userStore.user = meData.user
+    userStore.status = 'authenticated'
+  }
+}
+ else {
       console.log('❌ Login fallido:', data.debug)
       error.value = data.errors ? data.errors.join(', ') : 'Error en el login'
       mensaje.value = ''

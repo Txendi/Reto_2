@@ -6,6 +6,43 @@ import { onMounted } from 'vue';
 
 //import { RouterLink, RouterView } from 'vue-router'
 
+const userStore = useUserStore()
+
+
+
+
+
+
+onMounted(async () => {
+  try {
+    const response = await fetch('http://localhost/auth/me', {
+      credentials: 'include'
+    })
+    const data = await response.json()
+
+    console.log('🔐 auth/me:', data)
+
+    if (data.authenticated) {
+      userStore.user = data.user
+      userStore.status = 'authenticated'
+    } else {
+      userStore.user = { id: null }
+      userStore.status = 'guest'
+    }
+  } catch (e) {
+    console.error('Error comprobando sesión', e)
+    userStore.user = { id: null }
+    userStore.status = 'guest'
+  }
+})
+
+
+
+
+
+
+
+
 async function prueba(){
 
   const userStore = useUserStore();

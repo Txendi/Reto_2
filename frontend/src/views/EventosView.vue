@@ -1,5 +1,8 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
+import { useUserStore } from '../stores/userStore.js'
+const userStore = useUserStore()
+
 
 const eventos = ref([]);
 const cargando = ref(true);
@@ -11,6 +14,8 @@ const totalPaginas = ref(0);
 const soloConPlazas = ref(false);
 const eventoActivo = ref(null);
 const fechaSeleccionada = ref('');
+const eventosApuntados = ref(new Set())
+
 
 const cargarEventos = async () => {
     try {
@@ -39,7 +44,10 @@ const cargarEventos = async () => {
             throw new Error('Error HTTP ' + response.status)
         }
         const data = await response.json()
-
+        ///////////////////
+        console.log('📦 RESPUESTA EVENTS:', data)
+        console.log('👤 USUARIO (store):', userStore?.user)
+        ////////////////////////
         eventos.value = data.eventos
         totalPaginas.value = data.totalPaginas
 
@@ -51,11 +59,57 @@ const cargarEventos = async () => {
 }
 
 
+async function apuntar(idEvento) {
+    try {
+        ////////////////////////////////////////////////////////
+        console.log('🖱️ Click apuntarse')
+        console.log('➡️ idEvento:', idEvento)
+        console.log('➡️ userStore.user:', userStore.user)
+        console.log('➡️ userStore.status:', userStore.status)
+        ////////////////////////////////////////////////////////
+        const response = await fetch('http://localhost/user/apuntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+
+            body: JSON.stringify({
+                idUsuario: userStore.user.id,
+                idEvento: idEvento
+            })
+        })
+
+
+
+        if (!response.ok) {
+            throw new Error('Error HTTP: ' + response.status)
+        }
+
+        const data = await response.json()
+        ///////////////////////////////////////////////
+        console.log('✅ RESPUESTA apuntar:', data)
+        //////////////////////////////////////////////
+        console.log(data)
+
+        if (data.status === 'ok') {
+            eventosApuntados.value.add(idEvento)
+        }
+    } catch (e) {
+        ////////////////////////////////////////
+        console.log('❌ ERROR apuntar:', e)
+        ////////////////////////////////////////
+        console.log(e)
+    }
+}
+
+
+
 const cargarTipos = async () => {
 
     const respuesta = await fetch(`http://localhost/events/tipos`)
 
-    tipos.value=await respuesta.json();
+    tipos.value = await respuesta.json();
 
 }
 
@@ -164,6 +218,24 @@ const cambiarPagina = (numPagina) => {
                         <p class="text-sm text-gray-700 ">
                             {{ evento.fecha }}
                         </p>
+                        <button v-if="userStore.status === 'authenticated'" @click.stop="apuntar(evento.id)" :disabled="evento.plazasLibres <= 0 ||
+                            eventosApuntados.has(evento.id)
+                            " class="mt-4 w-full py-2 px-4 rounded transition text-white" :class="{
+                                'bg-green-600 hover:bg-green-800': evento.plazasLibres > 0 && !eventosApuntados.has(evento.id),
+                                'bg-gray-400 cursor-not-allowed': evento.plazasLibres <= 0 || eventosApuntados.has(evento.id)
+                            }">
+                            <span v-if="evento.plazasLibres <= 0">
+                                Sin plazas
+                            </span>
+                            <span v-else-if="eventosApuntados.has(evento.id)">
+                                Ya inscrito
+                            </span>
+                            <span v-else>
+                                Apuntarme
+                            </span>
+                        </button>
+
+
 
                     </div>
                 </div>
@@ -210,6 +282,24 @@ const cambiarPagina = (numPagina) => {
                         <strong>Descripcion:</strong>
                         {{ eventoActivo.descripcion }}
                     </p>
+
+                    <button v-if="userStore.status === 'authenticated'" @click.stop="apuntar(eventoActivo.id)" :disabled="eventoActivo.plazasLibres <= 0 ||
+                            eventosApuntados.has(eventoActivo.id)
+                            " class="mt-4 w-full py-2 px-4 rounded transition text-white" :class="{
+                                'bg-green-600 hover:bg-green-800': eventoActivo.plazasLibres > 0 && !eventosApuntados.has(eventoActivo.id),
+                                'bg-gray-400 cursor-not-allowed': eventoActivo.plazasLibres <= 0 || eventosApuntados.has(eventoActivo.id)
+                            }">
+                            <span v-if="eventoActivo.plazasLibres <= 0">
+                                Sin plazas
+                            </span>
+                            <span v-else-if="eventosApuntados.has(eventoActivo.id)">
+                                Ya inscrito
+                            </span>
+                            <span v-else>
+                                Apuntarme
+                            </span>
+                        </button>
+
                 </div>
             </div>
         </Transition>
