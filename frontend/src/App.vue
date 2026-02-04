@@ -1,8 +1,8 @@
 <script setup>
 import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
-import { useUserStore } from './stores/userStore';
-import { onMounted } from 'vue';
+import { useUserStore } from './stores/userStore'
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router' // Importa useRoute
 
 const userStore = useUserStore()
@@ -10,7 +10,7 @@ const userStore = useUserStore()
 onMounted(async () => {
   try {
     const response = await fetch('http://localhost/auth/me', {
-      credentials: 'include'
+      credentials: 'include',
     })
     const data = await response.json()
 
@@ -29,26 +29,6 @@ onMounted(async () => {
     userStore.status = 'guest'
   }
 })
-
-async function prueba(){
-
-  userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
-  userStore.status = "authenticated";
-
-
-    if (data.authenticated) {
-      userStore.user = data.user
-      userStore.status = 'authenticated'
-    } else {
-      userStore.user = { id: null }
-      userStore.status = 'guest'
-    }
-  } catch (e) {
-    console.error('Error comprobando sesión', e)
-    userStore.user = { id: null }
-    userStore.status = 'guest'
-  }
-
 </script>
 
 <template>
