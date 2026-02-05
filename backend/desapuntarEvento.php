@@ -1,5 +1,6 @@
  <?php
     session_start();
+
     define('SERVIDOR', 'mysql');
     define('BBDD', 'gamefest');
     define('USUARIO', 'root');
@@ -8,7 +9,7 @@
     require_once 'funciones.php';
     $data = json_decode(file_get_contents('php://input'), true);
 
-    $idUsuario = $data['idUsuario'] ?? '';
+    $idUsuario = $_SESSION["id"] ?? '';
     $idEvento = $data['idEvento'] ?? '';
 
     $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
