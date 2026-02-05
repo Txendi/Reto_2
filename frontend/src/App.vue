@@ -1,8 +1,8 @@
 <script setup>
 import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
-import { useUserStore } from './stores/userStore';
-import { onMounted } from 'vue';
+import { useUserStore } from './stores/userStore'
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router' // Importa useRoute
 
 const userStore = useUserStore()
@@ -11,7 +11,7 @@ onMounted(async () => {
   
   try {
     const response = await fetch('http://localhost/auth/me', {
-      credentials: 'include'
+      credentials: 'include',
     })
     const data = await response.json()
 

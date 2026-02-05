@@ -83,7 +83,7 @@ watch(juegoActivo, (nuevoValor) => {
           v-model="busqueda"
           type="text"
           placeholder="Buscar juego..."
-          class="w-full max-w-md p-3 rounded-lg bg-gray-800 border border-gray-600 text-white focus:outline-none focus:border-blue-500"
+          class="w-full max-w-xl p-3 rounded-lg bg-gray-800 border border-gray-600 text-white focus:outline-none focus:border-blue-500"
         />
       </header>
 
@@ -92,7 +92,7 @@ watch(juegoActivo, (nuevoValor) => {
           v-for="juego in juegos.array"
           :key="juego.id"
           @click="cargarDetalle(juego.id)"
-          class="group bg-gray-800 border-2 border-transparent hover:border-blue-500 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 shadow-lg max-w-sm mx-auto w-full flex flex-col"
+          class="group bg-gray-800 border-2 border-transparent hover:border-blue-800 hover:scale-110 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 shadow-lg max-w-sm mx-auto w-full flex flex-col"
         >
           <img :src="`/img/games/${juego.imagen}`" class="w-full h-56 object-cover" />
 
