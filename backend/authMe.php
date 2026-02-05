@@ -10,10 +10,19 @@ require_once "conexion.php";
 //     exit;
 // }
 
-echo json_encode([
-    "authenticated" => true,
-    "user" => [
-        "id" => $_SESSION['id'],
-        "username" => $_SESSION['username']
-    ]
-]);
+    $stmt = $conexion->prepare("SELECT id, username, email, 'role' FROM users WHERE id = ?");
+    $stmt->bind_param("i", $_SESSION['id']);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($id, $nombre, $email, $rol);
+    $stmt->fetch();
+
+    echo json_encode([
+        "authenticated" => true,
+        "user" => [
+            "id" => $id,
+            "username" => $nombre,
+            "email" => $email,
+            "rol" => $rol
+        ]
+    ]);
