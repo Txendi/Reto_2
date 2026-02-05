@@ -1,13 +1,13 @@
 services:
-  # front:
-  #   build:
-  #     context: frontend
-  #     dockerfile: Dockerfile
-  #   container_name: my-front-compose-container
-  #   ports:
-  #     - "8080:80"
-  #   networks:
-  #     - my-network
+  front:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: my-front-compose-container
+    ports:
+      - "8080:80"
+    networks:
+      - my-network
   back:
     build:
       context: backend

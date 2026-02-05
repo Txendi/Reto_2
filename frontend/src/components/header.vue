@@ -1,9 +1,9 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
-const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const menuAbierto = ref(false)
 
@@ -25,7 +25,6 @@ const logout = async () => {
     isOpen.value = false
     menuAbierto.value = false
 
-    router.push('/login')
 
     console.log('Sesión cerrada correctamente')
   } catch (e) {
@@ -33,6 +32,15 @@ const logout = async () => {
   }
 }
 
+watch(
+  () => route.path,
+  (newPath) => {
+    if (newPath !== '/perfil') {
+      isOpen.value = false
+    }
+    menuAbierto.value = false
+  }
+)
 
 </script>
 
@@ -78,10 +86,12 @@ const logout = async () => {
           >
             {{ userStore.user.username }}
           </router-link>
-          <ul v-if="isOpen" class="dropdown bg-[#DE1A58] text-white font-bold rounded absolute top-20 right-4 border">
-            <li class="border-b p-4 hover:bg-[#F4B342] hover:scale-105"><a href="/perfil" >Ver Perfil</a></li>
-            <li @click="logout" class="logout-item p-4 hover:bg-[#F4B342] hover:scale-105">Cerrar Sesión</li>
-          </ul>
+            <router-link
+            v-if="isOpen"
+            class="dropdown bg-[#DE1A58] text-white font-bold rounded absolute top-20 right-4 border" @click="logout"
+            to="/juegos"
+          >Cerrar Sesion
+          </router-link>
         </div>
       </div>
 

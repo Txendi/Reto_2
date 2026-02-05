@@ -1,5 +1,5 @@
 <script setup>
-import headerHecho from './components/Header.vue'
+import headerHecho from './components/header.vue'
 import footerHecho from '../src/components/Footer.vue'
 import { useUserStore } from './stores/userStore'
 import { onMounted } from 'vue'

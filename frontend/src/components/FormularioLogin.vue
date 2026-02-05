@@ -60,8 +60,10 @@ async function login() {
   const resMe = await fetch('http://localhost/auth/me', {
     credentials: 'include'
   })
+  
   const meData = await resMe.json()
 
+  console.log(meData)
   if (meData.authenticated) {
     userStore.user = meData.user
     userStore.status = 'authenticated'
