@@ -79,7 +79,6 @@ const logout = async () => {
             {{ userStore.user.username }}
           </router-link>
           <ul v-if="isOpen" class="dropdown bg-[#DE1A58] text-white font-bold rounded absolute top-20 right-4 border">
-            <li class="border-b p-4 hover:bg-[#F4B342] hover:scale-105"><a href="/perfil" >Ver Perfil</a></li>
             <li @click="logout" class="logout-item p-4 hover:bg-[#F4B342] hover:scale-105">Cerrar Sesión</li>
           </ul>
         </div>
