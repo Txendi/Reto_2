@@ -50,39 +50,4 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conexion->close();
-
-
-mkdir( "anexos/" . $token, 0777 );
-
-        if ( $_FILES['fichero1']['size'] <= 0 ) {
-
- 
-
-        } else {
-
-            foreach ( $_FILES as $key => $value ) {
-
-                // echo $key ."--". $value['error'] . "<br>";
-
-                if ( 0 < $value['error'] ) {
-
-                    echo nl2br( 'Error during file upload ' . $value['error'] . "\n" );
-
-                } else if ( ! empty( $value['name'] ) ) {
-
-                    if ( file_exists( 'anexos/' . $token . '/' . $value['name'] ) ) {
-
- 
-
-                    } else {
-
-                        move_uploaded_file( $value['tmp_name'], 'anexos/' . $token . '/' . $value['name'] );
-
-                    }
-
-                }
-
-            }
-
-        }
 ?>
