@@ -1,4 +1,5 @@
 <?php
+    session_start();
     function filter_juegos(array $juegos, string $query): array {
         $result = [];
         $query = trim($query);

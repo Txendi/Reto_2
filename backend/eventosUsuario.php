@@ -1,4 +1,5 @@
  <?php
+    session_start();
     define('SERVIDOR', 'mysql');
     define('BBDD', 'gamefest');
     define('USUARIO', 'root');

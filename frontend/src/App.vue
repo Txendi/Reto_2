@@ -8,6 +8,7 @@ import { useRoute } from 'vue-router' // Importa useRoute
 const userStore = useUserStore()
 
 onMounted(async () => {
+  
   try {
     const response = await fetch('http://localhost/auth/me', {
       credentials: 'include'
@@ -28,27 +29,9 @@ onMounted(async () => {
     userStore.user = { id: null }
     userStore.status = 'guest'
   }
+  // userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
+  // userStore.status = "authenticated";
 })
-
-async function prueba(){
-
-  userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
-  userStore.status = "authenticated";
-
-
-    if (data.authenticated) {
-      userStore.user = data.user
-      userStore.status = 'authenticated'
-    } else {
-      userStore.user = { id: null }
-      userStore.status = 'guest'
-    }
-  } catch (e) {
-    console.error('Error comprobando sesión', e)
-    userStore.user = { id: null }
-    userStore.status = 'guest'
-  }
-
 </script>
 
 <template>
