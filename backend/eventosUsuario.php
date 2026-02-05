@@ -1,11 +1,7 @@
 <?php
     session_start();
 
-    // header("Access-Control-Allow-Origin: http://localhost:5173");
-    // header("Access-Control-Allow-Credentials: true");
-    // header("Access-Control-Allow-Methods: GET, OPTIONS");
-    // header("Access-Control-Allow-Headers: Content-Type");
-    // header("Content-Type: application/json; charset=utf-8");
+require_once "conexion.php";
 
     if (!isset($_SESSION['id'])) {
         http_response_code(401);
@@ -13,13 +9,6 @@
         exit;
     }
 
-    define('SERVIDOR', 'mysql');
-    define('BBDD', 'gamefest');
-    define('USUARIO', 'root');
-    define('CLAVE', 'pass');
-
-    $conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
-    $conexion->set_charset('utf8mb4');
 
     $idUsuario = $_SESSION['id'];
 

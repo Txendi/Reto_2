@@ -38,7 +38,7 @@ const cargarEventos = async () => {
             params.append('plazas', 1)
         }
 
-        const response = await fetch(`http://localhost/events?${params.toString()}`)
+        const response = await fetch(`${import.meta.env.VITE_API_URL}events?${params.toString()}`)
 
         if (!response.ok) {
             throw new Error('Error HTTP ' + response.status)
@@ -67,7 +67,7 @@ async function apuntar(idEvento) {
         console.log('➡️ userStore.user:', userStore.user)
         console.log('➡️ userStore.status:', userStore.status)
         ////////////////////////////////////////////////////////
-        const response = await fetch('http://localhost/user/apuntar', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}user/apuntar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ async function apuntar(idEvento) {
 
 const cargarTipos = async () => {
 
-    const respuesta = await fetch(`http://localhost/events/tipos`)
+    const respuesta = await fetch(`${import.meta.env.VITE_API_URL}events/tipos`)
 
     tipos.value = await respuesta.json();
 
