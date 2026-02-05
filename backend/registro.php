@@ -1,31 +1,7 @@
 <?php
 session_start();
-// Cabeceras CORS completas
-// header('Content-Type: application/json; charset=utf-8');
-// header("Access-Control-Allow-Origin: *");
 
-define('SERVIDOR', 'mysql');
-define('BBDD', 'gamefest');
-define('USUARIO', 'root');
-define('CLAVE', 'pass');
-
-// Manejo del preflight
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-  http_response_code(200);
-  exit;
-}
-
-$conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
-$conexion->set_charset('utf8mb4');
-
-if ($conexion->connect_error) {
-  http_response_code(500);
-  echo json_encode([
-    "status" => "error",
-    "debug" => "Error conexion BD"
-  ]);
-  exit;
-}
+require_once "conexion.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 

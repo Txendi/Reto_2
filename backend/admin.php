@@ -1,25 +1,6 @@
 <?php
 session_start();
-// header("Access-Control-Allow-Origin: *");
-// header("Access-Control-Allow-Methods: POST, OPTIONS");
-// header("Access-Control-Allow-Headers: Content-Type");
-// header("Content-Type: application/json; charset=utf-8");
-define('SERVIDOR', 'mysql');
-define('BBDD', 'gamefest');
-define('USUARIO', 'root');
-define('CLAVE', 'pass');
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    exit;
-}
-
-$conexion = new mysqli(SERVIDOR, USUARIO, CLAVE, BBDD);
-$conexion->set_charset('utf8mb4');
-
-if ($conexion->connect_error) {
-    echo json_encode(['ok' => false, 'error' => 'Error de conexión a la base de datos']);
-    exit;
-}
+require_once "conexion.php";
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);

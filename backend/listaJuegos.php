@@ -1,9 +1,7 @@
 <?php
-// header('Content-Type: application/json; charset=utf-8');
-// header("Access-Control-Allow-Origin: *");
 session_start();
-$conexion = new mysqli('mysql', 'root', 'pass', 'gamefest');
-$conexion->set_charset('utf8mb4');
+
+require_once "conexion.php";
 
 $q = $_GET['q'] ?? '';
 

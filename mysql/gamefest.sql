@@ -4,12 +4,12 @@
 -- Imágenes: se guarda SOLO el nombre de archivo (del ZIP)
 -- =========================================================
 
-DROP DATABASE IF EXISTS gamefest;
-CREATE DATABASE gamefest
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+-- DROP DATABASE IF EXISTS gamefest;
+-- CREATE DATABASE gamefest
+--   CHARACTER SET utf8mb4
+--   COLLATE utf8mb4_unicode_ci;
 
-USE gamefest;
+-- USE gamefest;
 
 -- =========================
 -- USERS
