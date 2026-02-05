@@ -36,7 +36,7 @@ const crearEvento = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost/admin.php', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}admin.php`, {
       method: 'POST',
       body: formData,
     })

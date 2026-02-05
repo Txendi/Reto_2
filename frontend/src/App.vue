@@ -10,7 +10,7 @@ const userStore = useUserStore()
 onMounted(async () => {
   
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL+'auth/me', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}auth/me`, {
       credentials: 'include'
     })
     const data = await response.json()

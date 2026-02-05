@@ -22,7 +22,7 @@ onMounted(() => {
 
 async function login() {
   try {
-    const response = await fetch('http://localhost/auth/login', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -57,7 +57,7 @@ async function login() {
   error.value = ''
 
   // 🔐 Volver a consultar la sesión REAL
-  const resMe = await fetch('http://localhost/auth/me', {
+  const resMe = await fetch(`${import.meta.env.VITE_API_URL}auth/me`, {
     credentials: 'include'
   })
   const meData = await resMe.json()

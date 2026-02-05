@@ -9,7 +9,7 @@ const data = reactive({ array: [] })
 async function desapuntar(idEvento) {
   try {
     console.log("idEvento: "+ idEvento);
-    const response = await fetch('http://localhost/user/desapuntar', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}user/desapuntar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ async function pedirEventos() {
     /////////////////////////////////////////////////////////
     console.log('👤 Perfil → user id:', userStore.user.id)
     ///////////////////////////////////////////////////////////////
-    const response = await fetch('http://localhost/user/events', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}user/events`, {
       credentials: 'include'
     })
 
