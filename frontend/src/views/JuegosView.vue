@@ -17,7 +17,7 @@ const fetchJuegos = async () => {
   error.value = ''
 
   try {
-    const url = `http://localhost/games/${encodeURIComponent(busqueda.value)}`
+    const url = `${import.meta.env.VITE_API_URL}games/${encodeURIComponent(busqueda.value)}`
 
     const response = await fetch(url)
     if (!response.ok) throw new Error('Error HTTP ' + response.status)
@@ -34,7 +34,7 @@ const fetchJuegos = async () => {
 
 const cargarDetalle = async (id) => {
   try {
-    const response = await fetch(`http://localhost/game/${id}`)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}game/${id}`)
     if (!response.ok) throw new Error('Error al cargar detalle')
 
     const data = await response.json()

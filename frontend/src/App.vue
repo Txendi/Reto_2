@@ -9,7 +9,7 @@ const userStore = useUserStore()
 
 onMounted(async () => {
   try {
-    const response = await fetch('http://localhost/auth/me', {
+    const response = await fetch(import.meta.env.VITE_API_URL+'auth/me', {
       credentials: 'include'
     })
     const data = await response.json()
@@ -25,29 +25,10 @@ onMounted(async () => {
     }
   } catch (e) {
     console.error('Error comprobando sesión', e)
-    userStore.user = { id: null }
+    userStore.user = {id: null}
     userStore.status = 'guest'
   }
 })
-
-async function prueba(){
-
-  userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
-  userStore.status = "authenticated";
-
-
-    if (data.authenticated) {
-      userStore.user = data.user
-      userStore.status = 'authenticated'
-    } else {
-      userStore.user = { id: null }
-      userStore.status = 'guest'
-    }
-  } catch (e) {
-    console.error('Error comprobando sesión', e)
-    userStore.user = { id: null }
-    userStore.status = 'guest'
-  }
 
 </script>
 

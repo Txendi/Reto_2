@@ -4,7 +4,7 @@ import LoginView from'../views/LoginView.vue'
 import EventosView from '../views/EventosView.vue'
 import PerfilView from '../views/PerfilView.vue'
 import { useUserStore } from "../stores/userStore.js"
-import NuevoEventoView from '@/views/NuevoEventoView.vue'
+import NuevoEventoView from '../views/NuevoEventoView.vue'
 
 
 const router = createRouter({
