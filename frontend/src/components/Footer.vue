@@ -4,18 +4,15 @@
   <footer class="contenedorFooter w-screen">
     <div class="flex items-center justify-between px-8 py-4">
 
-      <p class="text-2xl font-extrabold text-white drop-shadow-lg">Placeholder Logo</p>
-
-
-      <p class="text-white/80 text-sm font-medium">© 2026 Placeholder Logo</p>
+      <p class="text-white/80 text-1xl font-medium">© 2026 Placeholder Logo</p>
 
 
       <div class="flex items-center gap-1">
-        <a href="#" class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"><img
+        <a href="https://www.instagram.com/" class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"><img
             src="../img/icons8-instagram-50.png" class="logo w-1/2" alt="" /></a>
-        <a href="#" class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"><img
+        <a href="https://x.com/?lang=es" class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"><img
             src="../img/icons8-twitter-50.png" class="logo w-1/2" alt="" /></a>
-        <a href="#" class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"><img
+        <a href="https://es.linkedin.com/?original_referer=https%3A%2F%2Fsearch.brave.com%2F" class="enlaceFooter text-white font-semibold text-lg transition-colors duration-300"><img
             src="../img/icons8-linkedin-50.png" class="logo w-1/2" alt="" /></a>
       </div>
     </div>

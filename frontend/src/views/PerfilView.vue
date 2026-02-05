@@ -8,6 +8,7 @@ const data = reactive({ array: [] })
 
 async function desapuntar(idEvento) {
   try {
+    console.log("idEvento: "+ idEvento);
     const response = await fetch('http://localhost/user/desapuntar', {
       method: 'POST',
       headers: {
@@ -15,8 +16,7 @@ async function desapuntar(idEvento) {
       },
       credentials: 'include',
       body: JSON.stringify({
-        idUsuario: userStore.user.id,
-        idEvento: idEvento,
+        idEvento: idEvento
       })
     })
     if (!response.ok) {
@@ -75,7 +75,7 @@ onMounted(
           <h1></h1>
           <div class="bg-gray-100 border border-gray-300 rounded-lg p-4">
             <h4 class="text-lg font-semibold text-gray-800 mb-2">
-              {{ evento.titulo }}
+              {{ evento.titulo }}, {{ evento.id }}
             </h4>
             <div class="flex items-center justify-between">
               <div>
