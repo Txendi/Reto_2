@@ -1,58 +1,58 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+// import { ref } from 'vue'
+// import { useRouter } from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 
-const titulo = ref('')
-const descripcion = ref('')
-const fecha = ref('')
-const hora = ref('')
-const plazas = ref('')
-const tipo = ref('')
-const tipoPersonalizado = ref('')
-const imagen = ref(null)
+// const titulo = ref('')
+// const descripcion = ref('')
+// const fecha = ref('')
+// const hora = ref('')
+// const plazas = ref('')
+// const tipo = ref('')
+// const tipoPersonalizado = ref('')
+// const imagen = ref(null)
 
-const onImagenChange = (e) => {
-  imagen.value = e.target.files[0]
-}
+// const onImagenChange = (e) => {
+//   imagen.value = e.target.files[0]
+// }
 
-const crearEvento = async () => {
-  let imagenBase64 = null
-  if (imagen.value) {
-    imagenBase64 = await new Promise((resolve) => {
-      const reader = new FileReader()
-      reader.onloadend = () => resolve(reader.result)
-      reader.readAsDataURL(imagen.value)
-    })
-  }
+// const crearEvento = async () => {
+//   let imagenBase64 = null
+//   if (imagen.value) {
+//     imagenBase64 = await new Promise((resolve) => {
+//       const reader = new FileReader()
+//       reader.onloadend = () => resolve(reader.result)
+//       reader.readAsDataURL(imagen.value)
+//     })
+//   }
 
-  const datosEvento = {
-    titulo: titulo.value,
-    descripcion: descripcion.value,
-    fecha: fecha.value,
-    hora: hora.value,
-    plazas: plazas.value,
-    tipo: tipo.value === 'otro' ? tipoPersonalizado.value : tipo.value,
-    imagen: imagenBase64,
-  }
+//   const datosEvento = {
+//     titulo: titulo.value,
+//     descripcion: descripcion.value,
+//     fecha: fecha.value,
+//     hora: hora.value,
+//     plazas: plazas.value,
+//     tipo: tipo.value === 'otro' ? tipoPersonalizado.value : tipo.value,
+//     imagen: imagenBase64,
+//   }
 
-  try {
-    const response = await fetch('http://localhost/admin.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datosEvento),
-    })
+//   try {
+//     const response = await fetch('http://localhost/admin.php', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(datosEvento),
+//     })
 
-    const data = await response.json()
-    if (data.ok) {
-      alert('¡Evento creado con éxito!')
-      router.push('/events')
-    }
-  } catch (error) {
-    alert('Error: ' + error.message)
-  }
-}
+//     const data = await response.json()
+//     if (data.ok) {
+//       alert('¡Evento creado con éxito!')
+//       router.push('/events')
+//     }
+//   } catch (error) {
+//     alert('Error: ' + error.message)
+//   }
+// }
 </script>
 
 <template>
@@ -62,14 +62,15 @@ const crearEvento = async () => {
     >
       <h1 class="text-3xl font-bold mb-6 text-white text-center underline">Crear Nuevo Evento</h1>
 
-      <form @submit.prevent="crearEvento" class="space-y-4">
+      <form class="space-y-4" action="http://localhost/admin.php" method="post" enctype="multipart/form-data">
         <div>
           <label class="block text-sm font-semibold text-gray-400 mb-1">Título del Evento</label>
           <input
-            v-model="titulo"
+            name="titulo"
             type="text"
             placeholder="Taller de Unreal Engine 5"
             required
+            
             class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-xl focus:border-blue-500 outline-none text-white transition-colors"
           />
         </div>
@@ -77,7 +78,7 @@ const crearEvento = async () => {
         <div>
           <label class="block text-sm font-semibold text-gray-400 mb-1">Descripción</label>
           <textarea
-            v-model="descripcion"
+            name="descripcion"
             rows="3"
             placeholder="Introducción práctica: creación de escena, iluminación, Blueprints y primeros pasos hacia un prototipo jugable."
             class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-xl focus:border-blue-500 outline-none text-white resize-none transition-colors"
@@ -88,7 +89,7 @@ const crearEvento = async () => {
           <div>
             <label class="block text-sm font-semibold text-gray-400 mb-1">Fecha</label>
             <input
-              v-model="fecha"
+              name="fecha"
               type="date"
               required
               class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-xl focus:border-blue-500 outline-none text-white"
@@ -97,7 +98,7 @@ const crearEvento = async () => {
           <div>
             <label class="block text-sm font-semibold text-gray-400 mb-1">Hora</label>
             <input
-              v-model="hora"
+              name="hora"
               type="time"
               required
               class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-xl focus:border-blue-500 outline-none text-white"
@@ -109,7 +110,7 @@ const crearEvento = async () => {
           <div>
             <label class="block text-sm font-semibold text-gray-400 mb-1">Plazas Disponibles</label>
             <input
-              v-model="plazas"
+              name="plazas"
               type="number"
               min="1"
               placeholder="50"
@@ -120,7 +121,7 @@ const crearEvento = async () => {
           <div>
             <label class="block text-sm font-semibold text-gray-400 mb-1">Categoría</label>
             <select
-              v-model="tipo"
+              name="tipo"
               required
               class="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-xl focus:border-blue-500 outline-none text-white cursor-pointer"
             >
@@ -151,7 +152,7 @@ const crearEvento = async () => {
                 </p>
                 <p class="text-xs text-gray-500">{{ imagen ? imagen.name : 'PNG, JPG o GIF' }}</p>
               </div>
-              <input type="file" accept="image/*" @change="onImagenChange" class="hidden" />
+              <input type="file" name="imagen" />
             </label>
           </div>
         </div>
