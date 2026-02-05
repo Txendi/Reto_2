@@ -37,12 +37,12 @@
 //     imagen: imagenBase64,
 //   }
 
-  try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}admin.php`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datosEvento),
-    })
+  // try {
+  //   const response = await fetch(`${import.meta.env.VITE_API_URL}admin.php`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify(datosEvento),
+  //   })
 
 //     const data = await response.json()
 //     if (data.ok) {
