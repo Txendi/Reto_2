@@ -154,7 +154,7 @@ const cambiarPagina = (numPagina) => {
 
 <template>
 
-    <section class="max-w-7xl mx-auto px-4 pt-8 pb-25">
+    <section class="bg-black/70 max-w-7xl mx-auto px-4 pt-8 pb-25">
         <h1 class="text-3xl text-white font-bold mb-5">Lista de Eventos</h1>
 
         <div class="flex flex-col sm:flex-row">

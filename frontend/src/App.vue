@@ -44,6 +44,7 @@ onMounted(async () => {
         loop
         playsinline
         class="absolute inset-0 w-full h-full object-cover z-0"
+        v-if="$route.name === 'login' || $route.name === 'register'"
       >
         <source src="../src/img/ia-slop.mp4" type="video/mp4" />
       </video>
