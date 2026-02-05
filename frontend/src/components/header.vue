@@ -2,11 +2,13 @@
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/userStore'
 import { ref } from 'vue'
-const router = useRouter()
 
-const menuAbierto = ref(false)
+const router = useRouter()
 const userStore = useUserStore()
+const menuAbierto = ref(false)
+
 const isOpen = ref(false);
+
 const toggleMenu = () => {
   isOpen.value = !isOpen.value;
 };
@@ -23,7 +25,7 @@ const logout = async () => {
     isOpen.value = false
     menuAbierto.value = false
 
-    router.push('/login')   // 👈 ESTO FALTABA
+    router.push('/login')
 
     console.log('Sesión cerrada correctamente')
   } catch (e) {
@@ -37,10 +39,10 @@ const logout = async () => {
 <template>
   <header>
     <nav
-      class="contenedorPrincipal h-20 flex items-center justify-between px-8 shadow-lg rounded-b-2xl relative"
+      class="contenedorPrincipal h-20 flex items-center justify-between px-8 shadow-lg relative"
     >
-      <div class="flex items-center space-x-4">
-        <img src="../img/logo.png" class="size-45 h-auto" alt="logo Elofest" />
+      <div class="flex items-center space-x-4 ml-12">
+        <img src="../img/logo.png" class="size-30 h-auto" alt="logo Elofest" />
       </div>
 
       <div class="hidden md:flex items-center space-x-8">
@@ -77,7 +79,6 @@ const logout = async () => {
             {{ userStore.user.username }}
           </router-link>
           <ul v-if="isOpen" class="dropdown bg-[#DE1A58] text-white font-bold rounded absolute top-20 right-4 border">
-            <li class="border-b p-4 hover:bg-[#F4B342] hover:scale-105"><a href="/perfil" >Ver Perfil</a></li>
             <li @click="logout" class="logout-item p-4 hover:bg-[#F4B342] hover:scale-105">Cerrar Sesión</li>
           </ul>
         </div>
@@ -111,7 +112,7 @@ const logout = async () => {
         >
           <router-link
             to="/juegos"
-            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
+            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-200 transition"
             @click="menuAbierto = false"
           >
             <svg
@@ -128,7 +129,7 @@ const logout = async () => {
           </router-link>
           <router-link
             to="/eventos"
-            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-50 transition"
+            class="flex items-center gap-3 w-full text-[rgba(222,26,88,1)] font-semibold text-lg py-3 px-4 rounded-xl hover:bg-pink-200 transition"
             @click="menuAbierto = false"
           >
             <svg

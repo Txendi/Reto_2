@@ -8,14 +8,15 @@ const data = reactive({ array: [] })
 
 async function desapuntar(idEvento) {
   try {
+    console.log("idEvento: "+ idEvento);
     const response = await fetch('http://localhost/user/desapuntar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
-        idUsuario: userStore.user.id,
-        idEvento: idEvento,
+        idEvento: idEvento
       })
     })
     if (!response.ok) {
@@ -36,7 +37,10 @@ async function pedirEventos() {
     /////////////////////////////////////////////////////////
     console.log('👤 Perfil → user id:', userStore.user.id)
     ///////////////////////////////////////////////////////////////
-    const response = await fetch('http://localhost/user/' + userStore.user.id)
+    const response = await fetch('http://localhost/user/events', {
+      credentials: 'include'
+    })
+
     if (!response.ok) {
       throw new Error('Error de HTTP: ' + response.status)
     }
@@ -71,7 +75,7 @@ onMounted(
           <h1></h1>
           <div class="bg-gray-100 border border-gray-300 rounded-lg p-4">
             <h4 class="text-lg font-semibold text-gray-800 mb-2">
-              {{ evento.titulo }}
+              {{ evento.titulo }}, {{ evento.id }}
             </h4>
             <div class="flex items-center justify-between">
               <div>

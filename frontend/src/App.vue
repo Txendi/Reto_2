@@ -1,13 +1,14 @@
 <script setup>
 import headerHecho from './components/Header.vue'
 import footerHecho from '../src/components/Footer.vue'
-import { useUserStore } from './stores/userStore';
-import { onMounted } from 'vue';
+import { useUserStore } from './stores/userStore'
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router' // Importa useRoute
 
 const userStore = useUserStore()
 
 onMounted(async () => {
+  
   try {
     const response = await fetch(import.meta.env.VITE_API_URL+'auth/me', {
       credentials: 'include'
@@ -28,8 +29,9 @@ onMounted(async () => {
     userStore.user = {id: null}
     userStore.status = 'guest'
   }
+  // userStore.user = {role: "admin", id: 2, username: 21332, email: "asereje"};
+  // userStore.status = "authenticated";
 })
-
 </script>
 
 <template>
