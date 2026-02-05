@@ -4,6 +4,8 @@
 -- Imágenes: se guarda SOLO el nombre de archivo (del ZIP)
 -- =========================================================
 
+
+
 DROP DATABASE IF EXISTS gamefest;
 CREATE DATABASE gamefest
   CHARACTER SET utf8mb4

@@ -25,7 +25,7 @@
 
     $sql = "SELECT * FROM events as e JOIN user_events as ue ON e.id = ue.event_id WHERE user_id = ?";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("d", $idUsuario);
+    $stmt->bind_param("i", $idUsuario);
 
     $stmt->execute();
     $result = $stmt->get_result();

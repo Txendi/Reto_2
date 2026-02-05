@@ -90,7 +90,7 @@ onMounted(
                   Desapuntarse
                 </button>
               </div>
-              <img :src=evento.imagen :alt=evento.titulo
+              <img :src="`/img/events/${evento.imagen}`" :alt=evento.titulo
                 class="w-1/2 h-20 object-cover rounded-lg border border-gray-300" />
             </div>
           </div>

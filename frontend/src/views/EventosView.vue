@@ -59,6 +59,9 @@ const cargarEventos = async () => {
 }
 
 
+
+
+
 async function apuntar(idEvento) {
     try {
         ////////////////////////////////////////////////////////
@@ -91,6 +94,11 @@ async function apuntar(idEvento) {
         console.log('✅ RESPUESTA apuntar:', data)
         //////////////////////////////////////////////
         console.log(data)
+
+        const evento = eventos.value.find(evento => evento.id === idEvento);
+            if (evento && evento.plazasLibres > 0) {
+                evento.plazasLibres--;
+            }
 
         if (data.status === 'ok') {
             eventosApuntados.value.add(idEvento)

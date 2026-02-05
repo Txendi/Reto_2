@@ -18,7 +18,7 @@
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("ii", $idUsuario, $idEvento);
     $stmt->execute();
-    print $idUsuario;
+    
     
     
     $conexion->close();
