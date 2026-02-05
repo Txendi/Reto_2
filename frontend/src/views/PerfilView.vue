@@ -13,6 +13,7 @@ async function desapuntar(idEvento) {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({
         idUsuario: userStore.user.id,
         idEvento: idEvento,
@@ -36,7 +37,10 @@ async function pedirEventos() {
     /////////////////////////////////////////////////////////
     console.log('👤 Perfil → user id:', userStore.user.id)
     ///////////////////////////////////////////////////////////////
-    const response = await fetch('http://localhost/user/' + userStore.user.id)
+    const response = await fetch('http://localhost/user/events', {
+      credentials: 'include'
+    })
+
     if (!response.ok) {
       throw new Error('Error de HTTP: ' + response.status)
     }
